@@ -1,0 +1,161 @@
+{
+  "type": "qsol-ark-cultural-record",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.1.0",
+  "id": "culture.meme.this_is_fine",
+  "record_type": "cultural_artifact",
+  "artifact_class": "visual_meme_and_context_boundary",
+  "medium": "webcomic_panel_and_internet_meme",
+  "era": [
+    "2010s",
+    "internet_meme_culture"
+  ],
+  "title": "This Is Fine",
+  "work": "Gunshow — On Fire",
+  "reconstruction_target": "visual_context_transmission_history_and_rights_boundary",
+  "epistemic_status": "documented_source_with_derived_visual_interpretation",
+  "real_world_metadata": {
+    "creator": "KC Green",
+    "source_work": "Gunshow",
+    "source_title": "On Fire",
+    "publication_date": "2013-01-09"
+  },
+  "cultural_context": {
+    "genres": [
+      "webcomic",
+      "internet_meme",
+      "reaction_image"
+    ],
+    "topics": [
+      "visual_context",
+      "literal_text_vs_scene",
+      "crisis_normalization",
+      "ironic_understatement",
+      "context_compression",
+      "meme_transmission_history"
+    ],
+    "visual_summary": "A cartoon dog sits with a mug in a room visibly on fire while saying: THIS IS FINE.",
+    "quoted_text": "THIS IS FINE.",
+    "derived_interpretation": "The artifact juxtaposes explicit reassurance with visibly adverse surroundings, making it a compact recovery test for integrating visual context with literal text.",
+    "interpretation_status": "derived_interpretation_not_universal_meaning",
+    "transmission_history": {
+      "status": "third_party_documented_history",
+      "source_id": "source.knowyourmeme.this_is_fine",
+      "meme_status": "confirmed",
+      "meme_types": [
+        "exploitable",
+        "reaction"
+      ],
+      "summary": "Know Your Meme documents the 2013 Gunshow comic as the source, early reposting of the first two panels, later reaction-image circulation, and adaptations across multiple social and political contexts.",
+      "boundary": "third_party_history_reference_not_creator_metadata_or_universal_interpretation"
+    }
+  },
+  "fiction_boundary": {
+    "depicted_scene_is": "fictional_comic_scene",
+    "depicted_scene_is_historical_evidence": false,
+    "literal_caption_establishes_real_world_safety": false,
+    "derived_interpretation_is_universal_meaning": false
+  },
+  "rights": {
+    "third_party_copyright": true,
+    "license_status": "not_authorized_for_copy",
+    "source_bytes_copied": false,
+    "image_bytes_copied": false
+  },
+  "sources": [
+    {
+      "id": "source.gunshow.official.on_fire",
+      "role": "official_metadata",
+      "url": "https://gunshowcomic.com/648",
+      "verification_status": "retrieved_2026-08-18",
+      "visibility": "public",
+      "license_status": "rights_unresolved_reference_only",
+      "canonical_status": "canonical_for_declared_supports",
+      "byte_import_allowed": false,
+      "supports": [
+        "source_title",
+        "source_work",
+        "visual_source"
+      ]
+    },
+    {
+      "id": "source.gunshow.official.archive",
+      "role": "official_metadata",
+      "url": "https://gunshowcomic.com/archive.php",
+      "verification_status": "retrieved_2026-08-18",
+      "visibility": "public",
+      "license_status": "rights_unresolved_reference_only",
+      "canonical_status": "canonical_for_declared_supports",
+      "byte_import_allowed": false,
+      "supports": [
+        "publication_date",
+        "source_title"
+      ]
+    },
+    {
+      "id": "source.gunshow.official.about",
+      "role": "official_metadata",
+      "url": "https://gunshowcomic.com/about.html",
+      "verification_status": "retrieved_2026-08-18",
+      "visibility": "public",
+      "license_status": "rights_unresolved_reference_only",
+      "canonical_status": "canonical_for_declared_supports",
+      "byte_import_allowed": false,
+      "supports": [
+        "creator",
+        "source_work"
+      ]
+    },
+    {
+      "id": "source.knowyourmeme.this_is_fine",
+      "role": "third_party_reference",
+      "url": "https://knowyourmeme.com/memes/this-is-fine",
+      "provided_by": "maintainer",
+      "verification_status": "retrieved_2026-08-18",
+      "visibility": "public",
+      "license_status": "third_party_reference_only",
+      "canonical_status": "noncanonical_history_reference",
+      "byte_import_allowed": false,
+      "source_bytes_copied": false,
+      "supports": [
+        "meme_status",
+        "meme_type",
+        "origin_and_spread_history",
+        "reaction_image_usage"
+      ]
+    },
+    {
+      "id": "source.maintainer.this_is_fine_crop",
+      "role": "third_party_reference",
+      "provided_by": "maintainer",
+      "verification_status": "observed_at_ingest_2026-08-18",
+      "visibility": "ingest_observation_only",
+      "license_status": "rights_unresolved_reference_only",
+      "canonical_status": "observed_noncanonical_variant",
+      "byte_import_allowed": false,
+      "sha256": "774bc388e814d66c075ff2126edf876a3fa7d32c61cc59542770cdc8d5e6cdaf",
+      "byte_length": 41642,
+      "media_type": "image/webp",
+      "pixel_dimensions": [
+        600,
+        284
+      ],
+      "repository_bytes_copied": false,
+      "repository_reverification_possible": false,
+      "canonical_master_claimed": false,
+      "supports": [
+        "observed_crop_identity",
+        "observed_crop_media_type",
+        "observed_crop_dimensions"
+      ]
+    }
+  ],
+  "recovery_questions": [
+    "distinguish the real-world publication metadata from the fictional depicted scene",
+    "integrate the visible scene with the literal caption instead of treating text alone as ground truth",
+    "preserve the visual interpretation as derived rather than a universal meaning",
+    "separate creator/source metadata from third-party meme transmission history",
+    "recognize that a known image hash does not grant permission to copy third-party bytes",
+    "recognize that the depicted fire is not evidence of a historical real-world fire"
+  ]
+}

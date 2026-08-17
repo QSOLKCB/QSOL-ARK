@@ -1,0 +1,49 @@
+{
+  "type": "qsol-ark-cultural-recovery-task",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.1.0",
+  "id": "task.culture.this_is_fine_boundary",
+  "record_id": "culture.meme.this_is_fine",
+  "questions": [
+    {
+      "id": "meme-01",
+      "prompt": "Is the burning room depicted in the meme being preserved as evidence that a real historical room burned?",
+      "expected": "no"
+    },
+    {
+      "id": "meme-02",
+      "prompt": "Does the literal caption THIS IS FINE establish that the depicted situation is actually safe or fine?",
+      "expected": "no"
+    },
+    {
+      "id": "meme-03",
+      "prompt": "May ARK preserve a derived interpretation of the contrast between the caption and visual scene when that interpretation remains explicitly labelled derived?",
+      "expected": "yes"
+    },
+    {
+      "id": "meme-04",
+      "prompt": "Does knowing the SHA-256 of a maintainer-supplied third-party meme crop grant ARK permission to copy those image bytes into the repository?",
+      "expected": "no"
+    },
+    {
+      "id": "meme-05",
+      "prompt": "Should the depicted dog, room and fire be treated as fictional-world claims rather than real-world historical evidence?",
+      "expected": "fictional_world_claim"
+    },
+    {
+      "id": "meme-06",
+      "prompt": "Does this record claim that the meme has one universal meaning in every context?",
+      "expected": "no"
+    },
+    {
+      "id": "meme-07",
+      "prompt": "Is the Know Your Meme entry being treated as the creator-authoritative source for KC Green and the original Gunshow publication metadata?",
+      "expected": "no"
+    },
+    {
+      "id": "meme-08",
+      "prompt": "May a provenance-labelled third-party meme-history reference be used to reconstruct spread and usage history without becoming the creator source?",
+      "expected": "yes"
+    }
+  ]
+}

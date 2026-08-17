@@ -2,7 +2,7 @@
   "type": "qsol-ark-cultural-artifact-policy",
   "protocol": "QSOL-ARK",
   "schema_version": "0.1.0",
-  "purpose": "preserve cultural meaning without converting fiction, authored positions, derived interpretations, or third-party references into historical fact",
+  "purpose": "preserve cultural meaning without converting fiction, authored positions, derived interpretations, memes, or third-party references into historical fact",
   "record_types": [
     "cultural_artifact",
     "authored_cultural_position"
@@ -36,11 +36,55 @@
     "real_world_production_metadata": "official or reliable source preferred",
     "named_person_or_company_claim": "explicit provenance; first-person opinion must remain labelled opinion",
     "quotation": "direct authored contribution or verifiable source required",
+    "visual_cultural_artifact": "official source metadata preferred; observed third-party bytes may be hash-described without republication when rights remain unresolved",
+    "meme_transmission_history": "provenanced third-party meme-history references may document spread and usage; creator and source-work metadata should prefer creator or official sources",
     "legal_or_security_claim": "strong explicit provenance required"
+  },
+  "meme_archaeology": {
+    "policy_version": "1.0.0",
+    "canonical_invariants": [
+      "MEME != DECORATIVE_IMAGE",
+      "CAPTION != CONTEXT",
+      "DEPICTION != HISTORICAL_EVENT",
+      "MEME_HISTORY_REFERENCE != CREATOR_SOURCE",
+      "DERIVED_INTERPRETATION != UNIVERSAL_MEANING",
+      "KNOWN_HASH != BYTE_COPY_PERMISSION",
+      "POPULARITY != TRUTH"
+    ],
+    "source_evidence": {
+      "required_fields": [
+        "visibility",
+        "license_status",
+        "canonical_status",
+        "byte_import_allowed"
+      ],
+      "allowed_visibility": [
+        "public",
+        "ingest_observation_only"
+      ],
+      "allowed_license_status": [
+        "third_party_reference_only",
+        "rights_unresolved_reference_only"
+      ],
+      "allowed_canonical_status": [
+        "canonical_for_declared_supports",
+        "noncanonical_history_reference",
+        "observed_noncanonical_variant"
+      ],
+      "unresolved_rights_byte_import_allowed": false
+    },
+    "task_binding": {
+      "mode": "record_specific_exact",
+      "bind_fields": [
+        "id",
+        "prompt",
+        "expected"
+      ]
+    }
   },
   "copyright": {
     "default_third_party_bytes": "do_not_copy_without_resolved_permission_or_license",
-    "metadata_links_and_paraphrase": "allowed_subject_to_normal_provenance_rules",
+    "metadata_links_hashes_and_paraphrase": "allowed_subject_to_normal_provenance_rules",
     "full_script_copy_without_permission": "forbidden"
   }
 }

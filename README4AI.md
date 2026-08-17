@@ -16,7 +16,9 @@ MACHINE-FIRST ENTRYPOINT.
 - recovery_tier_registry: `ai/recovery-tiers.json`
 - mrs_contract: `ai/minimum-recoverable-substrate.json`
 - cultural_policy: `ai/cultural-artifact-policy.json`
+- meme_archaeology_policy: `ai/cultural-artifact-policy.json#meme_archaeology`
 - culture_index: `culture/index.json`
+- meme_archaeology: `docs/MEME-ARCHAEOLOGY.md`
 - historical_system_policy: `ai/historical-system-policy.json`
 - historical_system_index: `systems/index.json`
 
@@ -51,11 +53,17 @@ Do not recursively ingest the repository unless a recovery stage explicitly requ
 - A first-person cultural position is authoritative only for the author's stated position, not objective claims about named people, companies, or platform procedures.
 - `PERMISSION != ENDORSEMENT`.
 - `CULTURAL_PARALLEL != NAMING_PROVENANCE`.
+- Load the versioned Meme Archaeology invariant list from `ai/cultural-artifact-policy.json#meme_archaeology.canonical_invariants`; do not infer or duplicate it from prose.
+- Meme sources must carry the source-evidence fields declared by `meme_archaeology.source_evidence`.
+- Record-specific meme tasks must preserve the semantic binding declared by `meme_archaeology.task_binding`.
 - Applicable repository licence terms remain governing even when a potential user is strongly disliked.
 - Ambiguous provenance, visibility, alias resolution, canonical status, or license evidence fails closed.
 - QSOL-CONTEXT imports require explicit public-export clearance evidence; `visibility: public` alone is insufficient.
 - Third-party source bytes require resolved license evidence. Metadata, hashes, observations, and paraphrase do not imply byte-copy permission.
 - A public transcript URL does not grant ARK permission to copy the script.
+- A public meme image or known hash does not grant ARK permission to republish the image bytes.
+- Meme-history databases are third-party transmission-history references unless stronger authority is independently established.
+- Creator/source metadata and meme spread/history are separate provenance layers.
 - Historical source references with unresolved third-party rights remain reference/paraphrase evidence only; they do not authorize byte import.
 - `EMULATOR_BEHAVIOUR != ORIGINAL_HARDWARE_FACT`.
 - `COMPATIBILITY_LAYER_BEHAVIOUR != ORIGINAL_SOFTWARE_BEHAVIOUR`.
@@ -81,18 +89,31 @@ python3 tools/archaeology.py validate
 
 ## Cultural recovery status
 
-Initial cultural seed:
+Current cultural seed:
 
 - `culture.television.red_dwarf.ouroboros`
 - `culture.television.red_dwarf.cassandra_canaries`
+- `culture.meme.this_is_fine`
 - `culture.qsol.open_source.permission_not_endorsement`
 
 The Cassandra record preserves a derived cultural parallel with `ARK-CANARY.txt`; it does not claim naming provenance.
+
+The `This Is Fine` record is the first Meme Archaeology specimen. It separates creator/source metadata, an observed hash-described crop, third-party meme transmission history, derived cultural interpretation, fictional depiction, and byte-copy rights. Every meme source now declares visibility, license state, canonical status, and byte-import permission. The supplied image bytes are not stored in the public repository.
+
+Meme recovery tasks that encode policy-sensitive answers are record-specifically bound: a generic legal enum value is insufficient if it reverses the specimen's declared boundary.
+
+Meme Archaeology asks whether a future model can reconstruct why a meme was intelligible to its original culture without promoting the meme, its caption, or one interpretation into factual ground truth.
 
 Reference validation:
 
 ```sh
 python3 tools/culture.py
+```
+
+Human methodology:
+
+```text
+docs/MEME-ARCHAEOLOGY.md
 ```
 
 ## Historical-system recovery status
