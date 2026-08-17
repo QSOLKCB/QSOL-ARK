@@ -1,0 +1,81 @@
+{
+  "type": "qsol-ark-historical-system-profile",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.4.0",
+  "id": "environment.digital_research.cpm_2_2",
+  "name": "CP/M 2.2 environment",
+  "scope": "software_environment",
+  "era": ["1970s", "1980s", "microcomputer_operating_environment"],
+  "introduced_or_release_year": 1979,
+  "reconstruction_target": "minimum_execution_context_and_evidence_boundaries",
+  "technical_context": {
+    "cpu_family": "Intel 8080-compatible environment; Z80 systems commonly provide compatible execution",
+    "architecture_word_size_bits": 8,
+    "endianness": "little",
+    "logical_address_space": "typically a 16-bit program address space; exact memory map and available transient area depend on system configuration",
+    "memory": "platform-dependent; CP/M is adapted through a machine-specific BIOS",
+    "storage_model": ["platform-specific floppy/hard-disk devices exposed through BIOS/BDOS conventions"],
+    "display_hardware": ["not canonical; terminal/console implementation is platform-specific"],
+    "audio_hardware": ["not required by the operating environment"],
+    "input_model": ["console/terminal and device interfaces via platform adaptation"],
+    "executable_or_load_model": "transient .COM programs conventionally load at 0100h in the transient program area",
+    "filesystem": "CP/M directory/allocation/extents model; physical geometry remains platform-specific",
+    "boot_process": "machine-specific cold/warm boot loads or re-enters the CP/M environment via platform BIOS conventions",
+    "programming_environment": ["8080 assembly ecosystem", "vendor/toolchain-dependent compilers/interpreters", "BDOS and BIOS service boundaries"],
+    "timing_constraints": ["device timing is platform-specific rather than one canonical CP/M machine timing"],
+    "rom_or_os_assumptions": "CP/M system binaries/distributions are not embedded; this profile preserves interface/context only."
+  },
+  "claim_partitions": {
+    "hardware_fact": [],
+    "documented_software_behaviour": [".COM transient program convention at 0100h", "BDOS/BIOS separation allows hardware adaptation"],
+    "emulator_behaviour": [],
+    "compatibility_layer_behaviour": [],
+    "reconstruction_inference": ["Any hardware example is illustrative unless separately profiled; CP/M 2.2 is not one canonical physical machine."],
+    "unknown": ["exact machine memory map, disk geometry and console hardware without a specific host profile"]
+  },
+  "source_evidence": [{
+    "id": "source.digital_research.cpm22.alteration_guide",
+    "source_type": "vendor_manual_archive",
+    "title": "CP/M 2.2 Alteration Guide",
+    "url": "https://bitsavers.org/pdf/digitalResearch/cpm/2.2/",
+    "supports": ["bios_boundary", "bdos_boundary", "memory_layout", "com_program_model", "hardware_adaptation"],
+    "visibility": "public",
+    "license": "UNRESOLVED",
+    "epistemic_class": "external_historical_documentation",
+    "canonical_or_derived": "derived",
+    "byte_import_allowed": false
+  }],
+  "uncertainties": ["host CPU implementation varies within compatibility constraints", "disk geometry and BIOS are machine-specific", "console hardware is machine-specific"],
+  "rights": {
+    "source_bytes_copied": false,
+    "rom_bytes_copied": false,
+    "firmware_bytes_copied": false,
+    "proprietary_software_copied": false,
+    "disk_image_bytes_copied": false,
+    "binary_distribution_copied": false
+  },
+  "emulator_or_reimplementation": {
+    "used_for_canonical_profile": false,
+    "identity": null,
+    "version": null,
+    "source": null,
+    "license": null,
+    "limitations": "No emulator or reimplementation result is canonical evidence in the PR #4 seed."
+  },
+  "recovery_equivalence": {
+    "current_class": "historically_plausible_approximation",
+    "exact_reproduction_claimed": false,
+    "reason": "Profile preserves public technical context and reconstruction boundaries without embedding the original proprietary system bytes."
+  },
+  "computational_archaeology_mapping": {
+    "profile_validation_tier": "T4",
+    "profile_validation_capability": "validate_historical_system_contracts",
+    "tiers_are_ark_recovery_hosts_not_native_historical_execution": true,
+    "native_execution_claimed": false
+  },
+  "scope_notes": {
+    "hardware_variability": true,
+    "canonical_machine": null,
+    "reason": "CP/M 2.2 is a software environment adapted to multiple microcomputer systems through machine-specific BIOS implementations."
+  }
+}

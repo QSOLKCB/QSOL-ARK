@@ -15,9 +15,11 @@ MACHINE-FIRST OPERATING CONTRACT.
 9. `ai/minimum-recoverable-substrate.json`
 10. `ai/cultural-artifact-policy.json`
 11. `culture/index.json`
-12. task-specific canonical specimen manifest
-13. human documentation
-14. derived artifacts
+12. `ai/historical-system-policy.json`
+13. `systems/index.json`
+14. task-specific canonical specimen or recovery-task manifest
+15. human documentation
+16. derived artifacts
 
 ## NON-NEGOTIABLE RULES
 
@@ -47,6 +49,10 @@ MACHINE-FIRST OPERATING CONTRACT.
 - MRS_UNAVAILABLE=FAIL_CLOSED
 - AMBIENT_TIME_IN_CANONICAL_OUTPUT=false
 - AMBIENT_RANDOMNESS_IN_CANONICAL_OUTPUT=false
+- EMULATOR_BEHAVIOUR_IS_NOT_ORIGINAL_HARDWARE_FACT=true
+- COMPATIBILITY_LAYER_BEHAVIOUR_IS_NOT_ORIGINAL_SOFTWARE_BEHAVIOUR=true
+- SOFTWARE_ENVIRONMENT_IS_NOT_ONE_CANONICAL_MACHINE=true
+- HOST_RECOVERY_TIER_IS_NOT_NATIVE_HISTORICAL_EXECUTION=true
 
 ## SOFTWARE CONSTITUTION
 
@@ -60,7 +66,8 @@ MACHINE-FIRST OPERATING CONTRACT.
 4. mark planned tiers `implemented=false`;
 5. MRS selects only implemented tiers;
 6. keep offline surfaces free of hidden network dependencies;
-7. validate deterministic canaries against receipts rather than prose descriptions.
+7. validate deterministic canaries against receipts rather than prose descriptions;
+8. historical-system validation exists only because T4 explicitly declares `validate_historical_system_contracts` and `tools/systems.py`.
 
 ## CULTURAL RECORD RULES
 
@@ -72,6 +79,19 @@ MACHINE-FIRST OPERATING CONTRACT.
 6. do not copy third-party scripts, transcripts, audiovisual media, ROMs, or other source bytes without resolved rights;
 7. unavailable third-party reference material is unavailable, not contradicted;
 8. add reconstruction tasks that test cultural meaning and evidence boundaries.
+
+## HISTORICAL SYSTEM RULES
+
+1. historical profiles are strict machine records; undeclared fields fail closed;
+2. distinguish `hardware_fact`, `documented_software_behaviour`, `emulator_behaviour`, `compatibility_layer_behaviour`, `reconstruction_inference`, and `unknown`;
+3. do not promote emulator output to original hardware history;
+4. do not promote compatibility-layer behaviour to original software behaviour;
+5. do not rewrite CP/M, UNIX, or another multi-hardware software environment as one canonical physical machine;
+6. source-evidence records must declare public visibility, license status, epistemic class, canonical/derived status, and byte-import permission;
+7. unresolved third-party rights permit citation, metadata, observation, and paraphrase only; source-byte import remains forbidden;
+8. exact reproduction requires sufficient public, licensed, inspectable evidence;
+9. Computational Archaeology tiers describe ARK recovery hosts, not native execution on the historical machine;
+10. recovery-task prompts must remain executable non-empty text, not arbitrary structured payloads.
 
 ## ADDING A RECOVERY SPECIMEN
 
@@ -100,6 +120,8 @@ MACHINE-FIRST OPERATING CONTRACT.
 - treating permission to fork or reuse as endorsement;
 - generated embeddings, latent projections, or KV caches as sole canonical source;
 - claiming cross-runtime byte identity without a declared canonicalizer;
-- accepting persuasive prose as deterministic reproduction.
+- accepting persuasive prose as deterministic reproduction;
+- inventing a recovery capability because a compatible runtime happens to exist;
+- hiding third-party payloads under renamed or nested undeclared fields.
 
 END CONTRACT.

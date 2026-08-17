@@ -1,0 +1,48 @@
+{
+  "type": "qsol-ark-historical-system-recovery-task",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.4.0",
+  "id": "task.systems.minimum_reconstruction_probe",
+  "purpose": "test whether a cold-start system can reconstruct minimum execution flow while preserving rights, evidence classes, and historical-system variability",
+  "systems": [
+    "system.commodore.c64",
+    "system.commodore.amiga500",
+    "system.ibm.pc_xt_5160",
+    "environment.digital_research.cpm_2_2",
+    "environment.unix.v7_pdp11"
+  ],
+  "cases": [
+    {
+      "system_id": "system.commodore.c64",
+      "prompt": "Describe a minimum path for a short text-output program from power-on environment to execution, including where ROM services matter, without embedding or inventing ROM bytes.",
+      "expected_equivalence": "historically_plausible_approximation"
+    },
+    {
+      "system_id": "system.commodore.amiga500",
+      "prompt": "Describe the minimum relationship between Kickstart, boot media, a program, and custom-chip timing without treating emulator behaviour or proprietary firmware bytes as original evidence.",
+      "expected_equivalence": "historically_plausible_approximation"
+    },
+    {
+      "system_id": "system.ibm.pc_xt_5160",
+      "prompt": "Describe the minimum POST/BIOS-to-boot-sector-to-hosted-program flow while distinguishing PC XT hardware from DOS and without embedding IBM BIOS or DOS bytes.",
+      "expected_equivalence": "historically_plausible_approximation"
+    },
+    {
+      "system_id": "environment.digital_research.cpm_2_2",
+      "prompt": "Describe how a transient .COM program relates to the transient program area, BDOS and machine-specific BIOS, while explicitly stating that CP/M 2.2 is not one canonical physical machine.",
+      "expected_equivalence": "historically_plausible_approximation"
+    },
+    {
+      "system_id": "environment.unix.v7_pdp11",
+      "prompt": "Describe a minimum shell-to-a.out-process-to-terminal/device flow while preserving PDP-11 model variability and without claiming one canonical V7 hardware configuration.",
+      "expected_equivalence": "historically_plausible_approximation"
+    }
+  ],
+  "global_boundaries": {
+    "third_party_system_bytes_required": false,
+    "emulator_output_is_original_history": false,
+    "exact_reproduction_claimed": false,
+    "ark_recovery_tier_is_native_historical_execution": false,
+    "software_environment_must_preserve_hardware_variability": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QSOL-ARK Historical System Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "protocol", "schema_version", "purpose", "profile_scopes", "evidence_classes", "historical_recovery_equivalence", "rules", "forbidden_embedded_byte_classes", "seed_exact_reproduction_allowed"],
+  "properties": {
+    "type": {"const": "qsol-ark-historical-system-policy"},
+    "protocol": {"const": "QSOL-ARK"},
+    "schema_version": {"const": "0.4.0"},
+    "purpose": {"type": "string", "minLength": 1},
+    "profile_scopes": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+    "evidence_classes": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"type": "string"}},
+    "historical_recovery_equivalence": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"type": "string"}},
+    "rules": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "forbidden_embedded_byte_classes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "seed_exact_reproduction_allowed": {"const": false}
+  }
+}

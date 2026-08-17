@@ -1,0 +1,46 @@
+{
+  "type": "qsol-ark-historical-system-policy",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.4.0",
+  "purpose": "preserve inspectable execution-context knowledge about historical computing systems without converting emulator behaviour, compatibility behaviour, inference, or copyrighted system bytes into original historical fact",
+  "profile_scopes": [
+    "hardware_system",
+    "software_environment"
+  ],
+  "evidence_classes": [
+    "hardware_fact",
+    "documented_software_behaviour",
+    "emulator_behaviour",
+    "compatibility_layer_behaviour",
+    "reconstruction_inference",
+    "unknown"
+  ],
+  "historical_recovery_equivalence": [
+    "exact_reproduction",
+    "functional_equivalence",
+    "historically_plausible_approximation",
+    "emulator_assisted_reproduction",
+    "modern_compatibility_layer",
+    "impossible_or_unsupported"
+  ],
+  "rules": [
+    "hardware_fact_is_not_emulator_behaviour",
+    "emulator_behaviour_is_not_original_hardware_fact",
+    "compatibility_layer_behaviour_is_not_original_software_behaviour",
+    "reconstruction_inference_must_remain_labelled_inference",
+    "software_environment_must_not_be_rewritten_as_one_canonical_machine",
+    "exact_reproduction_requires_sufficient_public_licensed_inspectable_evidence",
+    "rom_firmware_os_and_disk_image_bytes_are_not_embedded_without_resolved_rights",
+    "historical_system_profiles_are_metadata_and_context_not_original_system_images",
+    "computational_archaeology_tiers_describe_ark_recovery_hosts_not_native_historical_execution",
+    "unknown_or_model_dependent_hardware_details_remain_unknown_or_variable"
+  ],
+  "forbidden_embedded_byte_classes": [
+    "rom_image",
+    "firmware_image",
+    "proprietary_os_image",
+    "copyrighted_disk_image",
+    "binary_distribution"
+  ],
+  "seed_exact_reproduction_allowed": false
+}

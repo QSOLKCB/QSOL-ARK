@@ -1,0 +1,28 @@
+name: Ancient Systems
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  historical-systems:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate historical system contracts
+        run: python3 tools/systems.py
+      - name: Run historical system regressions
+        run: python3 -m unittest tests.test_systems -v
+      - name: Parse PR4 JSON
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          paths = [Path('ai/historical-system-policy.json'), *Path('systems').rglob('*.json'), *Path('schema').glob('historical-system-*.json')]
+          for path in paths:
+              json.loads(path.read_text(encoding='utf-8'))
+              print(path)
+          PY

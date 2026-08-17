@@ -1,0 +1,39 @@
+{
+  "type": "qsol-ark-historical-system-index",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.4.0",
+  "policy": "ai/historical-system-policy.json",
+  "profiles": [
+    {
+      "id": "system.commodore.c64",
+      "path": "systems/profiles/c64.json",
+      "scope": "hardware_system"
+    },
+    {
+      "id": "system.commodore.amiga500",
+      "path": "systems/profiles/amiga500.json",
+      "scope": "hardware_system"
+    },
+    {
+      "id": "system.ibm.pc_xt_5160",
+      "path": "systems/profiles/pc_xt.json",
+      "scope": "hardware_system"
+    },
+    {
+      "id": "environment.digital_research.cpm_2_2",
+      "path": "systems/profiles/cpm.json",
+      "scope": "software_environment"
+    },
+    {
+      "id": "environment.unix.v7_pdp11",
+      "path": "systems/profiles/unix.json",
+      "scope": "software_environment"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task.systems.minimum_reconstruction_probe",
+      "path": "systems/tasks/minimum-reconstruction-probe.json"
+    }
+  ]
+}

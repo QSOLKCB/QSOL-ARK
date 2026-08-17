@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QSOL-ARK Historical System Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "protocol", "schema_version", "id", "name", "scope", "era", "introduced_or_release_year", "reconstruction_target", "technical_context", "claim_partitions", "source_evidence", "uncertainties", "rights", "emulator_or_reimplementation", "recovery_equivalence", "computational_archaeology_mapping"],
+  "properties": {
+    "type": {"const": "qsol-ark-historical-system-profile"},
+    "protocol": {"const": "QSOL-ARK"},
+    "schema_version": {"const": "0.4.0"},
+    "id": {"type": "string", "minLength": 1},
+    "name": {"type": "string", "minLength": 1},
+    "scope": {"enum": ["hardware_system", "software_environment"]},
+    "era": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "introduced_or_release_year": {"type": "integer", "minimum": 1940, "maximum": 2000},
+    "reconstruction_target": {"type": "string", "minLength": 1},
+    "technical_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cpu_family", "architecture_word_size_bits", "endianness", "logical_address_space", "memory", "storage_model", "display_hardware", "audio_hardware", "input_model", "executable_or_load_model", "filesystem", "boot_process", "programming_environment", "timing_constraints", "rom_or_os_assumptions"],
+      "properties": {
+        "cpu_family": {"type": "string", "minLength": 1},
+        "architecture_word_size_bits": {"type": "integer", "minimum": 1},
+        "external_data_bus_bits": {"type": "integer", "minimum": 1},
+        "endianness": {"type": "string", "minLength": 1},
+        "logical_address_space": {"type": "string", "minLength": 1},
+        "memory": {"type": "string", "minLength": 1},
+        "storage_model": {"$ref": "#/$defs/nonEmptyStrings"},
+        "display_hardware": {"$ref": "#/$defs/nonEmptyStrings"},
+        "audio_hardware": {"$ref": "#/$defs/nonEmptyStrings"},
+        "input_model": {"$ref": "#/$defs/nonEmptyStrings"},
+        "executable_or_load_model": {"type": "string", "minLength": 1},
+        "filesystem": {"type": "string", "minLength": 1},
+        "boot_process": {"type": "string", "minLength": 1},
+        "programming_environment": {"$ref": "#/$defs/nonEmptyStrings"},
+        "timing_constraints": {"$ref": "#/$defs/nonEmptyStrings"},
+        "rom_or_os_assumptions": {"type": "string", "minLength": 1}
+      }
+    },
+    "claim_partitions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hardware_fact", "documented_software_behaviour", "emulator_behaviour", "compatibility_layer_behaviour", "reconstruction_inference", "unknown"],
+      "properties": {
+        "hardware_fact": {"$ref": "#/$defs/strings"},
+        "documented_software_behaviour": {"$ref": "#/$defs/strings"},
+        "emulator_behaviour": {"$ref": "#/$defs/strings"},
+        "compatibility_layer_behaviour": {"$ref": "#/$defs/strings"},
+        "reconstruction_inference": {"$ref": "#/$defs/strings"},
+        "unknown": {"$ref": "#/$defs/strings"}
+      }
+    },
+    "source_evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/sourceEvidence"}},
+    "uncertainties": {"$ref": "#/$defs/strings"},
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_bytes_copied", "rom_bytes_copied", "firmware_bytes_copied", "proprietary_software_copied", "disk_image_bytes_copied", "binary_distribution_copied"],
+      "properties": {
+        "source_bytes_copied": {"const": false},
+        "rom_bytes_copied": {"const": false},
+        "firmware_bytes_copied": {"const": false},
+        "proprietary_software_copied": {"const": false},
+        "disk_image_bytes_copied": {"const": false},
+        "binary_distribution_copied": {"const": false}
+      }
+    },
+    "emulator_or_reimplementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["used_for_canonical_profile", "identity", "version", "source", "license", "limitations"],
+      "properties": {
+        "used_for_canonical_profile": {"const": false},
+        "identity": {"type": "null"},
+        "version": {"type": "null"},
+        "source": {"type": "null"},
+        "license": {"type": "null"},
+        "limitations": {"type": "string", "minLength": 1}
+      }
+    },
+    "recovery_equivalence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_class", "exact_reproduction_claimed", "reason"],
+      "properties": {
+        "current_class": {"const": "historically_plausible_approximation"},
+        "exact_reproduction_claimed": {"const": false},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "computational_archaeology_mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_validation_tier", "profile_validation_capability", "tiers_are_ark_recovery_hosts_not_native_historical_execution", "native_execution_claimed"],
+      "properties": {
+        "profile_validation_tier": {"const": "T4"},
+        "profile_validation_capability": {"const": "validate_historical_system_contracts"},
+        "tiers_are_ark_recovery_hosts_not_native_historical_execution": {"const": true},
+        "native_execution_claimed": {"const": false}
+      }
+    },
+    "scope_notes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hardware_variability", "canonical_machine", "reason"],
+      "properties": {
+        "hardware_variability": {"const": true},
+        "canonical_machine": {"type": "null"},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"scope": {"const": "software_environment"}}, "required": ["scope"]},
+      "then": {"required": ["scope_notes"]},
+      "else": {"not": {"required": ["scope_notes"]}}
+    }
+  ],
+  "$defs": {
+    "strings": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "nonEmptyStrings": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "sourceEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source_type", "title", "url", "supports", "visibility", "license", "epistemic_class", "canonical_or_derived", "byte_import_allowed"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "source_type": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "pattern": "^https://"},
+        "supports": {"$ref": "#/$defs/nonEmptyStrings"},
+        "visibility": {"const": "public"},
+        "license": {"const": "UNRESOLVED"},
+        "epistemic_class": {"const": "external_historical_documentation"},
+        "canonical_or_derived": {"const": "derived"},
+        "byte_import_allowed": {"const": false}
+      }
+    }
+  }
+}

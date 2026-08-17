@@ -1,0 +1,76 @@
+{
+  "type": "qsol-ark-historical-system-profile",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.4.0",
+  "id": "system.commodore.amiga500",
+  "name": "Commodore Amiga 500",
+  "scope": "hardware_system",
+  "era": ["1980s", "home_computing", "multimedia_computing"],
+  "introduced_or_release_year": 1987,
+  "reconstruction_target": "minimum_execution_context_and_evidence_boundaries",
+  "technical_context": {
+    "cpu_family": "Motorola MC68000",
+    "architecture_word_size_bits": 16,
+    "endianness": "big",
+    "logical_address_space": "68000-class 24-bit external address space",
+    "memory": "original base configuration commonly represented as 512 KiB; expansions and revisions vary",
+    "storage_model": ["3.5-inch floppy disk", "expansion-dependent storage"],
+    "display_hardware": ["Original Chip Set context", "Agnus", "Denise", "Copper", "Blitter"],
+    "audio_hardware": ["Paula four-channel sampled audio context"],
+    "input_model": ["keyboard", "mouse", "joystick/game-controller ports"],
+    "executable_or_load_model": "Amiga executable/load behaviour depends on Kickstart/AmigaOS environment and media",
+    "filesystem": "AmigaDOS filesystem behaviour is OS/media dependent",
+    "boot_process": "Kickstart firmware establishes the machine environment, then boot media or attached storage supplies software; no Kickstart/Workbench bytes are included.",
+    "programming_environment": ["68000 machine language", "C and other hosted toolchains", "direct custom-chip programming"],
+    "timing_constraints": ["DMA contention", "raster timing", "Copper scheduling", "interrupt timing"],
+    "rom_or_os_assumptions": "Kickstart and AmigaOS/Workbench are historically material dependencies, but their proprietary bytes are not embedded."
+  },
+  "claim_partitions": {
+    "hardware_fact": ["MC68000 CPU family", "Agnus/Denise/Paula custom-chip context", "Copper and Blitter hardware"],
+    "documented_software_behaviour": ["software may coordinate CPU, DMA, raster and custom chips", "boot behaviour depends on firmware and media"],
+    "emulator_behaviour": [],
+    "compatibility_layer_behaviour": [],
+    "reconstruction_inference": ["A minimal reconstruction can preserve the CPU/custom-chip/timing relationship without original firmware or OS images."],
+    "unknown": []
+  },
+  "source_evidence": [{
+    "id": "source.amiga.adcd.hardware_manual",
+    "source_type": "developer_documentation_archive",
+    "title": "Amiga Hardware Reference Manual (ADCD 2.1 developer documentation)",
+    "url": "https://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/",
+    "supports": ["cpu_family", "custom_chipset", "display_hardware", "audio_hardware", "dma_and_timing", "programming_environment"],
+    "visibility": "public",
+    "license": "UNRESOLVED",
+    "epistemic_class": "external_historical_documentation",
+    "canonical_or_derived": "derived",
+    "byte_import_allowed": false
+  }],
+  "uncertainties": ["RAM expansions are common", "PAL/NTSC and board revisions affect timing", "Kickstart/OS versions vary"],
+  "rights": {
+    "source_bytes_copied": false,
+    "rom_bytes_copied": false,
+    "firmware_bytes_copied": false,
+    "proprietary_software_copied": false,
+    "disk_image_bytes_copied": false,
+    "binary_distribution_copied": false
+  },
+  "emulator_or_reimplementation": {
+    "used_for_canonical_profile": false,
+    "identity": null,
+    "version": null,
+    "source": null,
+    "license": null,
+    "limitations": "No emulator or reimplementation result is canonical evidence in the PR #4 seed."
+  },
+  "recovery_equivalence": {
+    "current_class": "historically_plausible_approximation",
+    "exact_reproduction_claimed": false,
+    "reason": "Profile preserves public technical context and reconstruction boundaries without embedding the original proprietary system bytes."
+  },
+  "computational_archaeology_mapping": {
+    "profile_validation_tier": "T4",
+    "profile_validation_capability": "validate_historical_system_contracts",
+    "tiers_are_ark_recovery_hosts_not_native_historical_execution": true,
+    "native_execution_claimed": false
+  }
+}

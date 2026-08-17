@@ -1,0 +1,95 @@
+{
+  "type": "qsol-ark-historical-system-profile",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.4.0",
+  "id": "environment.unix.v7_pdp11",
+  "name": "UNIX Seventh Edition on PDP-11-class systems",
+  "scope": "software_environment",
+  "era": ["1970s", "early_unix"],
+  "introduced_or_release_year": 1979,
+  "reconstruction_target": "minimum_execution_context_and_evidence_boundaries",
+  "technical_context": {
+    "cpu_family": "PDP-11 class",
+    "architecture_word_size_bits": 16,
+    "endianness": "little",
+    "logical_address_space": "model/MMU-dependent PDP-11 virtual and physical addressing; no single model is canonical to this profile",
+    "memory": "machine-model and configuration dependent",
+    "storage_model": ["disk/tape/device configurations supported by the selected PDP-11 host and UNIX kernel configuration"],
+    "display_hardware": ["terminal-oriented; no single raster display is intrinsic"],
+    "audio_hardware": ["not intrinsic to the UNIX V7 operating environment"],
+    "input_model": ["terminal and device-file based interaction"],
+    "executable_or_load_model": "a.out-family executable context and kernel-mediated process execution",
+    "filesystem": "UNIX filesystem hierarchy and inode/file-descriptor model",
+    "boot_process": "machine-specific bootstrap and configured kernel/device environment; exact path depends on the selected PDP-11 model/storage",
+    "programming_environment": ["C", "assembly", "shell", "standard UNIX tools documented for V7"],
+    "timing_constraints": ["scheduler/device timing and hardware performance depend on PDP-11 model and peripheral configuration"],
+    "rom_or_os_assumptions": "UNIX distribution binaries and media images are not embedded; networking is not assumed to be an intrinsic universal property of every V7 installation."
+  },
+  "claim_partitions": {
+    "hardware_fact": ["PDP-11-class processors are 16-bit little-endian systems, with model-dependent memory/MMU features"],
+    "documented_software_behaviour": ["UNIX V7 exposes process, file, shell and a.out-era programming conventions documented in the manual"],
+    "emulator_behaviour": [],
+    "compatibility_layer_behaviour": [],
+    "reconstruction_inference": ["A minimum reconstruction can model shell-to-process-to-device flow without claiming one canonical PDP-11 configuration."],
+    "unknown": ["exact PDP-11 model, memory size, controller set and peripheral inventory unless separately specified"]
+  },
+  "source_evidence": [
+    {
+      "id": "source.unix.v7.programmers_manual",
+      "source_type": "historical_programmers_manual_archive",
+      "title": "UNIX Programmer's Manual, Seventh Edition",
+      "url": "https://bitsavers.org/pdf/att/unix/7th_Edition/",
+      "supports": ["system_calls", "commands", "filesystem", "programming_environment", "a_out_context"],
+      "visibility": "public",
+      "license": "UNRESOLVED",
+      "epistemic_class": "external_historical_documentation",
+      "canonical_or_derived": "derived",
+      "byte_import_allowed": false
+    },
+    {
+      "id": "source.dec.pdp11.handbook_1979",
+      "source_type": "manufacturer_handbook_archive",
+      "title": "PDP-11 Handbook (1979)",
+      "url": "https://bitsavers.org/pdf/dec/pdp11/handbooks/",
+      "supports": ["processor_family", "machine_models", "memory_and_bus_context", "device_variability"],
+      "visibility": "public",
+      "license": "UNRESOLVED",
+      "epistemic_class": "external_historical_documentation",
+      "canonical_or_derived": "derived",
+      "byte_import_allowed": false
+    }
+  ],
+  "uncertainties": ["PDP-11 model is intentionally variable", "memory-management capability varies by model", "device/controller configuration varies"],
+  "rights": {
+    "source_bytes_copied": false,
+    "rom_bytes_copied": false,
+    "firmware_bytes_copied": false,
+    "proprietary_software_copied": false,
+    "disk_image_bytes_copied": false,
+    "binary_distribution_copied": false
+  },
+  "emulator_or_reimplementation": {
+    "used_for_canonical_profile": false,
+    "identity": null,
+    "version": null,
+    "source": null,
+    "license": null,
+    "limitations": "No emulator or reimplementation result is canonical evidence in the PR #4 seed."
+  },
+  "recovery_equivalence": {
+    "current_class": "historically_plausible_approximation",
+    "exact_reproduction_claimed": false,
+    "reason": "Profile preserves public technical context and reconstruction boundaries without embedding the original proprietary system bytes."
+  },
+  "computational_archaeology_mapping": {
+    "profile_validation_tier": "T4",
+    "profile_validation_capability": "validate_historical_system_contracts",
+    "tiers_are_ark_recovery_hosts_not_native_historical_execution": true,
+    "native_execution_claimed": false
+  },
+  "scope_notes": {
+    "hardware_variability": true,
+    "canonical_machine": null,
+    "reason": "UNIX V7 ran on PDP-11-class configurations; this profile preserves the software environment plus host-family constraints without inventing one canonical physical machine."
+  }
+}

@@ -17,6 +17,8 @@ MACHINE-FIRST ENTRYPOINT.
 - mrs_contract: `ai/minimum-recoverable-substrate.json`
 - cultural_policy: `ai/cultural-artifact-policy.json`
 - culture_index: `culture/index.json`
+- historical_system_policy: `ai/historical-system-policy.json`
+- historical_system_index: `systems/index.json`
 
 ## Required load order
 
@@ -30,8 +32,10 @@ MACHINE-FIRST ENTRYPOINT.
 8. `ai/minimum-recoverable-substrate.json`
 9. `ai/cultural-artifact-policy.json`
 10. `culture/index.json`
-11. relevant schemas
-12. task-selected specimen manifests and receipts only
+11. `ai/historical-system-policy.json`
+12. `systems/index.json`
+13. relevant schemas
+14. task-selected specimen manifests, historical-system profiles, and receipts only
 
 Do not recursively ingest the repository unless a recovery stage explicitly requires it.
 
@@ -51,8 +55,15 @@ Do not recursively ingest the repository unless a recovery stage explicitly requ
 - QSOL-CONTEXT imports require explicit public-export clearance evidence; `visibility: public` alone is insufficient.
 - Third-party source bytes require resolved license evidence. Metadata, hashes, observations, and paraphrase do not imply byte-copy permission.
 - A public transcript URL does not grant ARK permission to copy the script.
+- Historical source references with unresolved third-party rights remain reference/paraphrase evidence only; they do not authorize byte import.
+- `EMULATOR_BEHAVIOUR != ORIGINAL_HARDWARE_FACT`.
+- `COMPATIBILITY_LAYER_BEHAVIOUR != ORIGINAL_SOFTWARE_BEHAVIOUR`.
+- `SOFTWARE_ENVIRONMENT != ONE_CANONICAL_MACHINE`.
+- `HOST_RECOVERY_TIER != NATIVE_HISTORICAL_EXECUTION`.
+- Exact historical reproduction requires sufficient public, licensed, inspectable evidence.
 - Verify hashes before trusting deterministic claims when receipts exist.
 - Recovery tiers have only capabilities explicitly declared in `ai/recovery-tiers.json`.
+- Historical-system validation requires the explicit T4 capability `validate_historical_system_contracts` and entrypoint `tools/systems.py`.
 - MRS is the lowest-rank implemented tier satisfying every requested capability; if none exists, return `ARK_MRS_UNAVAILABLE`.
 - T5 AI reconstruction is currently unimplemented. Do not claim `./ark awaken <model>` exists.
 - Follow `ai/software-commandments.json` when implementing repository software.
@@ -79,6 +90,24 @@ Reference validation:
 ```sh
 python3 tools/culture.py
 ```
+
+## Historical-system recovery status
+
+PR #4 seed profiles:
+
+- `system.commodore.c64`
+- `system.commodore.amiga500`
+- `system.ibm.pc_xt_5160`
+- `environment.digital_research.cpm_2_2`
+- `environment.unix.v7_pdp11`
+
+Reference validation:
+
+```sh
+python3 tools/systems.py
+```
+
+The five seed profiles currently claim `historically_plausible_approximation`, not exact reproduction.
 
 ## Mutation rule
 

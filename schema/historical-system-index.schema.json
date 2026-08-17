@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QSOL-ARK Historical System Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "protocol", "schema_version", "policy", "profiles", "tasks"],
+  "properties": {
+    "type": {"const": "qsol-ark-historical-system-index"},
+    "protocol": {"const": "QSOL-ARK"},
+    "schema_version": {"const": "0.4.0"},
+    "policy": {"const": "ai/historical-system-policy.json"},
+    "profiles": {"type": "array", "minItems": 5, "items": {"type": "object"}},
+    "tasks": {"type": "array", "minItems": 1, "items": {"type": "object"}}
+  }
+}

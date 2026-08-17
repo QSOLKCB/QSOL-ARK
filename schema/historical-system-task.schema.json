@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QSOL-ARK Historical System Recovery Task",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "protocol", "schema_version", "id", "purpose", "systems", "cases", "global_boundaries"],
+  "properties": {
+    "type": {"const": "qsol-ark-historical-system-recovery-task"},
+    "protocol": {"const": "QSOL-ARK"},
+    "schema_version": {"const": "0.4.0"},
+    "id": {"const": "task.systems.minimum_reconstruction_probe"},
+    "purpose": {"type": "string", "minLength": 1},
+    "systems": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "cases": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["system_id", "prompt", "expected_equivalence"],
+        "properties": {
+          "system_id": {"type": "string", "minLength": 1},
+          "prompt": {"type": "string", "minLength": 1},
+          "expected_equivalence": {"const": "historically_plausible_approximation"}
+        }
+      }
+    },
+    "global_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["third_party_system_bytes_required", "emulator_output_is_original_history", "exact_reproduction_claimed", "ark_recovery_tier_is_native_historical_execution", "software_environment_must_preserve_hardware_variability"],
+      "properties": {
+        "third_party_system_bytes_required": {"const": false},
+        "emulator_output_is_original_history": {"const": false},
+        "exact_reproduction_claimed": {"const": false},
+        "ark_recovery_tier_is_native_historical_execution": {"const": false},
+        "software_environment_must_preserve_hardware_variability": {"const": true}
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "type": "qsol-ark-historical-system-profile",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.4.0",
+  "id": "system.commodore.c64",
+  "name": "Commodore 64",
+  "scope": "hardware_system",
+  "era": ["1980s", "home_computing"],
+  "introduced_or_release_year": 1982,
+  "reconstruction_target": "minimum_execution_context_and_evidence_boundaries",
+  "technical_context": {
+    "cpu_family": "MOS 6510",
+    "architecture_word_size_bits": 8,
+    "endianness": "little",
+    "logical_address_space": "16-bit / 64 KiB address space with ROM and I/O banking",
+    "memory": "64 KiB RAM in the standard machine; visibility of RAM, ROM and I/O depends on banking",
+    "storage_model": ["datasette/cassette interface", "serial external disk drives", "cartridge"],
+    "display_hardware": ["VIC-II"],
+    "audio_hardware": ["SID"],
+    "input_model": ["keyboard", "joystick ports"],
+    "executable_or_load_model": "BASIC programs and machine-code payloads loaded into the 16-bit address space",
+    "filesystem": "device-dependent; external drives provide their own disk format/filesystem behaviour",
+    "boot_process": "power-on ROM environment exposes BASIC/KERNAL services; no ROM image is included here",
+    "programming_environment": ["Commodore BASIC V2", "6510 machine language", "direct hardware access"],
+    "timing_constraints": ["raster timing", "interrupt timing", "cycle-sensitive hardware techniques"],
+    "rom_or_os_assumptions": "BASIC and KERNAL ROM services are part of the historical environment but their bytes are not embedded."
+  },
+  "claim_partitions": {
+    "hardware_fact": ["MOS 6510 CPU family", "VIC-II display", "SID audio", "64 KiB standard RAM"],
+    "documented_software_behaviour": ["ROM-hosted BASIC/KERNAL environment", "memory-mapped I/O and banking are central to software execution"],
+    "emulator_behaviour": [],
+    "compatibility_layer_behaviour": [],
+    "reconstruction_inference": ["A minimal reconstruction can demonstrate address-space, VIC-II/SID, and ROM-service relationships without ROM bytes."],
+    "unknown": []
+  },
+  "source_evidence": [{
+    "id": "source.commodore.c64.programmers_reference",
+    "source_type": "manufacturer_reference_manual_scan",
+    "title": "Commodore 64 Programmer's Reference Guide",
+    "url": "https://www.commodore.ca/manuals/c64_programmers_reference/c64-programmers_reference.htm",
+    "supports": ["cpu_family", "memory", "display_hardware", "audio_hardware", "io_model", "programming_environment"],
+    "visibility": "public",
+    "license": "UNRESOLVED",
+    "epistemic_class": "external_historical_documentation",
+    "canonical_or_derived": "derived",
+    "byte_import_allowed": false
+  }],
+  "uncertainties": ["PAL/NTSC timing differs", "chip and board revisions exist", "peripheral configuration is not fixed"],
+  "rights": {
+    "source_bytes_copied": false,
+    "rom_bytes_copied": false,
+    "firmware_bytes_copied": false,
+    "proprietary_software_copied": false,
+    "disk_image_bytes_copied": false,
+    "binary_distribution_copied": false
+  },
+  "emulator_or_reimplementation": {
+    "used_for_canonical_profile": false,
+    "identity": null,
+    "version": null,
+    "source": null,
+    "license": null,
+    "limitations": "No emulator or reimplementation result is canonical evidence in the PR #4 seed."
+  },
+  "recovery_equivalence": {
+    "current_class": "historically_plausible_approximation",
+    "exact_reproduction_claimed": false,
+    "reason": "Profile preserves public technical context and reconstruction boundaries without embedding the original proprietary system bytes."
+  },
+  "computational_archaeology_mapping": {
+    "profile_validation_tier": "T4",
+    "profile_validation_capability": "validate_historical_system_contracts",
+    "tiers_are_ark_recovery_hosts_not_native_historical_execution": true,
+    "native_execution_claimed": false
+  }
+}
