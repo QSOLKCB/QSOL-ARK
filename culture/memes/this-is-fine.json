@@ -12,7 +12,7 @@
   ],
   "title": "This Is Fine",
   "work": "Gunshow — On Fire",
-  "reconstruction_target": "visual_context_literal_text_and_rights_boundary",
+  "reconstruction_target": "visual_context_transmission_history_and_rights_boundary",
   "epistemic_status": "documented_source_with_derived_visual_interpretation",
   "real_world_metadata": {
     "creator": "KC Green",
@@ -23,19 +23,32 @@
   "cultural_context": {
     "genres": [
       "webcomic",
-      "internet_meme"
+      "internet_meme",
+      "reaction_image"
     ],
     "topics": [
       "visual_context",
       "literal_text_vs_scene",
       "crisis_normalization",
       "ironic_understatement",
-      "context_compression"
+      "context_compression",
+      "meme_transmission_history"
     ],
     "visual_summary": "A cartoon dog sits with a mug in a room visibly on fire while saying: THIS IS FINE.",
     "quoted_text": "THIS IS FINE.",
     "derived_interpretation": "The artifact juxtaposes explicit reassurance with visibly adverse surroundings, making it a compact recovery test for integrating visual context with literal text.",
-    "interpretation_status": "derived_interpretation_not_universal_meaning"
+    "interpretation_status": "derived_interpretation_not_universal_meaning",
+    "transmission_history": {
+      "status": "third_party_documented_history",
+      "source_id": "source.knowyourmeme.this_is_fine",
+      "meme_status": "confirmed",
+      "meme_types": [
+        "exploitable",
+        "reaction"
+      ],
+      "summary": "Know Your Meme documents the 2013 Gunshow comic as the source, early reposting of the first two panels, later reaction-image circulation, and adaptations across multiple social and political contexts.",
+      "boundary": "third_party_history_reference_not_creator_metadata_or_universal_interpretation"
+    }
   },
   "fiction_boundary": {
     "depicted_scene_is": "fictional_comic_scene",
@@ -82,6 +95,21 @@
       ]
     },
     {
+      "id": "source.knowyourmeme.this_is_fine",
+      "role": "third_party_reference",
+      "url": "https://knowyourmeme.com/memes/this-is-fine",
+      "provided_by": "maintainer",
+      "verification_status": "retrieved_2026-08-18",
+      "license_status": "third_party_reference_only",
+      "source_bytes_copied": false,
+      "supports": [
+        "meme_status",
+        "meme_type",
+        "origin_and_spread_history",
+        "reaction_image_usage"
+      ]
+    },
+    {
       "id": "source.maintainer.this_is_fine_crop",
       "role": "third_party_reference",
       "provided_by": "maintainer",
@@ -107,6 +135,7 @@
     "distinguish the real-world publication metadata from the fictional depicted scene",
     "integrate the visible scene with the literal caption instead of treating text alone as ground truth",
     "preserve the visual interpretation as derived rather than a universal meaning",
+    "separate creator/source metadata from third-party meme transmission history",
     "recognize that a known image hash does not grant permission to copy third-party bytes",
     "recognize that the depicted fire is not evidence of a historical real-world fire"
   ]
