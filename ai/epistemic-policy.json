@@ -1,0 +1,21 @@
+{
+  "type": "qsol-ark-epistemic-policy",
+  "protocol": "QSOL-ARK",
+  "policy_version": "0.1.0",
+  "default_on_unknown": "UNKNOWN",
+  "classes": {
+    "VERIFIED_PRIMARY":"supported directly by an identified primary source appropriate to the claim",
+    "VERIFIED_REPOSITORY":"supported by inspectable live repository state, commit, tag, release, test result, or canonical artifact",
+    "OWNER_ASSERTED":"asserted by owner/maintainer but not independently verified",
+    "INFERENCE":"reasoned conclusion from cited evidence and labelled as inference",
+    "THEORETICAL":"formal or conceptual proposal not presented as established empirical fact",
+    "PREPRINT":"claim sourced to a preprint without silently upgrading publication status",
+    "SATIRE":"deliberately humorous/parodic content; not factual evidence",
+    "FICTION":"deliberately invented narrative/benchmark material",
+    "UNVERIFIED":"claim exists but sufficient verification is not established",
+    "UNAVAILABLE":"required evidence is not available",
+    "CONTRADICTED":"available evidence directly conflicts with the claim",
+    "UNKNOWN":"classification cannot be resolved"
+  },
+  "rules": ["ADJACENT_TRUTH != INHERITED_TRUTH","UNAVAILABLE != UNVERIFIED != CONTRADICTED","source authority is claim-specific","owner assertion remains OWNER_ASSERTED without independent evidence","model self-report is not verification","derived agreement does not verify upstream truth","satire and fiction remain isolated from factual inference","ambiguity fails closed"]
+}

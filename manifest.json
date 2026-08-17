@@ -1,0 +1,35 @@
+{
+  "$schema": "./schema/ark-manifest.schema.json",
+  "type": "qsol-ark-manifest",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.1.0",
+  "status": "bootstrap",
+  "repository": "https://github.com/QSOLKCB/QSOL-ARK",
+  "public_repository": true,
+  "purpose": "vendor-neutral AI civilisation recovery archive and deterministic reconstruction benchmark",
+  "entrypoints": {
+    "human": "README.md",
+    "ai": "README4AI.md",
+    "agent": "AGENTS.md",
+    "bootstrap": "ai/bootstrap.json",
+    "recovery_contract": "ai/recovery-contract.json",
+    "epistemic_policy": "ai/epistemic-policy.json",
+    "context_sources": "ai/context-sources.json",
+    "software_commandments": "ai/software-commandments.json",
+    "roadmap": "ROADMAP.md"
+  },
+  "authority_order": ["live_repository_state","ark_canonical_payload","explicit_public_source_export","derived_artifact"],
+  "context_policy": {
+    "default": "public_export_only",
+    "unknown_visibility": "fail_closed",
+    "unknown_provenance": "fail_closed",
+    "private_context_import": false
+  },
+  "license_map": {
+    "software": "Apache-2.0",
+    "original_nonsoftware_content": "CC-BY-4.0",
+    "third_party": "retain-source-license"
+  },
+  "planned_interface": "./ark awaken <model>",
+  "implemented_interface": null
+}

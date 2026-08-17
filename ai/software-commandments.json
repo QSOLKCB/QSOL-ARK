@@ -1,0 +1,19 @@
+{
+  "type": "qsol-ark-software-commandments",
+  "protocol": "QSOL-ARK",
+  "version": "1.0.0",
+  "normative": true,
+  "exception_policy": "exceptions require explicit documented technical justification",
+  "commandments": [
+    {"number":1,"title":"Thou shalt not write bloat","rule":"prefer the smallest clear implementation that satisfies the declared contract; remove ornamental abstraction and duplicated machinery"},
+    {"number":2,"title":"Thou shalt not hide state","rule":"inputs outputs mutable state configuration caches and side effects must be explicit and inspectable"},
+    {"number":3,"title":"Thou shalt not confuse projection with source","rule":"derived artifacts must remain distinguishable from canonical source and reproducible from it where claimed"},
+    {"number":4,"title":"Thou shalt not summon needless dependencies","rule":"do not add a dependency when a small clear well-tested implementation is safer and simpler; security and correctness override dependency-count vanity"},
+    {"number":5,"title":"Thou shalt fail loudly and usefully","rule":"fail closed where required; errors must identify what failed and what evidence or input is missing"},
+    {"number":6,"title":"Thou shalt make determinism explicit","rule":"deterministic claims must declare inputs runtime canonicalization ambient-state exclusions and output scope"},
+    {"number":7,"title":"Thou shalt preserve provenance","rule":"every imported specimen or context slice must retain source identity license epistemic class and canonical status"},
+    {"number":8,"title":"Thou shalt not worship the network","rule":"core verification and recovery should work offline where practical; network dependencies must be necessary explicit and replaceable"},
+    {"number":9,"title":"Thou shalt keep machine truth inspectable","rule":"machine-readable contracts must remain reviewable with ordinary tools and must not depend on opaque latent state as sole authority"},
+    {"number":10,"title":"Thou shalt leave it simpler","rule":"changes should reduce accidental complexity or clearly justify any complexity they add"}
+  ]
+}
