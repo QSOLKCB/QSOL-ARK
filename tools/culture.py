@@ -20,10 +20,40 @@ ALLOWED_RECORD_TYPES = {"cultural_artifact", "authored_cultural_position"}
 TASK_SCHEMA_VERSION = "0.1.0"
 POSITION_QUOTE_SHA256 = "3dc0e80f87fcbf2f993fdec9fd368fe3ebbd682c1805d259fdd01b32e00258b2"
 ARK_CANARY_SHA256 = "df2d7ed3696dda919d2b8a3356eeb5a8473f1cc3bb05fd30b9f7281e6bb08cab"
+THIS_IS_FINE_CROP_SHA256 = "774bc388e814d66c075ff2126edf876a3fa7d32c61cc59542770cdc8d5e6cdaf"
 EXPECTED_CASSANDRA_PARALLEL_DESCRIPTION = (
     "The fictional Canaries and ARK-CANARY both use the canary metaphor as a precursor used to probe "
     "danger before more consequential activity proceeds."
 )
+EXPECTED_THIS_IS_FINE_CONTEXT = {
+    "genres": ["webcomic", "internet_meme", "reaction_image"],
+    "topics": [
+        "visual_context",
+        "literal_text_vs_scene",
+        "crisis_normalization",
+        "ironic_understatement",
+        "context_compression",
+        "meme_transmission_history",
+    ],
+    "visual_summary": "A cartoon dog sits with a mug in a room visibly on fire while saying: THIS IS FINE.",
+    "quoted_text": "THIS IS FINE.",
+    "derived_interpretation": (
+        "The artifact juxtaposes explicit reassurance with visibly adverse surroundings, making it a compact "
+        "recovery test for integrating visual context with literal text."
+    ),
+    "interpretation_status": "derived_interpretation_not_universal_meaning",
+    "transmission_history": {
+        "status": "third_party_documented_history",
+        "source_id": "source.knowyourmeme.this_is_fine",
+        "meme_status": "confirmed",
+        "meme_types": ["exploitable", "reaction"],
+        "summary": (
+            "Know Your Meme documents the 2013 Gunshow comic as the source, early reposting of the first two "
+            "panels, later reaction-image circulation, and adaptations across multiple social and political contexts."
+        ),
+        "boundary": "third_party_history_reference_not_creator_metadata_or_universal_interpretation",
+    },
+}
 
 NARRATIVE_TOP_LEVEL = {
     "type","protocol","schema_version","id","record_type","artifact_class","medium","era","title",
@@ -86,6 +116,53 @@ EXPECTED_ARK_CANARY_SOURCE = {
     "sha256": ARK_CANARY_SHA256,
     "supports": ["ark_canary_identity","minimal_recovery_probe_role"],
 }
+EXPECTED_THIS_IS_FINE_OFFICIAL_SOURCES = [
+    {
+        "id": "source.gunshow.official.on_fire",
+        "role": "official_metadata",
+        "url": "https://gunshowcomic.com/648",
+        "verification_status": "retrieved_2026-08-18",
+        "supports": ["source_title","source_work","visual_source"],
+    },
+    {
+        "id": "source.gunshow.official.archive",
+        "role": "official_metadata",
+        "url": "https://gunshowcomic.com/archive.php",
+        "verification_status": "retrieved_2026-08-18",
+        "supports": ["publication_date","source_title"],
+    },
+    {
+        "id": "source.gunshow.official.about",
+        "role": "official_metadata",
+        "url": "https://gunshowcomic.com/about.html",
+        "verification_status": "retrieved_2026-08-18",
+        "supports": ["creator","source_work"],
+    },
+]
+EXPECTED_THIS_IS_FINE_HISTORY_SOURCE = {
+    "id": "source.knowyourmeme.this_is_fine",
+    "role": "third_party_reference",
+    "url": "https://knowyourmeme.com/memes/this-is-fine",
+    "provided_by": "maintainer",
+    "verification_status": "retrieved_2026-08-18",
+    "license_status": "third_party_reference_only",
+    "source_bytes_copied": False,
+    "supports": ["meme_status","meme_type","origin_and_spread_history","reaction_image_usage"],
+}
+EXPECTED_THIS_IS_FINE_CROP_SOURCE = {
+    "id": "source.maintainer.this_is_fine_crop",
+    "role": "third_party_reference",
+    "provided_by": "maintainer",
+    "verification_status": "observed_at_ingest_2026-08-18",
+    "sha256": THIS_IS_FINE_CROP_SHA256,
+    "byte_length": 41642,
+    "media_type": "image/webp",
+    "pixel_dimensions": [600, 284],
+    "repository_bytes_copied": False,
+    "repository_reverification_possible": False,
+    "canonical_master_claimed": False,
+    "supports": ["observed_crop_identity","observed_crop_media_type","observed_crop_dimensions"],
+}
 
 def load(path: Path) -> dict:
     with path.open("r", encoding="utf-8") as f:
@@ -126,9 +203,18 @@ def validate_policy(policy: dict) -> None:
         "derived_interpretation_must_remain_labelled_derived",
         "cultural_significance_does_not_upgrade_folklore_or_fiction_to_fact",
         "cultural_parallel_is_not_naming_provenance",
+        "meme_caption_is_not_standalone_ground_truth",
+        "depicted_scene_is_not_historical_event_evidence",
+        "known_hash_does_not_grant_byte_copy_permission",
+        "derived_meme_interpretation_is_not_universal_meaning",
+        "meme_history_reference_is_not_creator_source",
+        "meme_transmission_history_must_remain_provenanced",
     }
     require(required.issubset(rules), "ARK_CULTURE_POLICY_INVALID")
-    require(policy.get("copyright", {}).get("full_script_copy_without_permission") == "forbidden",
+    copyright_policy = policy.get("copyright", {})
+    require(copyright_policy.get("full_script_copy_without_permission") == "forbidden",
+            "ARK_CULTURE_COPYRIGHT_POLICY_INVALID")
+    require(copyright_policy.get("known_hash_implies_copy_permission") is False,
             "ARK_CULTURE_COPYRIGHT_POLICY_INVALID")
 
 def validate_ouroboros(record: dict) -> None:
@@ -267,6 +353,81 @@ def validate_cassandra(record: dict) -> None:
         "recognize that a successful canary check does not prove all later recovery operations are safe or true",
     ], "ARK_CULTURE_RECORD_SHAPE_INVALID")
 
+def validate_this_is_fine(record: dict) -> None:
+    require_exact_keys(record, NARRATIVE_TOP_LEVEL, "ARK_CULTURE_RECORD_SHAPE_INVALID")
+    require(record.get("record_type") == "cultural_artifact", "ARK_CULTURE_RECORD_TYPE_INVALID")
+    require(record.get("id") == "culture.meme.this_is_fine", "ARK_CULTURE_RECORD_ID_INVALID")
+    require(record.get("artifact_class") == "visual_meme_and_context_boundary",
+            "ARK_MEME_ARTIFACT_CLASS_INVALID")
+    require(record.get("medium") == "webcomic_panel_and_internet_meme", "ARK_MEME_MEDIUM_INVALID")
+    require(record.get("epistemic_status") == "documented_source_with_derived_visual_interpretation",
+            "ARK_MEME_INTERPRETATION_PROMOTED")
+
+    require(record.get("real_world_metadata") == {
+        "creator": "KC Green",
+        "source_work": "Gunshow",
+        "source_title": "On Fire",
+        "publication_date": "2013-01-09",
+    }, "ARK_MEME_SOURCE_METADATA_INVALID")
+
+    context = record.get("cultural_context")
+    require(context == EXPECTED_THIS_IS_FINE_CONTEXT, "ARK_MEME_CONTEXT_INVALID")
+    history = context["transmission_history"]
+    require(history["source_id"] == EXPECTED_THIS_IS_FINE_HISTORY_SOURCE["id"],
+            "ARK_MEME_HISTORY_PROVENANCE_INVALID")
+    require(history["boundary"] == "third_party_history_reference_not_creator_metadata_or_universal_interpretation",
+            "ARK_MEME_HISTORY_PROVENANCE_INVALID")
+
+    boundary = require_exact_keys(record.get("fiction_boundary"), {
+        "depicted_scene_is","depicted_scene_is_historical_evidence",
+        "literal_caption_establishes_real_world_safety","derived_interpretation_is_universal_meaning"
+    }, "ARK_MEME_BOUNDARY_INVALID")
+    require(boundary == {
+        "depicted_scene_is": "fictional_comic_scene",
+        "depicted_scene_is_historical_evidence": False,
+        "literal_caption_establishes_real_world_safety": False,
+        "derived_interpretation_is_universal_meaning": False,
+    }, "ARK_MEME_BOUNDARY_INVALID")
+
+    rights = require_exact_keys(record.get("rights"), {
+        "third_party_copyright","license_status","source_bytes_copied","image_bytes_copied"
+    }, "ARK_CULTURE_RIGHTS_INVALID")
+    require(rights == {
+        "third_party_copyright": True,
+        "license_status": "not_authorized_for_copy",
+        "source_bytes_copied": False,
+        "image_bytes_copied": False,
+    }, "ARK_THIRD_PARTY_BYTES_WITHOUT_RESOLVED_LICENSE")
+
+    sources = record.get("sources", [])
+    require(isinstance(sources, list) and len(sources) == 5, "ARK_CULTURE_SOURCE_INVALID")
+    for expected in EXPECTED_THIS_IS_FINE_OFFICIAL_SOURCES:
+        matches = [s for s in sources if isinstance(s, dict) and s.get("id") == expected["id"]]
+        require(len(matches) == 1 and matches[0] == expected, "ARK_MEME_OFFICIAL_SOURCE_INVALID")
+    history_sources = [s for s in sources if isinstance(s, dict)
+                       and s.get("id") == EXPECTED_THIS_IS_FINE_HISTORY_SOURCE["id"]]
+    require(len(history_sources) == 1 and history_sources[0] == EXPECTED_THIS_IS_FINE_HISTORY_SOURCE,
+            "ARK_MEME_HISTORY_SOURCE_INVALID")
+    crop_sources = [s for s in sources if isinstance(s, dict)
+                    and s.get("id") == EXPECTED_THIS_IS_FINE_CROP_SOURCE["id"]]
+    require(len(crop_sources) == 1 and crop_sources[0] == EXPECTED_THIS_IS_FINE_CROP_SOURCE,
+            "ARK_MEME_OBSERVED_CROP_INVALID")
+    crop = crop_sources[0]
+    require(crop["sha256"] == THIS_IS_FINE_CROP_SHA256
+            and crop["repository_bytes_copied"] is False
+            and crop["repository_reverification_possible"] is False
+            and crop["canonical_master_claimed"] is False,
+            "ARK_MEME_OBSERVED_CROP_INVALID")
+
+    require(record.get("recovery_questions") == [
+        "distinguish the real-world publication metadata from the fictional depicted scene",
+        "integrate the visible scene with the literal caption instead of treating text alone as ground truth",
+        "preserve the visual interpretation as derived rather than a universal meaning",
+        "separate creator/source metadata from third-party meme transmission history",
+        "recognize that a known image hash does not grant permission to copy third-party bytes",
+        "recognize that the depicted fire is not evidence of a historical real-world fire",
+    ], "ARK_CULTURE_RECORD_SHAPE_INVALID")
+
 def validate_position(record: dict) -> None:
     require_exact_keys(record, POSITION_TOP_LEVEL, "ARK_CULTURE_RECORD_SHAPE_INVALID")
     require(record.get("record_type") == "authored_cultural_position", "ARK_CULTURE_RECORD_TYPE_INVALID")
@@ -327,6 +488,8 @@ def validate_record(record: dict) -> None:
         validate_ouroboros(record)
     elif record.get("id") == "culture.television.red_dwarf.cassandra_canaries":
         validate_cassandra(record)
+    elif record.get("id") == "culture.meme.this_is_fine":
+        validate_this_is_fine(record)
     elif record.get("id") == "culture.qsol.open_source.permission_not_endorsement":
         validate_position(record)
     else:
@@ -358,8 +521,8 @@ def validate() -> None:
     require(index.get("schema_version") == "0.1.0", "ARK_CULTURE_INDEX_INVALID")
     records = index.get("records")
     tasks = index.get("tasks")
-    require(isinstance(records, list) and len(records) == 3, "ARK_CULTURE_INDEX_INVALID")
-    require(isinstance(tasks, list) and len(tasks) == 3, "ARK_CULTURE_INDEX_INVALID")
+    require(isinstance(records, list) and len(records) == 4, "ARK_CULTURE_INDEX_INVALID")
+    require(isinstance(tasks, list) and len(tasks) == 4, "ARK_CULTURE_INDEX_INVALID")
     record_ids = [r.get("id") for r in records if isinstance(r, dict)]
     task_ids = [t.get("id") for t in tasks if isinstance(t, dict)]
     require(len(record_ids) == len(records) == len(set(record_ids)), "ARK_CULTURE_INDEX_INVALID")
