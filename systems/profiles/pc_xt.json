@@ -39,7 +39,12 @@
     "source_type": "manufacturer_technical_reference_scan",
     "title": "IBM Personal Computer XT Technical Reference",
     "url": "https://bitsavers.org/pdf/ibm/pc/xt/",
-    "supports": ["cpu_family", "system_bus", "memory_addressing", "boot_firmware", "adapter_model", "storage_model"]
+    "supports": ["cpu_family", "system_bus", "memory_addressing", "boot_firmware", "adapter_model", "storage_model"],
+    "visibility": "public",
+    "license": "UNRESOLVED",
+    "epistemic_class": "external_historical_documentation",
+    "canonical_or_derived": "derived",
+    "byte_import_allowed": false
   }],
   "uncertainties": ["RAM size varies by configuration/revision", "display adapter is not fixed", "DOS version and installed peripherals are not fixed"],
   "rights": {
@@ -65,6 +70,7 @@
   },
   "computational_archaeology_mapping": {
     "profile_validation_tier": "T4",
+    "profile_validation_capability": "validate_historical_system_contracts",
     "tiers_are_ark_recovery_hosts_not_native_historical_execution": true,
     "native_execution_claimed": false
   }
