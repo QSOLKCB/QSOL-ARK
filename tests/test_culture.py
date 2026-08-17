@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 import importlib.util
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -85,6 +86,14 @@ class CultureTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "ARK_CULTURAL_PARALLEL_PROMOTED_TO_NAMING_PROVENANCE"):
             mod.validate_record(record)
 
+    def test_cassandra_parallel_prose_cannot_invent_naming_history(self):
+        record = self.cassandra()
+        record["cultural_context"]["ark_parallel"]["description"] = (
+            "ARK-CANARY was named after the Red Dwarf Canaries."
+        )
+        with self.assertRaisesRegex(ValueError, "ARK_CULTURAL_PARALLEL_DESCRIPTION_INVALID"):
+            mod.validate_record(record)
+
     def test_cassandra_boundary_rejects_naming_provenance_promotion(self):
         record = self.cassandra()
         record["fiction_boundary"]["cultural_parallel_is_naming_provenance"] = True
@@ -98,12 +107,38 @@ class CultureTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "ARK_CULTURE_OFFICIAL_SOURCE_REQUIRED"):
             mod.validate_record(record)
 
+    def test_cassandra_maintainer_reference_uses_declared_evidence_class(self):
+        record = self.cassandra()
+        supplied = next(s for s in record["sources"] if s["id"] == "source.wikipedia.cassandra_red_dwarf")
+        self.assertEqual(supplied["role"], "third_party_reference")
+        supplied["role"] = "maintainer_supplied_reference"
+        with self.assertRaisesRegex(ValueError, "ARK_CULTURE_REFERENCE_INVALID"):
+            mod.validate_record(record)
+
     def test_cassandra_ark_canary_receipt_is_bound(self):
         record = self.cassandra()
         internal = next(s for s in record["sources"] if s["id"] == "source.qsol_ark.ark_canary")
         internal["sha256"] = "0" * 64
         with self.assertRaisesRegex(ValueError, "ARK_CULTURE_ARK_CANARY_BINDING_INVALID"):
             mod.validate_record(record)
+
+    def test_cassandra_ark_canary_payload_is_hashed_not_just_receipt(self):
+        record = self.cassandra()
+        with tempfile.TemporaryDirectory() as tmp:
+            temp_root = Path(tmp)
+            capsule = temp_root / "capsules" / "minimal"
+            capsule.mkdir(parents=True)
+            (capsule / "ARK-CANARY.txt").write_text("ALTERED CANARY\n", encoding="utf-8")
+            (capsule / "SHA256SUMS").write_text(
+                f"{mod.ARK_CANARY_SHA256}  ARK-CANARY.txt\n", encoding="utf-8"
+            )
+            old_root = mod.ROOT
+            mod.ROOT = temp_root
+            try:
+                with self.assertRaisesRegex(ValueError, "ARK_CULTURE_ARK_CANARY_BINDING_INVALID"):
+                    mod.validate_record(record)
+            finally:
+                mod.ROOT = old_root
 
     def test_cassandra_copies_no_third_party_script_bytes(self):
         record = self.cassandra()
