@@ -1,52 +1,274 @@
 {
-  "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "$id":"https://github.com/QSOLKCB/QSOL-ARK/schema/ark-manifest.schema.json",
-  "title":"QSOL-ARK Root Manifest",
-  "type":"object",
-  "additionalProperties":false,
-  "required":["$schema","type","protocol","schema_version","status","repository","public_repository","maintainer","purpose","entrypoints","implemented_recovery_tiers","authority_order","context_policy","license_map","planned_interface","implemented_interface"],
-  "properties":{
-    "$schema":{"type":"string"},
-    "type":{"const":"qsol-ark-manifest"},
-    "protocol":{"const":"QSOL-ARK"},
-    "schema_version":{"type":"string","pattern":"^[0-9]+\\.[0-9]+\\.[0-9]+$"},
-    "status":{"type":"string"},
-    "repository":{"type":"string","format":"uri"},
-    "public_repository":{"const":true},
-    "maintainer":{"type":"object","additionalProperties":false,"required":["name","github","affiliation","role"],"properties":{"name":{"const":"Trent Slade"},"github":{"const":"EmergentMonk"},"affiliation":{"const":"QSOL-IMC"},"role":{"const":"founder and maintainer"}}},
-    "purpose":{"type":"string","minLength":1},
-    "entrypoints":{
-      "type":"object",
-      "additionalProperties":false,
-      "required":["human","ai","agent","bootstrap","recovery_contract","epistemic_policy","context_sources","software_commandments","recovery_tiers","minimum_recoverable_substrate","computational_archaeology","cultural_policy","culture_index","computer_culture","culture_validator","historical_system_policy","historical_system_index","ancient_systems","historical_system_validator","roadmap"],
-      "properties":{
-        "human":{"const":"README.md"},
-        "ai":{"const":"README4AI.md"},
-        "agent":{"const":"AGENTS.md"},
-        "bootstrap":{"const":"ai/bootstrap.json"},
-        "recovery_contract":{"const":"ai/recovery-contract.json"},
-        "epistemic_policy":{"const":"ai/epistemic-policy.json"},
-        "context_sources":{"const":"ai/context-sources.json"},
-        "software_commandments":{"const":"ai/software-commandments.json"},
-        "recovery_tiers":{"const":"ai/recovery-tiers.json"},
-        "minimum_recoverable_substrate":{"const":"ai/minimum-recoverable-substrate.json"},
-        "computational_archaeology":{"const":"docs/COMPUTATIONAL-ARCHAEOLOGY.md"},
-        "cultural_policy":{"const":"ai/cultural-artifact-policy.json"},
-        "culture_index":{"const":"culture/index.json"},
-        "computer_culture":{"const":"docs/COMPUTER-CULTURE.md"},
-        "culture_validator":{"const":"tools/culture.py"},
-        "historical_system_policy":{"const":"ai/historical-system-policy.json"},
-        "historical_system_index":{"const":"systems/index.json"},
-        "ancient_systems":{"const":"docs/ANCIENT-SYSTEMS.md"},
-        "historical_system_validator":{"const":"tools/systems.py"},
-        "roadmap":{"const":"ROADMAP.md"}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QSOLKCB/QSOL-ARK/schema/ark-manifest.schema.json",
+  "title": "QSOL-ARK Root Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "type",
+    "protocol",
+    "schema_version",
+    "status",
+    "repository",
+    "public_repository",
+    "maintainer",
+    "purpose",
+    "entrypoints",
+    "implemented_recovery_tiers",
+    "authority_order",
+    "context_policy",
+    "license_map",
+    "planned_interface",
+    "implemented_interface"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "type": {
+      "const": "qsol-ark-manifest"
+    },
+    "protocol": {
+      "const": "QSOL-ARK"
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "status": {
+      "type": "string"
+    },
+    "repository": {
+      "type": "string",
+      "format": "uri"
+    },
+    "public_repository": {
+      "const": true
+    },
+    "maintainer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "github",
+        "affiliation",
+        "role"
+      ],
+      "properties": {
+        "name": {
+          "const": "Trent Slade"
+        },
+        "github": {
+          "const": "EmergentMonk"
+        },
+        "affiliation": {
+          "const": "QSOL-IMC"
+        },
+        "role": {
+          "const": "founder and maintainer"
+        }
       }
     },
-    "implemented_recovery_tiers":{"type":"array","minItems":5,"maxItems":5,"prefixItems":[{"const":"T0"},{"const":"T1"},{"const":"T2"},{"const":"T3"},{"const":"T4"}],"items":false},
-    "authority_order":{"type":"array","minItems":4,"maxItems":4,"prefixItems":[{"const":"live_repository_state"},{"const":"ark_canonical_payload"},{"const":"explicit_public_source_export"},{"const":"derived_artifact"}],"items":false},
-    "context_policy":{"type":"object","additionalProperties":false,"required":["default","unknown_visibility","unknown_provenance","private_context_import"],"properties":{"default":{"const":"public_export_only"},"unknown_visibility":{"const":"fail_closed"},"unknown_provenance":{"const":"fail_closed"},"private_context_import":{"const":false}}},
-    "license_map":{"type":"object","additionalProperties":false,"required":["software","original_nonsoftware_content","third_party"],"properties":{"software":{"const":"Apache-2.0"},"original_nonsoftware_content":{"const":"CC-BY-4.0"},"third_party":{"const":"retain-source-license"}}},
-    "planned_interface":{"type":"string"},
-    "implemented_interface":{"type":["string","null"]}
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entrypoints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "human",
+        "ai",
+        "agent",
+        "bootstrap",
+        "recovery_contract",
+        "epistemic_policy",
+        "context_sources",
+        "public_context_seeds",
+        "public_context_doc",
+        "public_context_validator",
+        "software_commandments",
+        "recovery_tiers",
+        "minimum_recoverable_substrate",
+        "computational_archaeology",
+        "cultural_policy",
+        "culture_index",
+        "computer_culture",
+        "culture_validator",
+        "historical_system_policy",
+        "historical_system_index",
+        "ancient_systems",
+        "historical_system_validator",
+        "roadmap"
+      ],
+      "properties": {
+        "human": {
+          "const": "README.md"
+        },
+        "ai": {
+          "const": "README4AI.md"
+        },
+        "agent": {
+          "const": "AGENTS.md"
+        },
+        "bootstrap": {
+          "const": "ai/bootstrap.json"
+        },
+        "recovery_contract": {
+          "const": "ai/recovery-contract.json"
+        },
+        "epistemic_policy": {
+          "const": "ai/epistemic-policy.json"
+        },
+        "context_sources": {
+          "const": "ai/context-sources.json"
+        },
+        "public_context_seeds": {
+          "const": "context/public-seeds.json"
+        },
+        "public_context_doc": {
+          "const": "docs/PUBLIC-CONTEXT.md"
+        },
+        "public_context_validator": {
+          "const": "tools/public_context.py"
+        },
+        "software_commandments": {
+          "const": "ai/software-commandments.json"
+        },
+        "recovery_tiers": {
+          "const": "ai/recovery-tiers.json"
+        },
+        "minimum_recoverable_substrate": {
+          "const": "ai/minimum-recoverable-substrate.json"
+        },
+        "computational_archaeology": {
+          "const": "docs/COMPUTATIONAL-ARCHAEOLOGY.md"
+        },
+        "cultural_policy": {
+          "const": "ai/cultural-artifact-policy.json"
+        },
+        "culture_index": {
+          "const": "culture/index.json"
+        },
+        "computer_culture": {
+          "const": "docs/COMPUTER-CULTURE.md"
+        },
+        "culture_validator": {
+          "const": "tools/culture.py"
+        },
+        "historical_system_policy": {
+          "const": "ai/historical-system-policy.json"
+        },
+        "historical_system_index": {
+          "const": "systems/index.json"
+        },
+        "ancient_systems": {
+          "const": "docs/ANCIENT-SYSTEMS.md"
+        },
+        "historical_system_validator": {
+          "const": "tools/systems.py"
+        },
+        "roadmap": {
+          "const": "ROADMAP.md"
+        }
+      }
+    },
+    "implemented_recovery_tiers": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "prefixItems": [
+        {
+          "const": "T0"
+        },
+        {
+          "const": "T1"
+        },
+        {
+          "const": "T2"
+        },
+        {
+          "const": "T3"
+        },
+        {
+          "const": "T4"
+        }
+      ],
+      "items": false
+    },
+    "authority_order": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "prefixItems": [
+        {
+          "const": "live_repository_state"
+        },
+        {
+          "const": "ark_canonical_payload"
+        },
+        {
+          "const": "explicit_public_source_export"
+        },
+        {
+          "const": "derived_artifact"
+        }
+      ],
+      "items": false
+    },
+    "context_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default",
+        "unknown_visibility",
+        "unknown_provenance",
+        "private_context_import"
+      ],
+      "properties": {
+        "default": {
+          "const": "public_export_only"
+        },
+        "unknown_visibility": {
+          "const": "fail_closed"
+        },
+        "unknown_provenance": {
+          "const": "fail_closed"
+        },
+        "private_context_import": {
+          "const": false
+        }
+      }
+    },
+    "license_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "software",
+        "original_nonsoftware_content",
+        "third_party"
+      ],
+      "properties": {
+        "software": {
+          "const": "Apache-2.0"
+        },
+        "original_nonsoftware_content": {
+          "const": "CC-BY-4.0"
+        },
+        "third_party": {
+          "const": "retain-source-license"
+        }
+      }
+    },
+    "planned_interface": {
+      "type": "string"
+    },
+    "implemented_interface": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
   }
 }

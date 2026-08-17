@@ -1,0 +1,51 @@
+name: Public Context (Private Means Private)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "context/**"
+      - "tools/public_context.py"
+      - "tests/test_public_context.py"
+      - "schema/public-context-seeds.schema.json"
+      - "schema/ark-manifest.schema.json"
+      - "manifest.json"
+      - "ai/bootstrap.json"
+      - "docs/PUBLIC-CONTEXT.md"
+      - ".github/workflows/public-context.yml"
+  pull_request:
+    paths:
+      - "context/**"
+      - "tools/public_context.py"
+      - "tests/test_public_context.py"
+      - "schema/public-context-seeds.schema.json"
+      - "schema/ark-manifest.schema.json"
+      - "manifest.json"
+      - "ai/bootstrap.json"
+      - "docs/PUBLIC-CONTEXT.md"
+      - ".github/workflows/public-context.yml"
+
+jobs:
+  public-context:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate public context seeds
+        run: python3 tools/public_context.py
+      - name: Run public context regressions
+        run: python3 -m unittest tests.test_public_context -v
+      - name: Parse public context JSON
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for path in [
+              Path("context/public-seeds.json"),
+              Path("schema/public-context-seeds.schema.json"),
+              Path("manifest.json"),
+              Path("ai/bootstrap.json"),
+          ]:
+              json.loads(path.read_text(encoding="utf-8"))
+          print("ARK_PUBLIC_CONTEXT_JSON_OK")
+          PY
