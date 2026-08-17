@@ -39,14 +39,24 @@
       "source_type": "historical_programmers_manual_archive",
       "title": "UNIX Programmer's Manual, Seventh Edition",
       "url": "https://bitsavers.org/pdf/att/unix/7th_Edition/",
-      "supports": ["system_calls", "commands", "filesystem", "programming_environment", "a_out_context"]
+      "supports": ["system_calls", "commands", "filesystem", "programming_environment", "a_out_context"],
+      "visibility": "public",
+      "license": "UNRESOLVED",
+      "epistemic_class": "external_historical_documentation",
+      "canonical_or_derived": "derived",
+      "byte_import_allowed": false
     },
     {
       "id": "source.dec.pdp11.handbook_1979",
       "source_type": "manufacturer_handbook_archive",
       "title": "PDP-11 Handbook (1979)",
       "url": "https://bitsavers.org/pdf/dec/pdp11/handbooks/",
-      "supports": ["processor_family", "machine_models", "memory_and_bus_context", "device_variability"]
+      "supports": ["processor_family", "machine_models", "memory_and_bus_context", "device_variability"],
+      "visibility": "public",
+      "license": "UNRESOLVED",
+      "epistemic_class": "external_historical_documentation",
+      "canonical_or_derived": "derived",
+      "byte_import_allowed": false
     }
   ],
   "uncertainties": ["PDP-11 model is intentionally variable", "memory-management capability varies by model", "device/controller configuration varies"],
@@ -73,6 +83,7 @@
   },
   "computational_archaeology_mapping": {
     "profile_validation_tier": "T4",
+    "profile_validation_capability": "validate_historical_system_contracts",
     "tiers_are_ark_recovery_hosts_not_native_historical_execution": true,
     "native_execution_claimed": false
   },
