@@ -16,6 +16,8 @@
     "schema/ark-manifest.schema.json",
     "schema/recovery-tiers.schema.json",
     "schema/minimum-recoverable-substrate.schema.json",
+    "schema/cultural-artifact-policy.schema.json",
+    "schema/culture-index.schema.json",
     "schema/cultural-record.schema.json",
     "schema/cultural-recovery-task.schema.json"
   ],

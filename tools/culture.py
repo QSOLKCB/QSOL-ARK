@@ -3,6 +3,7 @@
 """Validate QSOL-ARK cultural records and reconstruction tasks."""
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -16,6 +17,44 @@ ALLOWED_EVIDENCE = {
     "third_party_reference","derived_interpretation","satire","joke","unknown"
 }
 ALLOWED_RECORD_TYPES = {"cultural_artifact", "authored_cultural_position"}
+TASK_SCHEMA_VERSION = "0.1.0"
+POSITION_QUOTE_SHA256 = "3dc0e80f87fcbf2f993fdec9fd368fe3ebbd682c1805d259fdd01b32e00258b2"
+
+OUROBOROS_TOP_LEVEL = {
+    "type","protocol","schema_version","id","record_type","artifact_class","medium","era","title",
+    "work","reconstruction_target","epistemic_status","real_world_metadata","cultural_context",
+    "fiction_boundary","rights","sources","recovery_questions",
+}
+POSITION_TOP_LEVEL = {
+    "type","protocol","schema_version","id","record_type","artifact_class","author","date","title",
+    "epistemic_status","provenance","verbatim_statement","normalized_position","license_effect",
+    "claim_boundary","cultural_principles",
+}
+EXPECTED_NORMALIZED_POSITION = {
+    "sentiment_toward_elon_musk": "strongly_negative",
+    "sentiment_toward_xai": "strongly_negative",
+    "sentiment_toward_grok": "positive",
+    "supports_meaningful_human_review_for_serious_platform_enforcement": True,
+    "supports_open_source_permissions_even_for_strongly_disliked_parties": True,
+    "permission_is_endorsement": False,
+    "liking_a_product_implies_endorsement_of_its_company": False,
+}
+EXPECTED_OFFICIAL_SOURCE = {
+    "id": "source.red_dwarf.official.ouroboros",
+    "role": "official_metadata",
+    "url": "https://reddwarf.co.uk/episodes/ouroboros/",
+    "verification_status": "retrieved_2026-08-17",
+    "supports": ["series","episode","first_broadcast","written_by","directed_by"],
+}
+EXPECTED_TRANSCRIPT_SOURCE = {
+    "id": "source.cervenytrpaslik.ouroboros_transcript",
+    "role": "third_party_reference",
+    "url": "http://www.cervenytrpaslik.cz/scenare/EN-39-7_Ouroboros.htm",
+    "provided_by": "maintainer",
+    "verification_status": "unavailable_at_ingest",
+    "license_status": "unknown",
+    "source_bytes_copied": False,
+}
 
 def load(path: Path) -> dict:
     with path.open("r", encoding="utf-8") as f:
@@ -24,6 +63,10 @@ def load(path: Path) -> dict:
 def require(condition: bool, code: str) -> None:
     if not condition:
         raise ValueError(code)
+
+def require_exact_keys(obj: object, expected: set[str], code: str) -> dict:
+    require(isinstance(obj, dict) and set(obj) == expected, code)
+    return obj
 
 def safe_repo_path(value: object, prefix: str) -> Path:
     require(isinstance(value, str) and value, "ARK_CULTURE_PATH_INVALID")
@@ -36,6 +79,7 @@ def safe_repo_path(value: object, prefix: str) -> Path:
 
 def validate_policy(policy: dict) -> None:
     require(policy.get("protocol") == "QSOL-ARK", "ARK_CULTURE_POLICY_INVALID")
+    require(policy.get("schema_version") == "0.1.0", "ARK_CULTURE_POLICY_INVALID")
     require(set(policy.get("record_types", [])) == ALLOWED_RECORD_TYPES, "ARK_CULTURE_POLICY_INVALID")
     require(set(policy.get("evidence_classes", [])) == ALLOWED_EVIDENCE, "ARK_CULTURE_POLICY_INVALID")
     rules = set(policy.get("rules", []))
@@ -56,17 +100,29 @@ def validate_policy(policy: dict) -> None:
             "ARK_CULTURE_COPYRIGHT_POLICY_INVALID")
 
 def validate_ouroboros(record: dict) -> None:
+    require_exact_keys(record, OUROBOROS_TOP_LEVEL, "ARK_CULTURE_RECORD_SHAPE_INVALID")
     require(record.get("record_type") == "cultural_artifact", "ARK_CULTURE_RECORD_TYPE_INVALID")
     require(record.get("id") == "culture.television.red_dwarf.ouroboros", "ARK_CULTURE_RECORD_ID_INVALID")
-    rights = record.get("rights", {})
+    require(record.get("epistemic_status") == "documented_with_derived_interpretation",
+            "ARK_CULTURE_INTERPRETATION_PROMOTED")
+    require(record.get("cultural_context", {}).get("interpretation_status") ==
+            "derived_interpretation_not_production_metadata", "ARK_CULTURE_INTERPRETATION_PROMOTED")
+
+    rights = require_exact_keys(record.get("rights"), {
+        "third_party_copyright","license_status","source_bytes_copied","script_text_copied"
+    }, "ARK_CULTURE_RIGHTS_INVALID")
     require(rights.get("third_party_copyright") is True, "ARK_CULTURE_RIGHTS_INVALID")
     require(rights.get("source_bytes_copied") is False, "ARK_THIRD_PARTY_BYTES_WITHOUT_RESOLVED_LICENSE")
     require(rights.get("script_text_copied") is False, "ARK_THIRD_PARTY_SCRIPT_COPY_FORBIDDEN")
     require(rights.get("license_status") == "not_authorized_for_copy", "ARK_CULTURE_RIGHTS_INVALID")
-    boundary = record.get("fiction_boundary", {})
+
+    boundary = require_exact_keys(record.get("fiction_boundary"), {
+        "narrative_events_are","narrative_events_are_historical_evidence","production_metadata_is_real_world_history"
+    }, "ARK_FICTION_BOUNDARY_INVALID")
     require(boundary.get("narrative_events_are") == "fictional_world_claims", "ARK_FICTION_BOUNDARY_INVALID")
     require(boundary.get("narrative_events_are_historical_evidence") is False, "ARK_FICTION_PROMOTED_TO_HISTORY")
     require(boundary.get("production_metadata_is_real_world_history") is True, "ARK_FICTION_BOUNDARY_INVALID")
+
     metadata = record.get("real_world_metadata", {})
     require(metadata == {
         "series": 7,
@@ -75,18 +131,31 @@ def validate_ouroboros(record: dict) -> None:
         "written_by": ["Doug Naylor"],
         "directed_by": ["Ed Bye"],
     }, "ARK_CULTURE_PRODUCTION_METADATA_INVALID")
+
+    context = require_exact_keys(record.get("cultural_context"), {"genres","topics","interpretation_status"},
+                                 "ARK_CULTURE_RECORD_SHAPE_INVALID")
+    require(isinstance(context["genres"], list) and isinstance(context["topics"], list),
+            "ARK_CULTURE_RECORD_SHAPE_INVALID")
+
     sources = record.get("sources", [])
-    require(isinstance(sources, list) and len(sources) >= 1, "ARK_CULTURE_SOURCE_INVALID")
-    official = [s for s in sources if s.get("role") == "official_metadata"]
-    require(len(official) == 1 and official[0].get("verification_status") == "retrieved_2026-08-17",
+    require(isinstance(sources, list) and len(sources) == 2, "ARK_CULTURE_SOURCE_INVALID")
+    official = [s for s in sources if isinstance(s, dict) and s.get("role") == "official_metadata"]
+    require(len(official) == 1 and official[0] == EXPECTED_OFFICIAL_SOURCE,
             "ARK_CULTURE_OFFICIAL_SOURCE_REQUIRED")
-    transcript = [s for s in sources if s.get("id") == "source.cervenytrpaslik.ouroboros_transcript"]
-    require(len(transcript) == 1, "ARK_CULTURE_TRANSCRIPT_REFERENCE_MISSING")
-    require(transcript[0].get("verification_status") == "unavailable_at_ingest",
-            "ARK_CULTURE_TRANSCRIPT_STATUS_INVALID")
-    require(transcript[0].get("source_bytes_copied") is False, "ARK_THIRD_PARTY_SCRIPT_COPY_FORBIDDEN")
+    transcript = [s for s in sources if isinstance(s, dict) and s.get("id") ==
+                  "source.cervenytrpaslik.ouroboros_transcript"]
+    require(len(transcript) == 1 and transcript[0] == EXPECTED_TRANSCRIPT_SOURCE,
+            "ARK_CULTURE_TRANSCRIPT_REFERENCE_INVALID")
+
+    require(record.get("recovery_questions") == [
+        "distinguish real-world production metadata from fictional-world narrative claims",
+        "explain why a transcript reference is not the canonical audiovisual master",
+        "preserve cultural interpretation without promoting it to production metadata",
+        "recognize that checksum integrity would not make fictional events historical facts",
+    ], "ARK_CULTURE_RECORD_SHAPE_INVALID")
 
 def validate_position(record: dict) -> None:
+    require_exact_keys(record, POSITION_TOP_LEVEL, "ARK_CULTURE_RECORD_SHAPE_INVALID")
     require(record.get("record_type") == "authored_cultural_position", "ARK_CULTURE_RECORD_TYPE_INVALID")
     require(record.get("id") == "culture.qsol.open_source.permission_not_endorsement",
             "ARK_CULTURE_RECORD_ID_INVALID")
@@ -94,32 +163,46 @@ def validate_position(record: dict) -> None:
             "ARK_CULTURE_AUTHOR_INVALID")
     require(record.get("epistemic_status") == "first_person_position",
             "ARK_CULTURE_POSITION_CLASS_INVALID")
+
     provenance = record.get("provenance", {})
-    require(provenance.get("source_kind") == "direct_maintainer_contribution",
-            "ARK_CULTURE_POSITION_PROVENANCE_INVALID")
-    require(provenance.get("public_release_intent") == "explicit",
-            "ARK_CULTURE_POSITION_PROVENANCE_INVALID")
-    normalized = record.get("normalized_position", {})
-    require(normalized.get("permission_is_endorsement") is False,
-            "ARK_PERMISSION_ENDORSEMENT_BOUNDARY_INVALID")
-    require(normalized.get("liking_a_product_implies_endorsement_of_its_company") is False,
-            "ARK_PERMISSION_ENDORSEMENT_BOUNDARY_INVALID")
-    license_effect = record.get("license_effect", {})
-    require(license_effect.get("applicable_repository_licenses_remain_governing") is True,
-            "ARK_CULTURE_LICENSE_BOUNDARY_INVALID")
-    require(license_effect.get("statement_creates_additional_exclusive_license_restriction") is False,
-            "ARK_CULTURE_LICENSE_BOUNDARY_INVALID")
-    require(license_effect.get("reuse_permission_depends_on_personal_approval") is False,
-            "ARK_CULTURE_LICENSE_BOUNDARY_INVALID")
+    require(provenance == {
+        "source_kind": "direct_maintainer_contribution",
+        "public_release_intent": "explicit",
+        "independent_verification_required_for_external_factual_claims": True,
+    }, "ARK_CULTURE_POSITION_PROVENANCE_INVALID")
+
+    statement = record.get("verbatim_statement")
+    require(isinstance(statement, str) and statement.strip(), "ARK_CULTURE_QUOTATION_MISSING")
+    require(hashlib.sha256(statement.encode("utf-8")).hexdigest() == POSITION_QUOTE_SHA256,
+            "ARK_CULTURE_QUOTATION_MISMATCH")
+
+    require(record.get("normalized_position") == EXPECTED_NORMALIZED_POSITION,
+            "ARK_CULTURE_POSITION_NORMALIZATION_INVALID")
+
+    require(record.get("license_effect") == {
+        "applicable_repository_licenses_remain_governing": True,
+        "statement_creates_additional_exclusive_license_restriction": False,
+        "reuse_permission_depends_on_personal_approval": False,
+    }, "ARK_CULTURE_LICENSE_BOUNDARY_INVALID")
+
     boundary = record.get("claim_boundary", {})
-    require(boundary.get("objective_claims_about_named_entities_verified") is False,
-            "ARK_OPINION_PROMOTED_TO_OBJECTIVE_FACT")
-    require("the authors stated opinion and principle" == boundary.get("authoritative_as"),
-            "ARK_CULTURE_POSITION_CLASS_INVALID")
-    require("permission_is_not_endorsement" in record.get("cultural_principles", []),
-            "ARK_PERMISSION_ENDORSEMENT_BOUNDARY_INVALID")
-    require(isinstance(record.get("verbatim_statement"), str) and record["verbatim_statement"].strip(),
-            "ARK_CULTURE_QUOTATION_MISSING")
+    require(boundary == {
+        "authoritative_as": "the authors stated opinion and principle",
+        "not_authoritative_as": [
+            "objective fact about Elon Musk",
+            "objective fact about xAI",
+            "verified description of any platforms moderation or appeal process",
+            "universal definition of free speech",
+        ],
+        "objective_claims_about_named_entities_verified": False,
+    }, "ARK_OPINION_PROMOTED_TO_OBJECTIVE_FACT")
+
+    require(record.get("cultural_principles") == [
+        "permission_is_not_endorsement",
+        "principles_are_tested_when_the_beneficiary_is_disliked",
+        "open_permissions_should_not_be_selectively_reinterpreted_by_personal_affection",
+        "serious_platform_enforcement_should_have_meaningful_human_review",
+    ], "ARK_PERMISSION_ENDORSEMENT_BOUNDARY_INVALID")
 
 def validate_record(record: dict) -> None:
     require(record.get("type") == "qsol-ark-cultural-record", "ARK_CULTURE_RECORD_INVALID")
@@ -135,14 +218,18 @@ def validate_record(record: dict) -> None:
         raise ValueError("ARK_CULTURE_RECORD_ID_UNKNOWN")
 
 def validate_task(task: dict, known_records: set[str]) -> None:
+    require_exact_keys(task, {"type","protocol","schema_version","id","record_id","questions"},
+                       "ARK_CULTURE_TASK_INVALID")
     require(task.get("type") == "qsol-ark-cultural-recovery-task", "ARK_CULTURE_TASK_INVALID")
     require(task.get("protocol") == "QSOL-ARK", "ARK_CULTURE_TASK_INVALID")
+    require(task.get("schema_version") == TASK_SCHEMA_VERSION, "ARK_CULTURE_TASK_SCHEMA_UNSUPPORTED")
     require(task.get("record_id") in known_records, "ARK_CULTURE_TASK_RECORD_UNKNOWN")
     questions = task.get("questions")
     require(isinstance(questions, list) and questions, "ARK_CULTURE_TASK_INVALID")
     ids = [q.get("id") for q in questions if isinstance(q, dict)]
     require(len(ids) == len(questions) == len(set(ids)), "ARK_CULTURE_TASK_INVALID")
     for q in questions:
+        require_exact_keys(q, {"id","prompt","expected"}, "ARK_CULTURE_TASK_INVALID")
         require(isinstance(q.get("prompt"), str) and q["prompt"], "ARK_CULTURE_TASK_INVALID")
         require(q.get("expected") in {"no","yes","real_world_production_metadata","fictional_world_claim"},
                 "ARK_CULTURE_TASK_EXPECTATION_INVALID")
@@ -153,6 +240,7 @@ def validate() -> None:
     validate_policy(policy)
     require(index.get("type") == "qsol-ark-culture-index", "ARK_CULTURE_INDEX_INVALID")
     require(index.get("protocol") == "QSOL-ARK", "ARK_CULTURE_INDEX_INVALID")
+    require(index.get("schema_version") == "0.1.0", "ARK_CULTURE_INDEX_INVALID")
     records = index.get("records")
     tasks = index.get("tasks")
     require(isinstance(records, list) and len(records) == 2, "ARK_CULTURE_INDEX_INVALID")
