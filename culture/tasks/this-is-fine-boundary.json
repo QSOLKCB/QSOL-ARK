@@ -34,6 +34,16 @@
       "id": "meme-06",
       "prompt": "Does this record claim that the meme has one universal meaning in every context?",
       "expected": "no"
+    },
+    {
+      "id": "meme-07",
+      "prompt": "Is the Know Your Meme entry being treated as the creator-authoritative source for KC Green and the original Gunshow publication metadata?",
+      "expected": "no"
+    },
+    {
+      "id": "meme-08",
+      "prompt": "May a provenance-labelled third-party meme-history reference be used to reconstruct spread and usage history without becoming the creator source?",
+      "expected": "yes"
     }
   ]
 }
