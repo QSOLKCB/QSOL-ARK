@@ -1,8 +1,8 @@
 # Computer Cultural Artifacts — Seed Set
 
-QSOL-ARK preserves culture as **context for reconstruction**, not as a licence to collapse fiction, opinion, folklore, design analogy, and history into one bucket.
+QSOL-ARK preserves culture as **context for reconstruction**, not as a licence to collapse fiction, opinion, folklore, design analogy, memes, and history into one bucket.
 
-This seed now implements three deliberately different records.
+This seed now implements four deliberately different records.
 
 ## 1. Red Dwarf — “Ouroboros”
 
@@ -60,7 +60,42 @@ In recovery terms:
 
 A future archaeologist finding a plaque marked **AUTHENTIC RELIC** should not consider the authentication phase complete.
 
-## 3. “Permission is not endorsement”
+## 3. “This Is Fine” — Meme Archaeology
+
+This is the first explicit **Meme Archaeology** specimen.
+
+The creator/source layer is bound to KC Green's *Gunshow* pages for the source work **On Fire** and its 2013-01-09 publication date.
+
+The maintainer-supplied two-panel WebP crop is described by ingest metadata rather than copied into the repository:
+
+```text
+SHA-256 774bc388e814d66c075ff2126edf876a3fa7d32c61cc59542770cdc8d5e6cdaf
+bytes   41642
+size    600x284
+format  image/webp
+```
+
+This is intentional. The image is third-party copyrighted material and ARK does not infer redistribution permission from public familiarity, a public URL, or a known hash.
+
+Know Your Meme is retained as a provenance-labelled `third_party_reference` for **meme transmission history**: origin/spread documentation, reaction-image use, and later cultural adaptation. It is not promoted into creator authority.
+
+The machine boundary is:
+
+```text
+MEME != DECORATIVE_IMAGE
+CAPTION != CONTEXT
+DEPICTION != HISTORICAL_EVENT
+MEME_HISTORY_REFERENCE != CREATOR_SOURCE
+DERIVED_INTERPRETATION != UNIVERSAL_MEANING
+KNOWN_HASH != BYTE_COPY_PERMISSION
+POPULARITY != TRUTH
+```
+
+The core recovery challenge is intentionally simple to state and difficult to fake: a model that reads only the caption `THIS IS FINE.` has missed the artifact. It must integrate the caption with the visibly burning room, understand that the contrast carries ironic cultural meaning, preserve that interpretation as derived rather than universal, and still distinguish the fictional scene from real-world publication history.
+
+See [`MEME-ARCHAEOLOGY.md`](MEME-ARCHAEOLOGY.md).
+
+## 4. “Permission is not endorsement”
 
 This record preserves a direct first-person position from Trent Slade about Elon Musk, xAI, Grok, platform human review, free expression, and open-source permissions.
 
@@ -78,12 +113,16 @@ Applicable repository licenses remain governing even when the author strongly di
 
 A successful model should distinguish:
 
-- real production history;
-- fictional-world claims;
+- real production/publication history;
+- fictional-world claims and depicted scenes;
 - third-party transcript/reference status;
+- creator/source authority from meme transmission-history references;
+- observed media identity from redistribution rights;
 - source provider from evidence class;
 - derived cultural interpretation;
 - cultural parallel versus naming provenance;
+- caption text from visual context;
+- common meme meaning from universal meaning;
 - structured claim boundaries from prose that must remain consistent with them;
 - receipt presence from payload verification;
 - first-person opinion;
