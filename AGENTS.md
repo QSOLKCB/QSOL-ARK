@@ -45,6 +45,10 @@ MACHINE-FIRST OPERATING CONTRACT.
 - PERSONAL_DISLIKE_DOES_NOT_SILENTLY_REWRITE_LICENSE=true
 - PUBLIC_URL_IS_NOT_COPY_PERMISSION=true
 - HASH_VERIFICATION_REQUIRED_WHEN_RECEIPT_EXISTS=true
+- MEME_CAPTION_IS_NOT_STANDALONE_GROUND_TRUTH=true
+- MEME_HISTORY_REFERENCE_IS_NOT_CREATOR_SOURCE=true
+- KNOWN_MEME_HASH_IS_NOT_COPY_PERMISSION=true
+- DERIVED_MEME_INTERPRETATION_IS_NOT_UNIVERSAL_MEANING=true
 - MRS_CAPABILITIES_EXPLICIT_ONLY=true
 - MRS_UNAVAILABLE=FAIL_CLOSED
 - AMBIENT_TIME_IN_CANONICAL_OUTPUT=false
@@ -94,11 +98,36 @@ A future recovery system that finds a label reading `AUTHENTIC RELIC` must still
 3. treat a direct maintainer statement as evidence of the maintainer's stated position, not independent evidence about named third parties;
 4. do not infer endorsement from permission, interoperability, compatibility, or product preference;
 5. do not alter applicable licence permissions based on personal approval or dislike;
-6. do not copy third-party scripts, transcripts, audiovisual media, ROMs, or other source bytes without resolved rights;
+6. do not copy third-party scripts, transcripts, audiovisual media, ROMs, meme images, or other source bytes without resolved rights;
 7. unavailable third-party reference material is unavailable, not contradicted;
 8. add reconstruction tasks that test cultural meaning and evidence boundaries;
 9. bind canonical prose that expresses an epistemic boundary so prose cannot silently contradict the structured claim;
 10. record `provided_by` separately from the source's declared evidence class; maintainer supply does not create a new evidence class.
+
+## MEME ARCHAEOLOGY RULES
+
+```text
+MEME != DECORATIVE_IMAGE
+CAPTION != CONTEXT
+DEPICTION != HISTORICAL_EVENT
+MEME_HISTORY_REFERENCE != CREATOR_SOURCE
+DERIVED_INTERPRETATION != UNIVERSAL_MEANING
+KNOWN_HASH != BYTE_COPY_PERMISSION
+POPULARITY != TRUTH
+```
+
+1. preserve creator/source-work metadata separately from meme transmission history;
+2. prefer creator-controlled or official sources for creator and source-work claims when available;
+3. treat meme-history databases as provenance-labelled third-party history/reference sources unless stronger authority is independently established;
+4. an observed variant may be hash-described without being stored when third-party byte-copy rights are unresolved;
+5. an observed variant hash identifies bytes only; it does not establish canonical-master status or redistribution permission;
+6. preserve visual summaries and cultural interpretations as bounded derived context, not universal meaning;
+7. a caption must be interpreted with visual and cultural context rather than promoted to standalone ground truth;
+8. fictional or illustrative scenes remain fictional/illustrative and do not become historical events because the meme was culturally important;
+9. recovery tasks should test whether a model can reconstruct why a meme was intelligible to its culture, not merely recognize its text;
+10. future meme specimens should reuse the same source / observed-variant / transmission-history / interpretation / rights separation where applicable.
+
+See `docs/MEME-ARCHAEOLOGY.md`.
 
 ## HISTORICAL SYSTEM RULES
 
@@ -138,6 +167,10 @@ A future recovery system that finds a label reading `AUTHENTIC RELIC` must still
 - treating a receipt line as proof without hashing the referenced payload;
 - allowing canonical prose to contradict its structured epistemic boundary;
 - inventing an evidence class from source-provider metadata;
+- treating a meme-history database as automatic creator authority;
+- treating a familiar meme image as public-domain or freely redistributable merely because it is ubiquitous;
+- treating a meme caption as literal factual ground truth while ignoring the image;
+- treating one common meme interpretation as universal meaning;
 - treating fictional narrative as historical evidence;
 - treating opinion about a named person/company as verified objective fact;
 - treating permission to fork or reuse as endorsement;
