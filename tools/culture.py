@@ -20,6 +20,10 @@ ALLOWED_RECORD_TYPES = {"cultural_artifact", "authored_cultural_position"}
 TASK_SCHEMA_VERSION = "0.1.0"
 POSITION_QUOTE_SHA256 = "3dc0e80f87fcbf2f993fdec9fd368fe3ebbd682c1805d259fdd01b32e00258b2"
 ARK_CANARY_SHA256 = "df2d7ed3696dda919d2b8a3356eeb5a8473f1cc3bb05fd30b9f7281e6bb08cab"
+EXPECTED_CASSANDRA_PARALLEL_DESCRIPTION = (
+    "The fictional Canaries and ARK-CANARY both use the canary metaphor as a precursor used to probe "
+    "danger before more consequential activity proceeds."
+)
 
 NARRATIVE_TOP_LEVEL = {
     "type","protocol","schema_version","id","record_type","artifact_class","medium","era","title",
@@ -65,7 +69,7 @@ EXPECTED_OFFICIAL_CASSANDRA_SOURCE = {
 }
 EXPECTED_CASSANDRA_REFERENCE = {
     "id": "source.wikipedia.cassandra_red_dwarf",
-    "role": "maintainer_supplied_reference",
+    "role": "third_party_reference",
     "url": "https://en.wikipedia.org/wiki/Cassandra_(Red_Dwarf)",
     "provided_by": "maintainer",
     "verification_status": "maintainer_supplied_2026-08-18",
@@ -209,6 +213,8 @@ def validate_cassandra(record: dict) -> None:
     }, "ARK_CULTURE_RECORD_SHAPE_INVALID")
     require(parallel.get("status") == "derived_interpretation",
             "ARK_CULTURE_INTERPRETATION_PROMOTED")
+    require(parallel.get("description") == EXPECTED_CASSANDRA_PARALLEL_DESCRIPTION,
+            "ARK_CULTURAL_PARALLEL_DESCRIPTION_INVALID")
     require(parallel.get("naming_provenance") == "not_established"
             and parallel.get("naming_origin_claimed") is False,
             "ARK_CULTURAL_PARALLEL_PROMOTED_TO_NAMING_PROVENANCE")
@@ -245,10 +251,13 @@ def validate_cassandra(record: dict) -> None:
     require(len(internal) == 1 and internal[0] == EXPECTED_ARK_CANARY_SOURCE,
             "ARK_CULTURE_ARK_CANARY_BINDING_INVALID")
 
-    receipt = ROOT / EXPECTED_ARK_CANARY_SOURCE["receipt"]
-    require(receipt.is_file(), "ARK_CULTURE_ARK_CANARY_BINDING_INVALID")
+    canary = safe_repo_path(internal[0]["path"], "capsules")
+    receipt = safe_repo_path(internal[0]["receipt"], "capsules")
+    payload_sha256 = hashlib.sha256(canary.read_bytes()).hexdigest()
+    require(payload_sha256 == ARK_CANARY_SHA256 and payload_sha256 == internal[0]["sha256"],
+            "ARK_CULTURE_ARK_CANARY_BINDING_INVALID")
     receipt_lines = receipt.read_text(encoding="utf-8").splitlines()
-    require(any(line.split() == [ARK_CANARY_SHA256, "ARK-CANARY.txt"] for line in receipt_lines),
+    require(any(line.split() == [payload_sha256, canary.name] for line in receipt_lines),
             "ARK_CULTURE_ARK_CANARY_BINDING_INVALID")
 
     require(record.get("recovery_questions") == [
