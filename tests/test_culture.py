@@ -17,6 +17,9 @@ class CultureTests(unittest.TestCase):
     def cassandra(self):
         return mod.load(ROOT / "culture/television/red-dwarf/cassandra-canaries.json")
 
+    def this_is_fine(self):
+        return mod.load(ROOT / "culture/memes/this-is-fine.json")
+
     def position(self):
         return mod.load(ROOT / "culture/positions/permission-not-endorsement.json")
 
@@ -144,6 +147,62 @@ class CultureTests(unittest.TestCase):
         record = self.cassandra()
         self.assertFalse(record["rights"]["source_bytes_copied"])
         self.assertFalse(record["rights"]["script_text_copied"])
+
+    def test_this_is_fine_record_is_validated(self):
+        mod.validate_record(self.this_is_fine())
+
+    def test_meme_caption_cannot_be_promoted_to_ground_truth(self):
+        record = self.this_is_fine()
+        record["fiction_boundary"]["literal_caption_establishes_real_world_safety"] = True
+        with self.assertRaisesRegex(ValueError, "ARK_MEME_BOUNDARY_INVALID"):
+            mod.validate_record(record)
+
+    def test_meme_depicted_scene_cannot_be_promoted_to_history(self):
+        record = self.this_is_fine()
+        record["fiction_boundary"]["depicted_scene_is_historical_evidence"] = True
+        with self.assertRaisesRegex(ValueError, "ARK_MEME_BOUNDARY_INVALID"):
+            mod.validate_record(record)
+
+    def test_meme_interpretation_cannot_be_promoted_to_universal_meaning(self):
+        record = self.this_is_fine()
+        record["fiction_boundary"]["derived_interpretation_is_universal_meaning"] = True
+        with self.assertRaisesRegex(ValueError, "ARK_MEME_BOUNDARY_INVALID"):
+            mod.validate_record(record)
+
+    def test_meme_context_prose_is_bound(self):
+        record = self.this_is_fine()
+        record["cultural_context"]["derived_interpretation"] = "The caption proves the room is safe."
+        with self.assertRaisesRegex(ValueError, "ARK_MEME_CONTEXT_INVALID"):
+            mod.validate_record(record)
+
+    def test_meme_history_reference_cannot_be_promoted_to_creator_source(self):
+        record = self.this_is_fine()
+        source = next(s for s in record["sources"] if s["id"] == "source.knowyourmeme.this_is_fine")
+        source["role"] = "official_metadata"
+        with self.assertRaisesRegex(ValueError, "ARK_MEME_HISTORY_SOURCE_INVALID"):
+            mod.validate_record(record)
+
+    def test_meme_transmission_history_source_id_is_bound(self):
+        record = self.this_is_fine()
+        record["cultural_context"]["transmission_history"]["source_id"] = "source.example.invalid"
+        with self.assertRaisesRegex(ValueError, "ARK_MEME_CONTEXT_INVALID"):
+            mod.validate_record(record)
+
+    def test_known_meme_hash_does_not_grant_copy_permission(self):
+        record = self.this_is_fine()
+        crop = next(s for s in record["sources"] if s["id"] == "source.maintainer.this_is_fine_crop")
+        self.assertEqual(crop["sha256"], mod.THIS_IS_FINE_CROP_SHA256)
+        self.assertFalse(crop["repository_bytes_copied"])
+        record["rights"]["image_bytes_copied"] = True
+        with self.assertRaisesRegex(ValueError, "ARK_THIRD_PARTY_BYTES_WITHOUT_RESOLVED_LICENSE"):
+            mod.validate_record(record)
+
+    def test_observed_meme_crop_is_not_claimed_as_canonical_master(self):
+        record = self.this_is_fine()
+        crop = next(s for s in record["sources"] if s["id"] == "source.maintainer.this_is_fine_crop")
+        crop["canonical_master_claimed"] = True
+        with self.assertRaisesRegex(ValueError, "ARK_MEME_OBSERVED_CROP_INVALID"):
+            mod.validate_record(record)
 
     def test_permission_is_not_endorsement(self):
         record = self.position()
