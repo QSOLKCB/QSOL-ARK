@@ -11,6 +11,7 @@
     {"requires":["standalone_hash_implementation"],"result":"T2"},
     {"requires":["interactive_offline"],"result":"T3"},
     {"requires":["validate_archaeology_contracts"],"result":"T4"},
+    {"requires":["validate_historical_system_contracts"],"result":"T4"},
     {"requires":["model_reconstruction"],"result":null}
   ]
 }
