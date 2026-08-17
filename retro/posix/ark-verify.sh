@@ -8,6 +8,11 @@ FILE=${1:-"$ROOT/capsules/minimal/ARK-CANARY.txt"}
 RECEIPT=${2:-"$ROOT/capsules/minimal/SHA256SUMS"}
 NAME=$(basename "$FILE")
 
+if [ ! -r "$FILE" ]; then
+    echo "ARK_INPUT_UNAVAILABLE file=$FILE" >&2
+    exit 2
+fi
+
 if [ ! -r "$RECEIPT" ]; then
     echo "ARK_RECEIPT_UNAVAILABLE file=$RECEIPT" >&2
     exit 2
@@ -16,11 +21,6 @@ fi
 EXPECTED=$(awk -v name="$NAME" '$2 == name { print $1; exit }' "$RECEIPT")
 if [ -z "$EXPECTED" ]; then
     echo "ARK_RECEIPT_MISSING file=$NAME" >&2
-    exit 2
-fi
-
-if [ ! -r "$FILE" ]; then
-    echo "ARK_INPUT_UNAVAILABLE file=$FILE" >&2
     exit 2
 fi
 
