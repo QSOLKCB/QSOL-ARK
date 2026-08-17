@@ -33,7 +33,9 @@
     "meme_caption_is_not_standalone_ground_truth",
     "depicted_scene_is_not_historical_event_evidence",
     "known_hash_does_not_grant_byte_copy_permission",
-    "derived_meme_interpretation_is_not_universal_meaning"
+    "derived_meme_interpretation_is_not_universal_meaning",
+    "meme_history_reference_is_not_creator_source",
+    "meme_transmission_history_must_remain_provenanced"
   ],
   "provenance_thresholds": {
     "general_cultural_pattern": "documented source or explicitly labelled first-person recollection/interpretation",
@@ -41,6 +43,7 @@
     "named_person_or_company_claim": "explicit provenance; first-person opinion must remain labelled opinion",
     "quotation": "direct authored contribution or verifiable source required",
     "visual_cultural_artifact": "official source metadata preferred; observed third-party bytes may be hash-described without republication when rights remain unresolved",
+    "meme_transmission_history": "provenanced third-party meme-history references may document spread and usage; creator and source-work metadata should prefer creator or official sources",
     "legal_or_security_claim": "strong explicit provenance required"
   },
   "copyright": {
