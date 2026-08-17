@@ -38,7 +38,12 @@
     "source_type": "manufacturer_reference_manual_scan",
     "title": "Commodore 64 Programmer's Reference Guide",
     "url": "https://www.commodore.ca/manuals/c64_programmers_reference/c64-programmers_reference.htm",
-    "supports": ["cpu_family", "memory", "display_hardware", "audio_hardware", "io_model", "programming_environment"]
+    "supports": ["cpu_family", "memory", "display_hardware", "audio_hardware", "io_model", "programming_environment"],
+    "visibility": "public",
+    "license": "UNRESOLVED",
+    "epistemic_class": "external_historical_documentation",
+    "canonical_or_derived": "derived",
+    "byte_import_allowed": false
   }],
   "uncertainties": ["PAL/NTSC timing differs", "chip and board revisions exist", "peripheral configuration is not fixed"],
   "rights": {
@@ -64,6 +69,7 @@
   },
   "computational_archaeology_mapping": {
     "profile_validation_tier": "T4",
+    "profile_validation_capability": "validate_historical_system_contracts",
     "tiers_are_ark_recovery_hosts_not_native_historical_execution": true,
     "native_execution_claimed": false
   }
