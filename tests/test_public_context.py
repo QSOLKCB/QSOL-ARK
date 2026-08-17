@@ -15,6 +15,9 @@ class PublicContextTests(unittest.TestCase):
     def index(self):
         return mod.load(ROOT / "context/public-seeds.json")
 
+    def seed(self, data, seed_id):
+        return next(s for s in data["seeds"] if s["id"] == seed_id)
+
     def test_full_validation(self):
         mod.validate(self.index())
 
@@ -62,29 +65,59 @@ class PublicContextTests(unittest.TestCase):
 
     def test_public_record_binding_cannot_drift(self):
         data = self.index()
-        project = next(s for s in data["seeds"] if s["id"] == "seed:project:deepseekc64")
+        project = self.seed(data, "seed:project:deepseekc64")
         project["public_record_id"] = "project:whoami-18437"
         with self.assertRaisesRegex(ValueError, "ARK_PUBLIC_CONTEXT_SEED_BINDING_INVALID"):
             mod.validate(data)
 
     def test_source_refs_are_semantically_bound(self):
         data = self.index()
-        project = next(s for s in data["seeds"] if s["id"] == "seed:project:e8-music")
+        project = self.seed(data, "seed:project:e8-music")
         project["source_refs"] = ["src:made-up-but-shape-valid"]
         with self.assertRaisesRegex(ValueError, "ARK_PUBLIC_CONTEXT_SEED_BINDING_INVALID"):
             mod.validate(data)
 
     def test_invalid_release_commit_is_rejected(self):
         data = self.index()
-        project = next(s for s in data["seeds"] if s["id"] == "seed:project:games")
+        project = self.seed(data, "seed:project:games")
         project["release"]["commit"] = "main"
         with self.assertRaisesRegex(ValueError, "ARK_PUBLIC_CONTEXT_RELEASE_INVALID"):
             mod.validate(data)
 
     def test_invalid_doi_is_rejected(self):
         data = self.index()
-        project = next(s for s in data["seeds"] if s["id"] == "seed:project:uff")
+        project = self.seed(data, "seed:project:uff")
         project["publication"]["doi"] = "probably-a-doi"
+        with self.assertRaisesRegex(ValueError, "ARK_PUBLIC_CONTEXT_PUBLICATION_INVALID"):
+            mod.validate(data)
+
+    def test_saw_uses_pinned_first_party_public_authority(self):
+        data = self.index()
+        saw = self.seed(data, "seed:project:saw-1")
+        self.assertEqual(saw["source_id"], "source.related_repositories")
+        self.assertEqual(saw["source_repository"], "https://github.com/QSOLKCB/SAW-1")
+        self.assertEqual(saw["release"]["tag"], "v1.0.1")
+        self.assertFalse(saw["byte_imported"])
+        mod.validate(data)
+
+    def test_saw_first_party_commit_cannot_drift(self):
+        data = self.index()
+        saw = self.seed(data, "seed:project:saw-1")
+        saw["source_ref_or_commit"] = "0" * 40
+        with self.assertRaisesRegex(ValueError, "ARK_PUBLIC_CONTEXT_SOURCE_COMMIT_INVALID"):
+            mod.validate(data)
+
+    def test_saw_citation_is_bound(self):
+        data = self.index()
+        saw = self.seed(data, "seed:project:saw-1")
+        saw["citation"]["version"] = "v9.9.9"
+        with self.assertRaisesRegex(ValueError, "ARK_PUBLIC_CONTEXT_CITATION_INVALID"):
+            mod.validate(data)
+
+    def test_saw_metadata_discrepancy_cannot_be_erased(self):
+        data = self.index()
+        saw = self.seed(data, "seed:project:saw-1")
+        saw["publication"]["repository_metadata_version"] = "v1.0.1"
         with self.assertRaisesRegex(ValueError, "ARK_PUBLIC_CONTEXT_PUBLICATION_INVALID"):
             mod.validate(data)
 

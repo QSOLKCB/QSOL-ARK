@@ -8,7 +8,7 @@
     "private_payload_imported": false,
     "private_repository_authoritative": false,
     "authority_rule": "PRIVATE_DISCOVERY != PUBLIC_AUTHORITY",
-    "clearance_rule": "QSOL-CONTEXT content may not become ARK payload without explicit public-export clearance; this seed pack instead re-anchors selected candidates to already-public QSOL-SUBSTRATE slices and first-party public evidence"
+    "clearance_rule": "QSOL-CONTEXT content may not become ARK payload without explicit public-export clearance; this seed pack instead re-anchors selected candidates to already-public QSOL-SUBSTRATE slices or independently public first-party evidence"
   },
   "substrate_binding": {
     "repository": "https://github.com/QSOLKCB/QSOL-SUBSTRATE",
@@ -158,6 +158,41 @@
       "release": {"tag": "v5.2.0", "commit": "3db10dbc4e9756360252ec32b80d9610d7b31adc"},
       "publication": {"doi": "10.5281/zenodo.21911644", "version": "5.2.0"},
       "subject_url": "https://github.com/QSOLKCB/UFF"
+    },
+    {
+      "id": "seed:project:saw-1",
+      "kind": "project",
+      "public_record_id": "github-release:371906058",
+      "visibility": "public",
+      "epistemic_class": "known_public_record_with_metadata_discrepancy",
+      "canonical_or_derived": "first_party_public_evidence",
+      "source_id": "source.related_repositories",
+      "source_repository": "https://github.com/QSOLKCB/SAW-1",
+      "source_ref_or_commit": "db4166e8903ccee055f8d847d846b591012641f2",
+      "source_path_or_artifact": "CITATION.cff#preferred-citation",
+      "source_hash_when_available": {"algorithm": "git_blob_sha1", "value": "ed5d748e1e8d828be00ffd5766182f69bb315894"},
+      "license": "MPL-2.0 repository code; CC-BY-4.0 technical note and metadata; ARK stores normalized metadata only",
+      "byte_imported": false,
+      "source_refs": ["src:saw-1-v1.0.1-release", "src:saw-1-citation-v1.0.1"],
+      "recovery_role": "provenance_bounded_sonification_and_formal_correspondence_seed",
+      "release": {"tag": "v1.0.1", "commit": "db4166e8903ccee055f8d847d846b591012641f2"},
+      "publication": {
+        "doi": "10.5281/zenodo.21984110",
+        "version": "v1.0.1",
+        "repository_metadata_version": "1.0.0",
+        "version_state": "release_tag_and_embedded_publication_metadata_differ"
+      },
+      "citation": {
+        "author": "Slade, T.",
+        "year": 2026,
+        "title": "SAW-1 — Spooky Action at Work: A Lightweight Formalization of ETQ-101 Sonification, Industrial Transformation, and an Accidental (3,2) Correspondence",
+        "version": "v1.0.1",
+        "publisher": "Zenodo",
+        "doi": "10.5281/zenodo.21984110",
+        "text": "Slade, T. (2026). SAW-1 — Spooky Action at Work: A Lightweight Formalization of ETQ-101 Sonification, Industrial Transformation, and an Accidental (3,2) Correspondence (Version v1.0.1). Zenodo. https://doi.org/10.5281/zenodo.21984110",
+        "provenance": "maintainer_supplied_citation; DOI, title, public release tag, commit, and repository metadata independently pinned; embedded CITATION.cff and .zenodo.json at v1.0.1 still declare publication version 1.0.0"
+      },
+      "subject_url": "https://github.com/QSOLKCB/SAW-1"
     }
   ]
 }
