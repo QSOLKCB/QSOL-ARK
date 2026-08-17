@@ -18,8 +18,12 @@ MACHINE-FIRST OPERATING CONTRACT.
 ## NON-NEGOTIABLE RULES
 
 - PUBLIC_REPOSITORY=true
+- DECLARED_MAINTAINER_REQUIRED=true
+- MAINTAINER_SOURCE=manifest.json#maintainer
 - IMPORT_PRIVATE_CONTEXT=false
 - EXPLICIT_PUBLIC_EXPORT_REQUIRED=true
+- QSOL_CONTEXT_CLEARANCE_EVIDENCE_REQUIRED=true
+- PUBLIC_VISIBILITY_ALONE_IS_NOT_EXPORT_CLEARANCE=true
 - UNKNOWN_VISIBILITY=FAIL_CLOSED
 - UNKNOWN_PROVENANCE=FAIL_CLOSED
 - AMBIGUOUS_CANONICAL_STATUS=FAIL_CLOSED
@@ -46,14 +50,16 @@ MACHINE-FIRST OPERATING CONTRACT.
 6. separate canonical source from derived projections;
 7. add validation;
 8. update human documentation where meaning changes;
-9. never copy QSOL-CONTEXT material unless specifically cleared for public export.
+9. never copy QSOL-CONTEXT material unless specifically cleared for public export with auditable clearance evidence.
 
 ## PROHIBITED SHORTCUTS
 
 - undocumented model memory as evidence;
+- inferring maintainer identity from repository ownership when explicit identity evidence is required;
 - hidden prompts as canonical meaning;
 - model self-report as verification;
 - secrets, credentials, or private context;
+- treating `visibility: public` as sufficient QSOL-CONTEXT export authorization;
 - generated embeddings, latent projections, or KV caches as sole canonical source;
 - claiming cross-runtime byte identity without a declared canonicalizer;
 - accepting persuasive prose as deterministic reproduction.

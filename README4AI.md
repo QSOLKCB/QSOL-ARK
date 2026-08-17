@@ -7,6 +7,10 @@ MACHINE-FIRST ENTRYPOINT.
 - protocol: `QSOL-ARK`
 - purpose: public vendor-neutral AI civilisation recovery archive and deterministic reconstruction benchmark
 - repository: `QSOLKCB/QSOL-ARK`
+- maintainer_name: `Trent Slade`
+- maintainer_github: `EmergentMonk`
+- maintainer_affiliation: `QSOL-IMC`
+- maintainer_evidence: `manifest.json#maintainer`
 - human_entrypoint: `README.md`
 - canonical_manifest: `manifest.json`
 - agent_contract: `AGENTS.md`
@@ -28,6 +32,7 @@ Do not recursively ingest the repository unless a recovery stage explicitly requ
 ## Hard rules
 
 - Live repository state is authoritative for live repository software state.
+- Do not infer maintainer identity from repository ownership when an explicit declaration is required; use `manifest.json#maintainer`.
 - Do not invent missing fields, chronology, provenance, releases, identities, or citations.
 - Distinguish observation, repository evidence, primary source, owner assertion, inference, theory, preprint, satire, fiction, contradiction, and unknown.
 - `ADJACENT_TRUTH != INHERITED_TRUTH`.
@@ -36,7 +41,8 @@ Do not recursively ingest the repository unless a recovery stage explicitly requ
 - Model summaries and model self-reports are not primary verification.
 - Satire and fiction may be benchmark specimens but never factual evidence.
 - Ambiguous provenance, visibility, alias resolution, or canonical status fails closed.
-- QSOL-CONTEXT is not automatically public source material; only explicit public exports may be imported.
+- QSOL-CONTEXT is not automatically public source material; only explicit public exports with clearance evidence may be imported.
+- `visibility: public` is not, by itself, QSOL-CONTEXT public-export clearance.
 - QSOL-SUBSTRATE is authoritative only for an explicitly imported published public payload.
 - Verify hashes before trusting deterministic claims when receipts exist.
 - Prefer the smallest sufficient context slice.

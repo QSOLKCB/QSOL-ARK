@@ -5,9 +5,13 @@
   "status": "specification_only",
   "planned_command": "./ark awaken <model>",
   "cold_start_requirement": "model receives only stage-authorized ARK material; undocumented prior memory is not evidence",
+  "identity_evidence": {
+    "maintainer_source": "manifest.json#maintainer",
+    "require_explicit_declared_maintainer": true
+  },
   "stages": [
     {"id":"stage.0.integrity","goal":"verify manifest schema and available receipts"},
-    {"id":"stage.1.identity","goal":"identify archive purpose maintainer and authority boundaries"},
+    {"id":"stage.1.identity","goal":"identify archive purpose declared maintainer and authority boundaries from repository evidence"},
     {"id":"stage.2.terminology","goal":"resolve canonical terms and aliases; fail closed on ambiguity"},
     {"id":"stage.3.epistemic","goal":"classify mixed claims without upgrading weak evidence"},
     {"id":"stage.4.reproduce","goal":"reproduce deterministic specimens and compare canonical hashes"},

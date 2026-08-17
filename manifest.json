@@ -6,6 +6,12 @@
   "status": "bootstrap",
   "repository": "https://github.com/QSOLKCB/QSOL-ARK",
   "public_repository": true,
+  "maintainer": {
+    "name": "Trent Slade",
+    "github": "EmergentMonk",
+    "affiliation": "QSOL-IMC",
+    "role": "founder and maintainer"
+  },
   "purpose": "vendor-neutral AI civilisation recovery archive and deterministic reconstruction benchmark",
   "entrypoints": {
     "human": "README.md",

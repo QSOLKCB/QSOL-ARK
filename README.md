@@ -6,6 +6,8 @@
 
 QSOL-ARK is a public, vendor-neutral recovery archive and benchmark. It asks whether knowledge can survive the model, vendor, runtime, and interface that originally created or consumed it.
 
+**Maintainer:** Trent Slade (`EmergentMonk`), QSOL-IMC founder and maintainer. This identity is also declared canonically in `manifest.json` so cold-start recovery does not depend on repository-owner inference or undocumented model memory.
+
 The repository deliberately exposes two synchronized layers:
 
 - **Human layer:** `README.md`, `ROADMAP.md`, `docs/`
@@ -46,6 +48,7 @@ QSOL-ARK is **public by construction**.
 - Live QSOL-ARK repository state is authoritative for ARK software and contracts.
 - Public QSOL-SUBSTRATE payloads may be imported only as explicit provenance-tracked slices.
 - QSOL-CONTEXT may inform selection, provenance, and deterministic metadata discipline, but **must never be recursively copied or treated as automatically public**.
+- QSOL-CONTEXT records require explicit public-export clearance evidence; `visibility: public` alone is not sufficient authorization for ARK import.
 - Only material explicitly cleared for public export may enter an ARK capsule.
 - Repository software state overrides cached context about that software.
 - Derived bundles, embeddings, adapters, summaries, scorecards, sonifications, and model-specific projections are not canonical unless an explicit contract says otherwise.

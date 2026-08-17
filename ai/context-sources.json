@@ -6,9 +6,15 @@
   "sources": [
     {"id":"source.qsol_ark","repository":"https://github.com/QSOLKCB/QSOL-ARK","role":"canonical ARK repository and protocol state","import_policy":"native"},
     {"id":"source.qsol_substrate","repository":"https://github.com/QSOLKCB/QSOL-SUBSTRATE","role":"candidate canonical public substrate source","import_policy":"explicit_slice_with_provenance"},
-    {"id":"source.qsol_context","repository":"https://github.com/QSOLKCB/QSOL-CONTEXT","role":"context-selection/provenance architecture and possible source of explicitly cleared public exports","import_policy":"explicit_public_export_only"},
+    {"id":"source.qsol_context","repository":"https://github.com/QSOLKCB/QSOL-CONTEXT","role":"context-selection/provenance architecture and possible source of explicitly cleared public exports","import_policy":"explicit_public_export_only","clearance_evidence_required":true},
     {"id":"source.related_repositories","repository":"https://github.com/QSOLKCB","role":"candidate specimen sources","import_policy":"per_artifact_snapshot_with_commit_path_hash_license_and_epistemic_class"}
   ],
   "required_import_fields": ["source_id","source_repository","source_ref_or_commit","source_path_or_artifact","source_hash_when_available","license","visibility","epistemic_class","canonical_or_derived"],
-  "fail_closed_conditions": ["unknown_visibility","unknown_license","ambiguous_provenance","private_context_without_explicit_public_export","unclear_canonical_status"]
+  "source_specific_requirements": {
+    "source.qsol_context": {
+      "required_fields": ["public_export_clearance"],
+      "clearance_rule": "public_export_clearance must identify an explicit public-export decision or commit-bound/export-manifest receipt; visibility=public alone is insufficient"
+    }
+  },
+  "fail_closed_conditions": ["unknown_visibility","unknown_license","ambiguous_provenance","private_context_without_explicit_public_export","qsol_context_missing_public_export_clearance","unclear_canonical_status"]
 }
