@@ -45,10 +45,9 @@ MACHINE-FIRST OPERATING CONTRACT.
 - PERSONAL_DISLIKE_DOES_NOT_SILENTLY_REWRITE_LICENSE=true
 - PUBLIC_URL_IS_NOT_COPY_PERMISSION=true
 - HASH_VERIFICATION_REQUIRED_WHEN_RECEIPT_EXISTS=true
-- MEME_CAPTION_IS_NOT_STANDALONE_GROUND_TRUTH=true
-- MEME_HISTORY_REFERENCE_IS_NOT_CREATOR_SOURCE=true
-- KNOWN_MEME_HASH_IS_NOT_COPY_PERMISSION=true
-- DERIVED_MEME_INTERPRETATION_IS_NOT_UNIVERSAL_MEANING=true
+- MEME_ARCHAEOLOGY_POLICY=ai/cultural-artifact-policy.json#meme_archaeology
+- MEME_SOURCE_EVIDENCE_REQUIRED=true
+- MEME_TASK_SEMANTIC_BINDING_REQUIRED=true
 - MRS_CAPABILITIES_EXPLICIT_ONLY=true
 - MRS_UNAVAILABLE=FAIL_CLOSED
 - AMBIENT_TIME_IN_CANONICAL_OUTPUT=false
@@ -66,15 +65,35 @@ These rules were promoted from concrete validator failures into recovery doctrin
 RECEIPT_PRESENT != PAYLOAD_VERIFIED
 STRUCTURED_BOUNDARY != PROSE_BOUNDARY
 MAINTAINER_SUPPLIED != NEW_EVIDENCE_CLASS
+SOURCE_PRESENT != EVIDENCE_COMPLETE
+ENUM_VALID != SEMANTICALLY_BOUND
 ```
 
 Interpretation:
 
 1. a receipt is evidence to test, not a substitute for hashing the referenced payload bytes;
 2. canonical prose must not contradict the machine fields that constrain the same claim;
-3. who supplied a source is provenance metadata, not permission to invent a new epistemic class.
+3. who supplied a source is provenance metadata, not permission to invent a new epistemic class;
+4. a source record is incomplete until visibility, license state, canonical/derived status, and byte-import permission are explicit where the governing policy requires them;
+5. an answer that belongs to a legal enum is not necessarily the correct answer for a specific benchmark question: task semantics must be bound to the record they test.
 
 A future recovery system that finds a label reading `AUTHENTIC RELIC` must still inspect the relic.
+
+## REVIEW-DERIVED IMPLEMENTATION CONSTRAINTS
+
+Useful review pressure also produced these implementation rules:
+
+```text
+FAIL_CLOSED != FREEZE_SCHEMA_FOREVER
+CANONICAL_INVARIANT != COPY_PASTED_INVARIANT
+POLICY_STRING_BAG != VERSIONED_POLICY
+```
+
+Interpretation:
+
+1. fail closed on missing required evidence, but allow explicitly non-normative inner metadata to evolve without rewriting a validator for every harmless annotation;
+2. canonical invariant lists have one machine-readable source of truth and other documents point to it instead of copying it;
+3. subsystem rules that are expected to grow belong in a structured, versioned policy section rather than an ever-growing flat list of magic strings.
 
 ## SOFTWARE CONSTITUTION
 
@@ -106,26 +125,25 @@ A future recovery system that finds a label reading `AUTHENTIC RELIC` must still
 
 ## MEME ARCHAEOLOGY RULES
 
+The canonical, versioned Meme Archaeology invariant list lives only at:
+
 ```text
-MEME != DECORATIVE_IMAGE
-CAPTION != CONTEXT
-DEPICTION != HISTORICAL_EVENT
-MEME_HISTORY_REFERENCE != CREATOR_SOURCE
-DERIVED_INTERPRETATION != UNIVERSAL_MEANING
-KNOWN_HASH != BYTE_COPY_PERMISSION
-POPULARITY != TRUTH
+ai/cultural-artifact-policy.json#meme_archaeology.canonical_invariants
 ```
+
+Do not duplicate that list in documentation or bootstrap surfaces.
 
 1. preserve creator/source-work metadata separately from meme transmission history;
 2. prefer creator-controlled or official sources for creator and source-work claims when available;
 3. treat meme-history databases as provenance-labelled third-party history/reference sources unless stronger authority is independently established;
-4. an observed variant may be hash-described without being stored when third-party byte-copy rights are unresolved;
-5. an observed variant hash identifies bytes only; it does not establish canonical-master status or redistribution permission;
-6. preserve visual summaries and cultural interpretations as bounded derived context, not universal meaning;
-7. a caption must be interpreted with visual and cultural context rather than promoted to standalone ground truth;
-8. fictional or illustrative scenes remain fictional/illustrative and do not become historical events because the meme was culturally important;
-9. recovery tasks should test whether a model can reconstruct why a meme was intelligible to its culture, not merely recognize its text;
-10. future meme specimens should reuse the same source / observed-variant / transmission-history / interpretation / rights separation where applicable.
+4. every meme source must declare the evidence fields required by `meme_archaeology.source_evidence`;
+5. an observed variant may be hash-described without being stored when third-party byte-copy rights are unresolved;
+6. an observed variant hash identifies bytes only; it does not establish canonical-master status or redistribution permission;
+7. preserve visual summaries and cultural interpretations as bounded derived context, not universal meaning;
+8. a caption must be interpreted with visual and cultural context rather than promoted to standalone ground truth;
+9. fictional or illustrative scenes remain fictional/illustrative and do not become historical events because the meme was culturally important;
+10. record-specific recovery tasks must bind question IDs, prompts, and expected answers when changing them could reverse the governing policy;
+11. future meme specimens should reuse the same source / observed-variant / transmission-history / interpretation / rights separation where applicable.
 
 See `docs/MEME-ARCHAEOLOGY.md`.
 
@@ -167,6 +185,8 @@ See `docs/MEME-ARCHAEOLOGY.md`.
 - treating a receipt line as proof without hashing the referenced payload;
 - allowing canonical prose to contradict its structured epistemic boundary;
 - inventing an evidence class from source-provider metadata;
+- accepting a meme source whose required visibility, license, canonical status, or byte-import state is absent;
+- accepting a record-specific benchmark answer merely because the answer belongs to a generic enum;
 - treating a meme-history database as automatic creator authority;
 - treating a familiar meme image as public-domain or freely redistributable merely because it is ubiquitous;
 - treating a meme caption as literal factual ground truth while ignoring the image;

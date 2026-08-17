@@ -68,6 +68,10 @@
       "role": "official_metadata",
       "url": "https://gunshowcomic.com/648",
       "verification_status": "retrieved_2026-08-18",
+      "visibility": "public",
+      "license_status": "rights_unresolved_reference_only",
+      "canonical_status": "canonical_for_declared_supports",
+      "byte_import_allowed": false,
       "supports": [
         "source_title",
         "source_work",
@@ -79,6 +83,10 @@
       "role": "official_metadata",
       "url": "https://gunshowcomic.com/archive.php",
       "verification_status": "retrieved_2026-08-18",
+      "visibility": "public",
+      "license_status": "rights_unresolved_reference_only",
+      "canonical_status": "canonical_for_declared_supports",
+      "byte_import_allowed": false,
       "supports": [
         "publication_date",
         "source_title"
@@ -89,6 +97,10 @@
       "role": "official_metadata",
       "url": "https://gunshowcomic.com/about.html",
       "verification_status": "retrieved_2026-08-18",
+      "visibility": "public",
+      "license_status": "rights_unresolved_reference_only",
+      "canonical_status": "canonical_for_declared_supports",
+      "byte_import_allowed": false,
       "supports": [
         "creator",
         "source_work"
@@ -100,7 +112,10 @@
       "url": "https://knowyourmeme.com/memes/this-is-fine",
       "provided_by": "maintainer",
       "verification_status": "retrieved_2026-08-18",
+      "visibility": "public",
       "license_status": "third_party_reference_only",
+      "canonical_status": "noncanonical_history_reference",
+      "byte_import_allowed": false,
       "source_bytes_copied": false,
       "supports": [
         "meme_status",
@@ -114,6 +129,10 @@
       "role": "third_party_reference",
       "provided_by": "maintainer",
       "verification_status": "observed_at_ingest_2026-08-18",
+      "visibility": "ingest_observation_only",
+      "license_status": "rights_unresolved_reference_only",
+      "canonical_status": "observed_noncanonical_variant",
+      "byte_import_allowed": false,
       "sha256": "774bc388e814d66c075ff2126edf876a3fa7d32c61cc59542770cdc8d5e6cdaf",
       "byte_length": 41642,
       "media_type": "image/webp",

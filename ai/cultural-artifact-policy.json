@@ -29,13 +29,7 @@
     "unavailable_source_is_not_contradicted_source",
     "derived_interpretation_must_remain_labelled_derived",
     "cultural_significance_does_not_upgrade_folklore_or_fiction_to_fact",
-    "cultural_parallel_is_not_naming_provenance",
-    "meme_caption_is_not_standalone_ground_truth",
-    "depicted_scene_is_not_historical_event_evidence",
-    "known_hash_does_not_grant_byte_copy_permission",
-    "derived_meme_interpretation_is_not_universal_meaning",
-    "meme_history_reference_is_not_creator_source",
-    "meme_transmission_history_must_remain_provenanced"
+    "cultural_parallel_is_not_naming_provenance"
   ],
   "provenance_thresholds": {
     "general_cultural_pattern": "documented source or explicitly labelled first-person recollection/interpretation",
@@ -46,10 +40,51 @@
     "meme_transmission_history": "provenanced third-party meme-history references may document spread and usage; creator and source-work metadata should prefer creator or official sources",
     "legal_or_security_claim": "strong explicit provenance required"
   },
+  "meme_archaeology": {
+    "policy_version": "1.0.0",
+    "canonical_invariants": [
+      "MEME != DECORATIVE_IMAGE",
+      "CAPTION != CONTEXT",
+      "DEPICTION != HISTORICAL_EVENT",
+      "MEME_HISTORY_REFERENCE != CREATOR_SOURCE",
+      "DERIVED_INTERPRETATION != UNIVERSAL_MEANING",
+      "KNOWN_HASH != BYTE_COPY_PERMISSION",
+      "POPULARITY != TRUTH"
+    ],
+    "source_evidence": {
+      "required_fields": [
+        "visibility",
+        "license_status",
+        "canonical_status",
+        "byte_import_allowed"
+      ],
+      "allowed_visibility": [
+        "public",
+        "ingest_observation_only"
+      ],
+      "allowed_license_status": [
+        "third_party_reference_only",
+        "rights_unresolved_reference_only"
+      ],
+      "allowed_canonical_status": [
+        "canonical_for_declared_supports",
+        "noncanonical_history_reference",
+        "observed_noncanonical_variant"
+      ],
+      "unresolved_rights_byte_import_allowed": false
+    },
+    "task_binding": {
+      "mode": "record_specific_exact",
+      "bind_fields": [
+        "id",
+        "prompt",
+        "expected"
+      ]
+    }
+  },
   "copyright": {
     "default_third_party_bytes": "do_not_copy_without_resolved_permission_or_license",
     "metadata_links_hashes_and_paraphrase": "allowed_subject_to_normal_provenance_rules",
-    "known_hash_implies_copy_permission": false,
     "full_script_copy_without_permission": "forbidden"
   }
 }

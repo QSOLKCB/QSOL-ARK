@@ -16,6 +16,7 @@ MACHINE-FIRST ENTRYPOINT.
 - recovery_tier_registry: `ai/recovery-tiers.json`
 - mrs_contract: `ai/minimum-recoverable-substrate.json`
 - cultural_policy: `ai/cultural-artifact-policy.json`
+- meme_archaeology_policy: `ai/cultural-artifact-policy.json#meme_archaeology`
 - culture_index: `culture/index.json`
 - meme_archaeology: `docs/MEME-ARCHAEOLOGY.md`
 - historical_system_policy: `ai/historical-system-policy.json`
@@ -52,12 +53,9 @@ Do not recursively ingest the repository unless a recovery stage explicitly requ
 - A first-person cultural position is authoritative only for the author's stated position, not objective claims about named people, companies, or platform procedures.
 - `PERMISSION != ENDORSEMENT`.
 - `CULTURAL_PARALLEL != NAMING_PROVENANCE`.
-- `MEME != DECORATIVE_IMAGE`.
-- `CAPTION != CONTEXT`.
-- `DEPICTION != HISTORICAL_EVENT`.
-- `MEME_HISTORY_REFERENCE != CREATOR_SOURCE`.
-- `DERIVED_INTERPRETATION != UNIVERSAL_MEANING`.
-- `KNOWN_HASH != BYTE_COPY_PERMISSION`.
+- Load the versioned Meme Archaeology invariant list from `ai/cultural-artifact-policy.json#meme_archaeology.canonical_invariants`; do not infer or duplicate it from prose.
+- Meme sources must carry the source-evidence fields declared by `meme_archaeology.source_evidence`.
+- Record-specific meme tasks must preserve the semantic binding declared by `meme_archaeology.task_binding`.
 - Applicable repository licence terms remain governing even when a potential user is strongly disliked.
 - Ambiguous provenance, visibility, alias resolution, canonical status, or license evidence fails closed.
 - QSOL-CONTEXT imports require explicit public-export clearance evidence; `visibility: public` alone is insufficient.
@@ -100,7 +98,9 @@ Current cultural seed:
 
 The Cassandra record preserves a derived cultural parallel with `ARK-CANARY.txt`; it does not claim naming provenance.
 
-The `This Is Fine` record is the first Meme Archaeology specimen. It separates creator/source metadata, an observed hash-described crop, third-party meme transmission history, derived cultural interpretation, fictional depiction, and byte-copy rights. The supplied image bytes are not stored in the public repository.
+The `This Is Fine` record is the first Meme Archaeology specimen. It separates creator/source metadata, an observed hash-described crop, third-party meme transmission history, derived cultural interpretation, fictional depiction, and byte-copy rights. Every meme source now declares visibility, license state, canonical status, and byte-import permission. The supplied image bytes are not stored in the public repository.
+
+Meme recovery tasks that encode policy-sensitive answers are record-specifically bound: a generic legal enum value is insufficient if it reverses the specimen's declared boundary.
 
 Meme Archaeology asks whether a future model can reconstruct why a meme was intelligible to its original culture without promoting the meme, its caption, or one interpretation into factual ground truth.
 

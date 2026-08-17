@@ -10,6 +10,7 @@ mod = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader is not None
 SPEC.loader.exec_module(mod)
 
+
 class CultureTests(unittest.TestCase):
     def ouroboros(self):
         return mod.load(ROOT / "culture/television/red-dwarf/ouroboros.json")
@@ -19,6 +20,9 @@ class CultureTests(unittest.TestCase):
 
     def this_is_fine(self):
         return mod.load(ROOT / "culture/memes/this-is-fine.json")
+
+    def this_is_fine_task(self):
+        return mod.load(ROOT / "culture/tasks/this-is-fine-boundary.json")
 
     def position(self):
         return mod.load(ROOT / "culture/positions/permission-not-endorsement.json")
@@ -91,9 +95,7 @@ class CultureTests(unittest.TestCase):
 
     def test_cassandra_parallel_prose_cannot_invent_naming_history(self):
         record = self.cassandra()
-        record["cultural_context"]["ark_parallel"]["description"] = (
-            "ARK-CANARY was named after the Red Dwarf Canaries."
-        )
+        record["cultural_context"]["ark_parallel"]["description"] = "ARK-CANARY was named after the Red Dwarf Canaries."
         with self.assertRaisesRegex(ValueError, "ARK_CULTURAL_PARALLEL_DESCRIPTION_INVALID"):
             mod.validate_record(record)
 
@@ -132,9 +134,7 @@ class CultureTests(unittest.TestCase):
             capsule = temp_root / "capsules" / "minimal"
             capsule.mkdir(parents=True)
             (capsule / "ARK-CANARY.txt").write_text("ALTERED CANARY\n", encoding="utf-8")
-            (capsule / "SHA256SUMS").write_text(
-                f"{mod.ARK_CANARY_SHA256}  ARK-CANARY.txt\n", encoding="utf-8"
-            )
+            (capsule / "SHA256SUMS").write_text(f"{mod.ARK_CANARY_SHA256}  ARK-CANARY.txt\n", encoding="utf-8")
             old_root = mod.ROOT
             mod.ROOT = temp_root
             try:
@@ -204,6 +204,63 @@ class CultureTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "ARK_MEME_OBSERVED_CROP_INVALID"):
             mod.validate_record(record)
 
+    def test_meme_sources_declare_complete_evidence_state(self):
+        record = self.this_is_fine()
+        for source in record["sources"]:
+            with self.subTest(source=source["id"]):
+                self.assertTrue(mod.MEME_SOURCE_EVIDENCE_FIELDS.issubset(source))
+                mod.validate_meme_source_evidence(source)
+
+    def test_meme_source_missing_evidence_fails_closed(self):
+        record = self.this_is_fine()
+        source = record["sources"][0]
+        del source["visibility"]
+        with self.assertRaisesRegex(ValueError, "ARK_MEME_SOURCE_EVIDENCE_INCOMPLETE"):
+            mod.validate_record(record)
+
+    def test_meme_source_canonical_status_is_bound(self):
+        record = self.this_is_fine()
+        source = next(s for s in record["sources"] if s["id"] == "source.knowyourmeme.this_is_fine")
+        source["canonical_status"] = "canonical_for_declared_supports"
+        with self.assertRaisesRegex(ValueError, "ARK_MEME_HISTORY_SOURCE_INVALID"):
+            mod.validate_record(record)
+
+    def test_meme_task_answer_is_semantically_bound(self):
+        task = self.this_is_fine_task()
+        next(q for q in task["questions"] if q["id"] == "meme-04")["expected"] = "yes"
+        with self.assertRaisesRegex(ValueError, "ARK_CULTURE_TASK_BINDING_INVALID"):
+            mod.validate_task(task, self.known_records())
+
+    def test_meme_task_prompt_and_answer_cannot_drift_together(self):
+        task = self.this_is_fine_task()
+        q = next(q for q in task["questions"] if q["id"] == "meme-04")
+        q["prompt"] = "Does a known hash prove redistribution permission?"
+        q["expected"] = "yes"
+        with self.assertRaisesRegex(ValueError, "ARK_CULTURE_TASK_BINDING_INVALID"):
+            mod.validate_task(task, self.known_records())
+
+    def test_meme_record_allows_benign_inner_metadata_extension(self):
+        record = self.this_is_fine()
+        record["real_world_metadata"]["archive_note"] = "non-normative extension"
+        record["cultural_context"]["regional_notes"] = []
+        record["rights"]["review_note"] = "non-normative extension"
+        mod.validate_record(record)
+
+    def test_meme_policy_is_structured_and_versioned(self):
+        policy = mod.load(ROOT / "ai/cultural-artifact-policy.json")
+        meme = policy["meme_archaeology"]
+        self.assertEqual(meme["policy_version"], mod.MEME_POLICY_VERSION)
+        self.assertEqual(set(meme["canonical_invariants"]), mod.MEME_INVARIANTS)
+        self.assertEqual(set(meme["source_evidence"]["required_fields"]), mod.MEME_SOURCE_EVIDENCE_FIELDS)
+        mod.validate_policy(policy)
+
+    def test_meme_invariant_list_has_one_machine_source(self):
+        for rel in ["README.md", "README4AI.md", "AGENTS.md", "docs/MEME-ARCHAEOLOGY.md", "docs/COMPUTER-CULTURE.md"]:
+            text = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertNotIn("MEME != DECORATIVE_IMAGE", text, rel)
+        policy = mod.load(ROOT / "ai/cultural-artifact-policy.json")
+        self.assertIn("MEME != DECORATIVE_IMAGE", policy["meme_archaeology"]["canonical_invariants"])
+
     def test_permission_is_not_endorsement(self):
         record = self.position()
         self.assertFalse(record["normalized_position"]["permission_is_endorsement"])
@@ -262,6 +319,7 @@ class CultureTests(unittest.TestCase):
         for entry in index["tasks"]:
             task = mod.load(ROOT / entry["path"])
             mod.validate_task(task, known)
+
 
 if __name__ == "__main__":
     unittest.main()

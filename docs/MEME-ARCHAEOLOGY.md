@@ -17,17 +17,17 @@ CAN_MODEL_RECONSTRUCT_WHY_THIS_WAS_FUNNY
 WITHOUT_INVENTING_HISTORY_OR_UNIVERSAL_MEANING
 ```
 
-## Core invariants
+## Canonical policy
+
+The machine-readable Meme Archaeology policy is the single source of truth:
 
 ```text
-MEME != DECORATIVE_IMAGE
-CAPTION != CONTEXT
-DEPICTION != HISTORICAL_EVENT
-MEME_HISTORY_REFERENCE != CREATOR_SOURCE
-DERIVED_INTERPRETATION != UNIVERSAL_MEANING
-KNOWN_HASH != BYTE_COPY_PERMISSION
-POPULARITY != TRUTH
+ai/cultural-artifact-policy.json#meme_archaeology
 ```
+
+Its `policy_version`, `canonical_invariants`, `source_evidence`, and `task_binding` fields are normative. This document explains those rules but does not duplicate the canonical invariant list.
+
+That separation is deliberate: machine policy should not drift because the same slogans were copied into several READMEs.
 
 ## Recovery layers
 
@@ -38,6 +38,8 @@ A meme record should separate at least five layers.
 Who created the source material, what work it came from, and when it was published.
 
 Prefer creator-controlled or official sources for this layer when available.
+
+Each source must also state the evidence fields required by `meme_archaeology.source_evidence`, including visibility, license status, canonical status, and byte-import permission.
 
 ### 2. Observed variant
 
@@ -70,6 +72,8 @@ This layer may include derived interpretation, but ARK must label it as derived.
 
 The benchmark should test whether a model can distinguish all of the above rather than merely recognize the caption or image.
 
+Policy-sensitive meme tasks use record-specific semantic binding. A question/answer pair is not valid merely because its answer belongs to the generic enum; changing an expected answer so that it reverses the specimen's policy boundary must fail validation.
+
 ## Seed specimen: “This Is Fine”
 
 Record:
@@ -85,6 +89,19 @@ The supplied two-panel WebP crop was observed at ingest and hash-described, but 
 The record also uses Know Your Meme as a provenance-labelled third-party source for meme transmission history: origin/spread documentation, reaction-image use, and later adaptation. That history source is not promoted into creator authority.
 
 The benchmark deliberately asks whether a recovering model can understand that the phrase `THIS IS FINE.` means something different when read together with a visibly burning room than it does as isolated text.
+
+The source records now make their evidence state explicit. Creator-controlled web references are public but have unresolved byte-copy rights; the Know Your Meme entry is a noncanonical history reference; the maintainer-supplied crop is an ingest-only observed variant and is not claimed as a canonical master.
+
+## Validator evolution
+
+Fail-closed validation and schema evolution are not opposites.
+
+The meme validator binds policy-sensitive semantics — source identities, creator metadata, rights boundaries, source evidence state, core interpretation, and task answers — while allowing explicitly non-normative inner annotations to be added later without rewriting the entire validator.
+
+This avoids two failure modes:
+
+- accepting missing evidence because a record happens to parse;
+- freezing every descriptive object forever because validation used whole-dictionary equality.
 
 ## Why this matters
 

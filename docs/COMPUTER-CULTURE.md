@@ -44,19 +44,23 @@ A successful canary verification is also intentionally narrow. It does not prove
 
 ### Codex-derived archaeological invariants
 
-Three review failures were useful enough to promote into general recovery rules:
+Review failures useful enough to promote into general recovery rules now include:
 
 ```text
 RECEIPT_PRESENT != PAYLOAD_VERIFIED
 STRUCTURED_BOUNDARY != PROSE_BOUNDARY
 MAINTAINER_SUPPLIED != NEW_EVIDENCE_CLASS
+SOURCE_PRESENT != EVIDENCE_COMPLETE
+ENUM_VALID != SEMANTICALLY_BOUND
 ```
 
 In recovery terms:
 
 - a checksum receipt must be tested against the referenced bytes;
 - prose that carries epistemic meaning must agree with the machine boundary governing that claim;
-- source-provider metadata and evidence classification are separate dimensions.
+- source-provider metadata and evidence classification are separate dimensions;
+- a listed source is incomplete when policy-required evidence state is absent;
+- a benchmark answer is not correct merely because it belongs to the allowed answer enum.
 
 A future archaeologist finding a plaque marked **AUTHENTIC RELIC** should not consider the authentication phase complete.
 
@@ -79,17 +83,13 @@ This is intentional. The image is third-party copyrighted material and ARK does 
 
 Know Your Meme is retained as a provenance-labelled `third_party_reference` for **meme transmission history**: origin/spread documentation, reaction-image use, and later cultural adaptation. It is not promoted into creator authority.
 
-The machine boundary is:
+The canonical Meme Archaeology invariant list is versioned only in:
 
 ```text
-MEME != DECORATIVE_IMAGE
-CAPTION != CONTEXT
-DEPICTION != HISTORICAL_EVENT
-MEME_HISTORY_REFERENCE != CREATOR_SOURCE
-DERIVED_INTERPRETATION != UNIVERSAL_MEANING
-KNOWN_HASH != BYTE_COPY_PERMISSION
-POPULARITY != TRUTH
+ai/cultural-artifact-policy.json#meme_archaeology.canonical_invariants
 ```
+
+This documentation explains the method rather than copying the machine list. Every source in the meme record now declares visibility, license state, canonical status, and byte-import permission, and the policy-sensitive recovery questions are bound to their exact prompts and expected answers.
 
 The core recovery challenge is intentionally simple to state and difficult to fake: a model that reads only the caption `THIS IS FINE.` has missed the artifact. It must integrate the caption with the visibly burning room, understand that the contrast carries ironic cultural meaning, preserve that interpretation as derived rather than universal, and still distinguish the fictional scene from real-world publication history.
 
@@ -118,11 +118,13 @@ A successful model should distinguish:
 - third-party transcript/reference status;
 - creator/source authority from meme transmission-history references;
 - observed media identity from redistribution rights;
+- source presence from complete evidence state;
 - source provider from evidence class;
 - derived cultural interpretation;
 - cultural parallel versus naming provenance;
 - caption text from visual context;
 - common meme meaning from universal meaning;
+- generic answer validity from record-specific semantic correctness;
 - structured claim boundaries from prose that must remain consistent with them;
 - receipt presence from payload verification;
 - first-person opinion;

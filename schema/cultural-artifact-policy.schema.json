@@ -11,17 +11,47 @@
     "evidence_classes",
     "rules",
     "provenance_thresholds",
+    "meme_archaeology",
     "copyright"
   ],
   "properties": {
-    "type": {
-      "const": "qsol-ark-cultural-artifact-policy"
-    },
-    "protocol": {
-      "const": "QSOL-ARK"
-    },
-    "schema_version": {
-      "const": "0.1.0"
+    "type": {"const": "qsol-ark-cultural-artifact-policy"},
+    "protocol": {"const": "QSOL-ARK"},
+    "schema_version": {"const": "0.1.0"},
+    "meme_archaeology": {
+      "type": "object",
+      "required": ["policy_version", "canonical_invariants", "source_evidence", "task_binding"],
+      "properties": {
+        "policy_version": {"const": "1.0.0"},
+        "canonical_invariants": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "source_evidence": {
+          "type": "object",
+          "required": [
+            "required_fields",
+            "allowed_visibility",
+            "allowed_license_status",
+            "allowed_canonical_status",
+            "unresolved_rights_byte_import_allowed"
+          ]
+        },
+        "task_binding": {
+          "type": "object",
+          "required": ["mode", "bind_fields"],
+          "properties": {
+            "mode": {"const": "record_specific_exact"},
+            "bind_fields": {
+              "type": "array",
+              "contains": {"const": "id"},
+              "minContains": 1
+            }
+          }
+        }
+      }
     }
   }
 }
