@@ -74,7 +74,7 @@
     },
     {
       "id": "source.wikipedia.cassandra_red_dwarf",
-      "role": "maintainer_supplied_reference",
+      "role": "third_party_reference",
       "url": "https://en.wikipedia.org/wiki/Cassandra_(Red_Dwarf)",
       "provided_by": "maintainer",
       "verification_status": "maintainer_supplied_2026-08-18",
