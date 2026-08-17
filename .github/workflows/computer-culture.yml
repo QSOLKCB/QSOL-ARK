@@ -1,0 +1,29 @@
+name: Computer Cultural Artifacts
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  culture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate cultural records
+        run: python3 tools/culture.py
+      - name: Run cultural regression tests
+        run: python3 -m unittest tests.test_culture -v
+      - name: Parse cultural JSON
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for root in (Path('culture'),):
+              for path in root.rglob('*.json'):
+                  json.loads(path.read_text(encoding='utf-8'))
+                  print(path)
+          json.loads(Path('ai/cultural-artifact-policy.json').read_text(encoding='utf-8'))
+          PY

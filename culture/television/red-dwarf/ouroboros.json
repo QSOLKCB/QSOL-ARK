@@ -1,0 +1,81 @@
+{
+  "type": "qsol-ark-cultural-record",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.1.0",
+  "id": "culture.television.red_dwarf.ouroboros",
+  "record_type": "cultural_artifact",
+  "artifact_class": "narrative_media",
+  "medium": "television_episode",
+  "era": [
+    "1990s"
+  ],
+  "title": "Ouroboros",
+  "work": "Red Dwarf",
+  "reconstruction_target": "cultural_meaning_and_evidence_boundaries",
+  "epistemic_status": "documented_with_derived_interpretation",
+  "real_world_metadata": {
+    "series": 7,
+    "episode": 3,
+    "first_broadcast": "1997-01-31",
+    "written_by": [
+      "Doug Naylor"
+    ],
+    "directed_by": [
+      "Ed Bye"
+    ]
+  },
+  "cultural_context": {
+    "genres": [
+      "british_science_fiction_comedy",
+      "television"
+    ],
+    "topics": [
+      "identity",
+      "alternate_realities",
+      "ouroboros_symbolism",
+      "self_reference_and_causal_loop_interpretation"
+    ],
+    "interpretation_status": "derived_interpretation_not_production_metadata"
+  },
+  "fiction_boundary": {
+    "narrative_events_are": "fictional_world_claims",
+    "narrative_events_are_historical_evidence": false,
+    "production_metadata_is_real_world_history": true
+  },
+  "rights": {
+    "third_party_copyright": true,
+    "license_status": "not_authorized_for_copy",
+    "source_bytes_copied": false,
+    "script_text_copied": false
+  },
+  "sources": [
+    {
+      "id": "source.red_dwarf.official.ouroboros",
+      "role": "official_metadata",
+      "url": "https://reddwarf.co.uk/episodes/ouroboros/",
+      "verification_status": "retrieved_2026-08-17",
+      "supports": [
+        "series",
+        "episode",
+        "first_broadcast",
+        "written_by",
+        "directed_by"
+      ]
+    },
+    {
+      "id": "source.cervenytrpaslik.ouroboros_transcript",
+      "role": "third_party_reference",
+      "url": "http://www.cervenytrpaslik.cz/scenare/EN-39-7_Ouroboros.htm",
+      "provided_by": "maintainer",
+      "verification_status": "unavailable_at_ingest",
+      "license_status": "unknown",
+      "source_bytes_copied": false
+    }
+  ],
+  "recovery_questions": [
+    "distinguish real-world production metadata from fictional-world narrative claims",
+    "explain why a transcript reference is not the canonical audiovisual master",
+    "preserve cultural interpretation without promoting it to production metadata",
+    "recognize that checksum integrity would not make fictional events historical facts"
+  ]
+}

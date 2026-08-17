@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QSOL-ARK Cultural Record",
+  "type": "object",
+  "required": [
+    "type",
+    "protocol",
+    "schema_version",
+    "id",
+    "record_type",
+    "artifact_class"
+  ],
+  "properties": {
+    "type": {
+      "const": "qsol-ark-cultural-record"
+    },
+    "protocol": {
+      "const": "QSOL-ARK"
+    },
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "record_type": {
+      "enum": [
+        "cultural_artifact",
+        "authored_cultural_position"
+      ]
+    },
+    "artifact_class": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

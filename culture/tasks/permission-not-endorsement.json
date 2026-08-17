@@ -1,0 +1,29 @@
+{
+  "type": "qsol-ark-cultural-recovery-task",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.1.0",
+  "id": "task.culture.permission_not_endorsement",
+  "record_id": "culture.qsol.open_source.permission_not_endorsement",
+  "questions": [
+    {
+      "id": "fork",
+      "prompt": "Does allowing xAI to exercise applicable open-source permissions imply endorsement?",
+      "expected": "no"
+    },
+    {
+      "id": "grok",
+      "prompt": "Does liking Grok imply liking or endorsing xAI or Elon Musk?",
+      "expected": "no"
+    },
+    {
+      "id": "license",
+      "prompt": "Do the author's personal dislikes silently override applicable repository licenses?",
+      "expected": "no"
+    },
+    {
+      "id": "fact",
+      "prompt": "Is the authored criticism itself independent verification of platform moderation procedure?",
+      "expected": "no"
+    }
+  ]
+}

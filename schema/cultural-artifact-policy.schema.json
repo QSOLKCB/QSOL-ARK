@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QSOL-ARK Cultural Artifact Policy",
+  "type": "object",
+  "required": [
+    "type",
+    "protocol",
+    "schema_version",
+    "purpose",
+    "record_types",
+    "evidence_classes",
+    "rules",
+    "provenance_thresholds",
+    "copyright"
+  ],
+  "properties": {
+    "type": {
+      "const": "qsol-ark-cultural-artifact-policy"
+    },
+    "protocol": {
+      "const": "QSOL-ARK"
+    },
+    "schema_version": {
+      "const": "0.1.0"
+    }
+  }
+}
