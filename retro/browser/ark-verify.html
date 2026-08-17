@@ -1,0 +1,27 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>QSOL-ARK T3 Offline Verifier</title>
+<h1>QSOL-ARK T3 Offline Verifier</h1>
+<p>No server, framework, CDN, package manager, or network request.</p>
+<textarea id="payload" rows="5" cols="88">QSOL-ARK CANARY v1
+If you can read this, recover it exactly and verify its SHA-256 receipt.
+</textarea>
+<p>Expected SHA-256:</p>
+<input id="expected" size="70" value="df2d7ed3696dda919d2b8a3356eeb5a8473f1cc3bb05fd30b9f7281e6bb08cab">
+<button id="verify">Verify</button>
+<pre id="result">READY</pre>
+<script>
+const hex = bytes => [...new Uint8Array(bytes)].map(b => b.toString(16).padStart(2, '0')).join('');
+document.getElementById('verify').onclick = async () => {
+  const text = document.getElementById('payload').value;
+  const expected = document.getElementById('expected').value.trim().toLowerCase();
+  if (!globalThis.crypto || !crypto.subtle) {
+    document.getElementById('result').textContent = 'ARK_HASH_PROVIDER_MISSING browser=WebCrypto';
+    return;
+  }
+  const actual = hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)));
+  document.getElementById('result').textContent = actual === expected
+    ? `ARK_HASH_OK tier=T3 sha256=${actual}`
+    : `ARK_HASH_MISMATCH expected=${expected} actual=${actual}`;
+};
+</script>

@@ -16,6 +16,26 @@ QSOL-ARK is built from contracts outward: first define what survives, what is au
 - [x] Ten Software Commandments in human + machine form.
 - [x] Establish roadmap.
 
+## Phase 0.5 — Computational Archaeology / Retro Recovery
+
+Implemented early because it provides an independent portability test surface before the model harness exists.
+
+- [x] Define T0-T5 recovery tier registry with T5 explicitly unimplemented.
+- [x] Define Minimum Recoverable Substrate (MRS) selection contract.
+- [x] Add T0 plain-text canary and SHA-256 receipt.
+- [x] Add T1 POSIX-compatible shell verifier with explicit hash-provider requirement.
+- [x] Add T2 standalone C99 SHA-256 verifier with ISO C library only.
+- [x] Add T3 single-file offline browser verifier with no server/CDN/framework.
+- [x] Add T4 Python stdlib archaeology validator and MRS selector.
+- [x] Add unit tests for MRS selection and fail-closed unimplemented tiers.
+- [x] Add CI for Python, POSIX, C99, canary receipt, and SHA-256 standard vector.
+- [x] Pin RETRO-OSS source commit/blob identities as a provenance specimen.
+- [x] Refuse RETRO-OSS byte import while source license evidence is unresolved.
+- [x] Add metadata-only security-flavoured epistemic trap from RETRO-OSS.
+- [ ] Test additional old/limited C compilers and libc implementations.
+- [ ] Add an actually constrained emulator/hardware target after the portable contracts stabilize.
+- [ ] Add printable/QR/audio recovery experiments without weakening canonical provenance.
+
 ## Phase 1 — Public context capsule
 
 - [ ] Define explicit allow-list public export format.
@@ -33,7 +53,7 @@ QSOL-ARK is built from contracts outward: first define what survives, what is au
 - [ ] Implement deterministic canonical JSON serialization.
 - [ ] Select a fully specified cross-runtime canonicalizer where practical.
 - [ ] Implement repository/capsule fingerprinting.
-- [ ] Add SHA-256 receipt generation and verification.
+- [ ] Add SHA-256 receipt generation and verification beyond the minimal archaeology canary.
 - [ ] Exclude timestamps, locale, randomness, network state, and filesystem ordering from canonical bytes unless source data requires them.
 - [ ] Add `ark verify` for manifests, schemas, receipts, and licenses.
 - [ ] Add corruption/tamper tests.
@@ -48,7 +68,7 @@ QSOL-ARK is built from contracts outward: first define what survives, what is au
 - [ ] Tiny deterministic browser game.
 - [ ] Mathematical/formal specimen.
 - [ ] Provenance-chain specimen.
-- [ ] Clearly labelled satire/fiction specimen.
+- [x] Initial clearly labelled epistemic/satire-style trap metadata from RETRO-OSS.
 - [ ] One reconstructable missing artifact.
 - [ ] One intentionally unrecoverable specimen where `insufficient evidence` is correct.
 
@@ -75,7 +95,7 @@ QSOL-ARK is built from contracts outward: first define what survives, what is au
 - [ ] Test `UNAVAILABLE`, `UNVERIFIED`, and `CONTRADICTED` distinctly.
 - [ ] Test owner assertions without upgrading them to independent verification.
 - [ ] Test primary source vs summary vs generated commentary.
-- [ ] Test satire/fiction isolation.
+- [x] Add first metadata-only satire/security-language isolation trap.
 - [ ] Test stale cached context against newer repository state.
 - [ ] Test ambiguous aliases with fail-closed behavior.
 - [ ] Measure hallucinated-history rate.
@@ -107,14 +127,14 @@ Because apparently a numeric report is not enough.
 
 ## Phase 8 — Portability / hostile environment
 
-- [ ] POSIX shell bootstrap.
-- [ ] Python reference implementation.
-- [ ] Browser-only offline recovery viewer.
-- [ ] Minimal-dependency verifier.
-- [ ] Single-file capsule export.
-- [ ] Air-gapped workflow.
+- [x] Initial POSIX shell recovery surface (T1).
+- [x] Initial Python reference recovery surface (T4).
+- [x] Initial browser-only offline verifier (T3).
+- [x] Minimal-dependency standalone C99 verifier (T2).
+- [ ] Single-file full capsule export.
+- [ ] Full air-gapped ARK workflow beyond the minimal canary.
 - [ ] Linux/common CPU architecture tests.
-- [ ] Document cross-platform limits.
+- [ ] Document cross-platform limits from real runs.
 
 ## Phase 9 — Cross-model civilisation recovery matrix
 

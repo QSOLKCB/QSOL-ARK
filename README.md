@@ -8,7 +8,7 @@ QSOL-ARK is a public, vendor-neutral recovery archive and benchmark. It asks whe
 
 **Maintainer:** Trent Slade (`EmergentMonk`), QSOL-IMC founder and maintainer. This identity is also declared canonically in `manifest.json` so cold-start recovery does not depend on repository-owner inference or undocumented model memory.
 
-The repository deliberately exposes two synchronized layers:
+The repository exposes two synchronized layers:
 
 - **Human layer:** `README.md`, `ROADMAP.md`, `docs/`
 - **AI/machine layer:** `README4AI.md`, `AGENTS.md`, `manifest.json`, `ai/`, `schema/`
@@ -28,6 +28,53 @@ A cold-start model should be able to determine from evidence:
 9. when the correct answer is **insufficient evidence**; and
 10. whether the result survives transfer across models and runtimes.
 
+## Computational Archaeology
+
+PR #2 adds the first executable recovery paths.
+
+> **How far can the computational environment collapse before ARK stops being independently verifiable?**
+
+| Tier | Environment | Status |
+|---|---|---|
+| T0 | plain text / printable bytes | implemented |
+| T1 | POSIX-compatible shell + SHA-256 provider | implemented |
+| T2 | standalone C99 + ISO C library | implemented |
+| T3 | single-file offline browser + Web Crypto | implemented |
+| T4 | Python standard library reference validator | implemented |
+| T5 | staged AI reconstruction | planned |
+
+The canonical registry is `ai/recovery-tiers.json`. The **Minimum Recoverable Substrate (MRS)** contract in `ai/minimum-recoverable-substrate.json` selects the lowest-rank implemented tier whose explicitly declared capabilities satisfy a request.
+
+The minimal canary is:
+
+```text
+capsules/minimal/ARK-CANARY.txt
+SHA-256 df2d7ed3696dda919d2b8a3356eeb5a8473f1cc3bb05fd30b9f7281e6bb08cab
+```
+
+Quick checks:
+
+```sh
+python3 tools/archaeology.py validate
+sh retro/posix/ark-verify.sh
+
+cc -std=c99 -O2 -Wall -Wextra -pedantic retro/c/ark-verify.c -o /tmp/ark-verify
+expected=$(awk '$2 == "ARK-CANARY.txt" { print $1; exit }' capsules/minimal/SHA256SUMS)
+/tmp/ark-verify capsules/minimal/ARK-CANARY.txt "$expected"
+```
+
+See [`docs/COMPUTATIONAL-ARCHAEOLOGY.md`](docs/COMPUTATIONAL-ARCHAEOLOGY.md).
+
+## RETRO-OSS archaeological source
+
+`QSOLKCB/RETRO-OSS` is used as a pinned provenance and epistemic specimen, **not copied as trusted source**.
+
+At the pinned commit, its README names `LICENSE` as a standard meta file, while the observed root snapshot contains no `LICENSE` entry. ARK therefore records the license evidence as unresolved and sets `byte_import_allowed=false`.
+
+The deliberately unserious security-flavoured `lambroast.py` is referenced by metadata and paraphrase as an epistemic trap: a recovery model should recognize that simulated quantum measurement, Python `hash()`, XOR, and parity are not evidence of quantum-secure authentication.
+
+See `specimens/retro-oss/` and `specimens/epistemic-traps/`.
+
 ## Repository layers
 
 | Layer | Entrypoint | Purpose |
@@ -38,7 +85,8 @@ A cold-start model should be able to determine from evidence:
 | Canonical | `manifest.json`, `ai/*.json` | structured authority and policy |
 | Schema | `schema/` | machine validation |
 | Protocol | `docs/RECOVERY-PROTOCOL.md` | staged examination |
-| Constitution | `docs/SOFTWARE-COMMANDMENTS.md` | the Ten Software Commandments |
+| Archaeology | `docs/COMPUTATIONAL-ARCHAEOLOGY.md` | constrained-environment recovery |
+| Constitution | `docs/SOFTWARE-COMMANDMENTS.md` | Ten Software Commandments |
 | Roadmap | `ROADMAP.md` | implementation sequence |
 
 ## Public context boundary
@@ -47,16 +95,12 @@ QSOL-ARK is **public by construction**.
 
 - Live QSOL-ARK repository state is authoritative for ARK software and contracts.
 - Public QSOL-SUBSTRATE payloads may be imported only as explicit provenance-tracked slices.
-- QSOL-CONTEXT may inform selection, provenance, and deterministic metadata discipline, but **must never be recursively copied or treated as automatically public**.
-- QSOL-CONTEXT records require explicit public-export clearance evidence; `visibility: public` alone is not sufficient authorization for ARK import.
-- Only material explicitly cleared for public export may enter an ARK capsule.
-- Repository software state overrides cached context about that software.
+- QSOL-CONTEXT may inform selection, provenance, and deterministic metadata discipline, but must never be recursively copied or treated as automatically public.
+- QSOL-CONTEXT records require explicit public-export clearance evidence; `visibility: public` alone is not sufficient authorization.
+- Third-party source bytes require resolved license evidence; ambiguity fails closed.
 - Derived bundles, embeddings, adapters, summaries, scorecards, sonifications, and model-specific projections are not canonical unless an explicit contract says otherwise.
-- Ambiguous visibility, provenance, or canonical status fails closed.
 
 ## The Ten Software Commandments
-
-ARK has rules. Naturally, they are engraved on digital stone tablets.
 
 1. **Thou shalt not write bloat.**
 2. **Thou shalt not hide state.**
@@ -71,39 +115,17 @@ ARK has rules. Naturally, they are engraved on digital stone tablets.
 
 The normative versions live in `docs/SOFTWARE-COMMANDMENTS.md` and `ai/software-commandments.json`.
 
-## Planned command
+## Planned model command
 
 ```sh
 ./ark awaken <model>
 ```
 
-This is a **planned interface**, not yet implemented. It will stage a cold-start recovery examination, capture evidence, score the run, and emit deterministic reports.
-
-A future report might look like:
-
-```text
-QSOL-ARK RECOVERY REPORT
-
-Identity reconstruction       100%
-Terminology reconstruction     97%
-Provenance discipline         100%
-Epistemic classification       94%
-Deterministic reproduction    100%
-Cross-domain contamination      0%
-Hallucinated history            0%
-Satire detection               88%
-
-CIVILISATION RECOVERY SCORE: 96.9%
-
-STATUS:
-Humanity may be rebooted.
-```
-
-And yes: a later phase deterministically sonifies the score.
+This remains a **planned interface**, not yet implemented.
 
 ## Status
 
-**Phase 0 — bootstrap.** The contracts come first. Executable recovery tooling and specimen packs come next.
+**Phase 0 complete. Computational Archaeology T0-T4 is implemented early as an independent portability track.** Public context capsules, canonical receipts, the broader specimen pack, and the staged model harness remain on the roadmap.
 
 See [`ROADMAP.md`](ROADMAP.md).
 

@@ -1,0 +1,2 @@
+QSOL-ARK CANARY v1
+If you can read this, recover it exactly and verify its SHA-256 receipt.
