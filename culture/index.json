@@ -14,6 +14,11 @@
       "record_type": "cultural_artifact"
     },
     {
+      "id": "culture.meme.this_is_fine",
+      "path": "culture/memes/this-is-fine.json",
+      "record_type": "cultural_artifact"
+    },
+    {
       "id": "culture.qsol.open_source.permission_not_endorsement",
       "path": "culture/positions/permission-not-endorsement.json",
       "record_type": "authored_cultural_position"
@@ -29,6 +34,11 @@
       "id": "task.culture.cassandra_ark_canary_boundary",
       "path": "culture/tasks/cassandra-canary-boundary.json",
       "record_id": "culture.television.red_dwarf.cassandra_canaries"
+    },
+    {
+      "id": "task.culture.this_is_fine_boundary",
+      "path": "culture/tasks/this-is-fine-boundary.json",
+      "record_id": "culture.meme.this_is_fine"
     },
     {
       "id": "task.culture.permission_not_endorsement",
