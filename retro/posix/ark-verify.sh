@@ -7,21 +7,48 @@ ROOT=$(CDPATH= cd "$SCRIPT_DIR/../.." && pwd)
 FILE=${1:-"$ROOT/capsules/minimal/ARK-CANARY.txt"}
 RECEIPT=${2:-"$ROOT/capsules/minimal/SHA256SUMS"}
 NAME=$(basename "$FILE")
-EXPECTED=$(awk -v name="$NAME" '$2 == name { print $1; exit }' "$RECEIPT")
 
+if [ ! -r "$RECEIPT" ]; then
+    echo "ARK_RECEIPT_UNAVAILABLE file=$RECEIPT" >&2
+    exit 2
+fi
+
+EXPECTED=$(awk -v name="$NAME" '$2 == name { print $1; exit }' "$RECEIPT")
 if [ -z "$EXPECTED" ]; then
     echo "ARK_RECEIPT_MISSING file=$NAME" >&2
     exit 2
 fi
 
+if [ ! -r "$FILE" ]; then
+    echo "ARK_INPUT_UNAVAILABLE file=$FILE" >&2
+    exit 2
+fi
+
 if command -v sha256sum >/dev/null 2>&1; then
-    ACTUAL=$(sha256sum "$FILE" | awk '{print $1}')
+    if ! OUTPUT=$(sha256sum "$FILE"); then
+        echo "ARK_HASH_PROVIDER_FAILED provider=sha256sum file=$FILE" >&2
+        exit 2
+    fi
+    ACTUAL=${OUTPUT%% *}
 elif command -v shasum >/dev/null 2>&1; then
-    ACTUAL=$(shasum -a 256 "$FILE" | awk '{print $1}')
+    if ! OUTPUT=$(shasum -a 256 "$FILE"); then
+        echo "ARK_HASH_PROVIDER_FAILED provider=shasum file=$FILE" >&2
+        exit 2
+    fi
+    ACTUAL=${OUTPUT%% *}
 elif command -v openssl >/dev/null 2>&1; then
-    ACTUAL=$(openssl dgst -sha256 "$FILE" | sed 's/^.*= //')
+    if ! OUTPUT=$(openssl dgst -sha256 "$FILE"); then
+        echo "ARK_HASH_PROVIDER_FAILED provider=openssl file=$FILE" >&2
+        exit 2
+    fi
+    ACTUAL=${OUTPUT##*= }
 else
     echo "ARK_HASH_PROVIDER_MISSING need=sha256sum|shasum|openssl" >&2
+    exit 2
+fi
+
+if [ -z "$ACTUAL" ]; then
+    echo "ARK_HASH_PROVIDER_INVALID_OUTPUT file=$FILE" >&2
     exit 2
 fi
 

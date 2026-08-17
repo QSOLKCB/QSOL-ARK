@@ -32,9 +32,85 @@ Implemented early because it provides an independent portability test surface be
 - [x] Pin RETRO-OSS source commit/blob identities as a provenance specimen.
 - [x] Refuse RETRO-OSS byte import while source license evidence is unresolved.
 - [x] Add metadata-only security-flavoured epistemic trap from RETRO-OSS.
+- [x] Reconcile implemented-tier state between the root manifest and recovery registry.
+- [x] Validate required provenance fields before reporting archaeology success.
+- [x] Validate the T3 embedded canary and digest against the canonical T0 receipt.
+- [x] Pin the canonical canary working-tree bytes against line-ending normalization.
+- [x] Preserve operational hash-provider/input failures as typed errors rather than contradictions.
 - [ ] Test additional old/limited C compilers and libc implementations.
 - [ ] Add an actually constrained emulator/hardware target after the portable contracts stabilize.
 - [ ] Add printable/QR/audio recovery experiments without weakening canonical provenance.
+
+## Planned preservation sequence — PR #3 to PR #5
+
+PR numbers below describe the intended delivery sequence, not the numbered implementation phases elsewhere in this roadmap.
+
+### PR #3 — Computer Cultural Artifacts
+
+**Question:** can a future system recover not only the bytes and protocols, but what those artifacts meant to the humans using them?
+
+- [ ] Define a compact machine-readable `computer_cultural_artifact` record.
+- [ ] Separate **executable artifact**, **cultural artifact**, and **historical claim** as distinct evidence classes.
+- [ ] Record era, environment, canonical terms, aliases, social role, observable behaviour, contextual meaning, source evidence, and reconstruction target.
+- [ ] Add home-computer / bedroom-coding culture specimens.
+- [ ] Add hacker / BBS / handle / phreaking-era historical culture specimens without operational intrusion instructions.
+- [ ] Add demoscene specimens: compos, intros, coder/graphician/musician roles, tracker music, procedural generation, and size constraints.
+- [ ] Add IRC / mIRC culture specimens: channels, ops, services, scripting, ASCII art, BNCs, and period terminology.
+- [ ] Add Usenet / early-net culture specimens: threads, netiquette, kill files, flames, quoting conventions, and slang.
+- [ ] Add tracker / computer-music culture specimens: `.MOD`, `.XM`, pattern grids, sample economy, and scene roles.
+- [ ] Add LAN culture specimens: BYOC, CRT-era hardware, clans, low-ping culture, case modding, and period vocabulary.
+- [ ] Include period-authentic text specimens such as `.NFO`, BBS text, IRC logs, Usenet-style posts, tracker-pattern renderings, and LAN-party notes.
+- [ ] Add `culture/myths/` classification for documented fact, contemporary account, community recollection, oral history, folklore, legend, joke, satire, and later retelling.
+- [ ] Require stronger provenance for named-person, legal, security, quotation, and "first ever" historical claims than for general cultural-pattern records.
+- [ ] Add cultural reconstruction tasks that test meaning rather than abbreviation expansion alone.
+- [ ] Add a derived Cultural Recovery Score with era identification, platform identification, slang reconstruction, social-role reconstruction, technical-context reconstruction, anachronism rate, and myth-to-fact promotion rate.
+- [ ] Score explicit uncertainty above confident historical invention when evidence is insufficient.
+
+### PR #4 — Preserve the Ancient Systems
+
+**Question:** can ARK preserve enough of an extinct execution environment that future systems can understand how software actually ran there?
+
+- [ ] Define a machine-readable `historical_computing_system` profile.
+- [ ] Record CPU family, word size, endianness, address space, memory map, storage model, display hardware, audio hardware, input model, executable/load format, filesystem, boot process, programming environment, timing constraints, and ROM/OS assumptions where supported.
+- [ ] Distinguish hardware fact, documented software behaviour, emulator behaviour, compatibility-layer behaviour, and reconstruction inference.
+- [ ] Add initial system capsules for representative home-computer, DOS/PC, CP/M, early Unix, Amiga/Atari-class, and other historically useful environments where evidence is sufficient.
+- [ ] Pair each system with the smallest useful recovery specimen rather than embedding entire copyrighted ROM/software archives.
+- [ ] Record emulator or reimplementation identity, version, source, license, and fidelity limitations when used.
+- [ ] Define **Historical Recovery Equivalence** classes:
+  - exact reproduction;
+  - functional equivalence;
+  - historically plausible approximation;
+  - emulator-assisted reproduction;
+  - modern compatibility layer;
+  - impossible / unsupported.
+- [ ] Map ancient-system capabilities to the Computational Archaeology tiers without pretending modern T-level implementations run unchanged on historical machines.
+- [ ] Preserve historical execution assumptions such as direct hardware access, severe memory constraints, disk/tape latency, raster/interrupt timing, programmable sound chips, and absent or optional networking.
+- [ ] Fail closed where an exact historical environment cannot be reconstructed from public, licensed, inspectable evidence.
+
+### PR #5 — Preserve the Ancient Networks
+
+**Question:** can ARK reconstruct the communications environment that connected the old machines and created their network cultures?
+
+- [ ] Define a machine-readable `historical_network_environment` profile.
+- [ ] Preserve protocol and topology context for BBS dial-up systems, Fidonet-style store-and-forward networks, UUCP, Usenet, IRC, and early TCP/IP-era environments where suitable public evidence exists.
+- [ ] Record addressing/identity model, transport assumptions, connection persistence, latency expectations, message/file transfer model, moderation/administration roles, and offline/online boundaries.
+- [ ] Distinguish protocol specification from community convention and period-specific implementation quirks.
+- [ ] Add safe offline transcript and packet-structure specimens; do not include live credentials, exploit recipes, or instructions for unauthorized access.
+- [ ] Preserve period concepts such as dial-up sessions, store-and-forward delivery, nicknames/handles, channel identity, services/bots, quoting, signatures, message threading, and BBS door/file-area conventions.
+- [ ] Connect network artifacts back to PR #3 cultural semantics and PR #4 system constraints.
+- [ ] Add a Network Context Recovery score for topology, identity, protocol, social-role, timing, and transport reconstruction.
+- [ ] Test whether a cold-start model can distinguish what a protocol technically permitted from what a community culturally expected.
+
+### Cross-PR preservation invariants
+
+- [ ] Canonical machine records remain compact, inspectable JSON rather than prose-shaped data dumps.
+- [ ] Every imported historical artifact carries provenance, visibility, license, canonical/derived status, and epistemic classification.
+- [ ] Cultural significance does not upgrade folklore into historical fact.
+- [ ] Emulator convenience does not rewrite historical hardware capability.
+- [ ] A modern reconstruction is never labelled original merely because its output looks right.
+- [ ] Unknown or disputed details remain unknown or disputed.
+- [ ] No preservation goal overrides third-party licensing or public/private boundaries.
+- [ ] Every recovery score remains a derived evaluation artifact, never canonical history.
 
 ## Phase 1 — Public context capsule
 

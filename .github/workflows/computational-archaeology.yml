@@ -16,8 +16,18 @@ jobs:
         run: python3 tools/archaeology.py validate
       - name: Unit tests
         run: python3 -m unittest discover -s tests -v
+      - name: Verify canonical canary attributes
+        run: |
+          test "$(git check-attr text -- capsules/minimal/ARK-CANARY.txt | awk '{print $3}')" = "unset"
       - name: Verify T1 POSIX recovery
-        run: sh retro/posix/ark-verify.sh
+        run: |
+          sh retro/posix/ark-verify.sh
+          set +e
+          sh retro/posix/ark-verify.sh /tmp/ark-does-not-exist > /tmp/ark-posix.out 2>&1
+          code=$?
+          set -e
+          test "$code" -eq 2
+          grep -q '^ARK_INPUT_UNAVAILABLE ' /tmp/ark-posix.out
       - name: Build and verify T2 C99 recovery
         run: |
           cc -std=c99 -O2 -Wall -Wextra -pedantic retro/c/ark-verify.c -o /tmp/ark-verify
