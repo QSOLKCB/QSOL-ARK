@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QSOL-ARK Historical System Recovery Task",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "protocol", "schema_version", "id", "purpose", "systems", "cases", "global_boundaries"],
+  "properties": {
+    "type": {"const": "qsol-ark-historical-system-recovery-task"},
+    "protocol": {"const": "QSOL-ARK"},
+    "schema_version": {"const": "0.4.0"},
+    "id": {"const": "task.systems.minimum_reconstruction_probe"},
+    "purpose": {"type": "string", "minLength": 1},
+    "systems": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string"}},
+    "cases": {"type": "array", "minItems": 5, "items": {"type": "object"}},
+    "global_boundaries": {"type": "object"}
+  }
+}

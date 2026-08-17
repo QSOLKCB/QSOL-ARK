@@ -1,0 +1,71 @@
+{
+  "type": "qsol-ark-historical-system-profile",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.4.0",
+  "id": "system.ibm.pc_xt_5160",
+  "name": "IBM Personal Computer XT (5160)",
+  "scope": "hardware_system",
+  "era": ["1980s", "personal_computing", "dos_pc"],
+  "introduced_or_release_year": 1983,
+  "reconstruction_target": "minimum_execution_context_and_evidence_boundaries",
+  "technical_context": {
+    "cpu_family": "Intel 8088",
+    "architecture_word_size_bits": 16,
+    "external_data_bus_bits": 8,
+    "endianness": "little",
+    "logical_address_space": "20-bit / 1 MiB physical address space",
+    "memory": "installed RAM and adapter/ROM layout are configuration-dependent within the platform address map",
+    "storage_model": ["5.25-inch floppy disk", "hard-disk configurations", "expansion-dependent storage"],
+    "display_hardware": ["adapter-dependent, including MDA/CGA-era configurations"],
+    "audio_hardware": ["PC speaker", "optional expansion hardware"],
+    "input_model": ["keyboard", "adapter-dependent pointing/controllers"],
+    "executable_or_load_model": "BIOS bootstraps a boot sector; DOS-era COM/EXE formats are common hosted software formats but DOS is not the hardware itself",
+    "filesystem": "operating-system and media dependent",
+    "boot_process": "POST/BIOS firmware initializes hardware and transfers control to boot media; no IBM BIOS or DOS bytes are embedded.",
+    "programming_environment": ["8088/8086 machine language", "DOS-hosted assemblers/compilers where present", "BIOS/DOS service use or direct hardware access"],
+    "timing_constraints": ["CPU/bus speed", "interrupt timing", "device and adapter timing"],
+    "rom_or_os_assumptions": "Firmware is required to describe the historical boot environment; DOS is a common software environment, not an intrinsic property of the hardware."
+  },
+  "claim_partitions": {
+    "hardware_fact": ["Intel 8088 CPU", "8-bit external data bus", "20-bit physical addressing", "ISA-era expansion architecture"],
+    "documented_software_behaviour": ["BIOS-mediated boot and services are historically important", "software may use BIOS/DOS services or direct hardware"],
+    "emulator_behaviour": [],
+    "compatibility_layer_behaviour": [],
+    "reconstruction_inference": ["A minimal reconstruction can model POST/BIOS-to-boot-sector control flow without IBM BIOS or DOS images."],
+    "unknown": []
+  },
+  "source_evidence": [{
+    "id": "source.ibm.pc_xt.technical_reference",
+    "source_type": "manufacturer_technical_reference_scan",
+    "title": "IBM Personal Computer XT Technical Reference",
+    "url": "https://bitsavers.org/pdf/ibm/pc/xt/",
+    "supports": ["cpu_family", "system_bus", "memory_addressing", "boot_firmware", "adapter_model", "storage_model"]
+  }],
+  "uncertainties": ["RAM size varies by configuration/revision", "display adapter is not fixed", "DOS version and installed peripherals are not fixed"],
+  "rights": {
+    "source_bytes_copied": false,
+    "rom_bytes_copied": false,
+    "firmware_bytes_copied": false,
+    "proprietary_software_copied": false,
+    "disk_image_bytes_copied": false,
+    "binary_distribution_copied": false
+  },
+  "emulator_or_reimplementation": {
+    "used_for_canonical_profile": false,
+    "identity": null,
+    "version": null,
+    "source": null,
+    "license": null,
+    "limitations": "No emulator or reimplementation result is canonical evidence in the PR #4 seed."
+  },
+  "recovery_equivalence": {
+    "current_class": "historically_plausible_approximation",
+    "exact_reproduction_claimed": false,
+    "reason": "Profile preserves public technical context and reconstruction boundaries without embedding the original proprietary system bytes."
+  },
+  "computational_archaeology_mapping": {
+    "profile_validation_tier": "T4",
+    "tiers_are_ark_recovery_hosts_not_native_historical_execution": true,
+    "native_execution_claimed": false
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QSOL-ARK Historical System Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "protocol", "schema_version", "id", "name", "scope", "era", "introduced_or_release_year", "reconstruction_target", "technical_context", "claim_partitions", "source_evidence", "uncertainties", "rights", "emulator_or_reimplementation", "recovery_equivalence", "computational_archaeology_mapping"],
+  "properties": {
+    "type": {"const": "qsol-ark-historical-system-profile"},
+    "protocol": {"const": "QSOL-ARK"},
+    "schema_version": {"const": "0.4.0"},
+    "id": {"type": "string", "minLength": 1},
+    "name": {"type": "string", "minLength": 1},
+    "scope": {"enum": ["hardware_system", "software_environment"]},
+    "era": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "introduced_or_release_year": {"type": "integer", "minimum": 1940, "maximum": 2000},
+    "reconstruction_target": {"type": "string", "minLength": 1},
+    "technical_context": {"type": "object"},
+    "claim_partitions": {"type": "object"},
+    "source_evidence": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "uncertainties": {"type": "array", "items": {"type": "string"}},
+    "rights": {"type": "object"},
+    "emulator_or_reimplementation": {"type": "object"},
+    "recovery_equivalence": {"type": "object"},
+    "computational_archaeology_mapping": {"type": "object"},
+    "scope_notes": {"type": "object"}
+  }
+}

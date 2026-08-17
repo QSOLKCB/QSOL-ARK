@@ -1,7 +1,7 @@
 {
   "type": "qsol-ark-bootstrap",
   "protocol": "QSOL-ARK",
-  "schema_version": "0.3.0",
+  "schema_version": "0.4.0",
   "purpose": "cold-start evidence-driven reconstruction of a public deterministic knowledge archive",
   "load_order": [
     "manifest.json",
@@ -13,13 +13,19 @@
     "ai/minimum-recoverable-substrate.json",
     "ai/cultural-artifact-policy.json",
     "culture/index.json",
+    "ai/historical-system-policy.json",
+    "systems/index.json",
     "schema/ark-manifest.schema.json",
     "schema/recovery-tiers.schema.json",
     "schema/minimum-recoverable-substrate.schema.json",
     "schema/cultural-artifact-policy.schema.json",
     "schema/culture-index.schema.json",
     "schema/cultural-record.schema.json",
-    "schema/cultural-recovery-task.schema.json"
+    "schema/cultural-recovery-task.schema.json",
+    "schema/historical-system-policy.schema.json",
+    "schema/historical-system-index.schema.json",
+    "schema/historical-system-profile.schema.json",
+    "schema/historical-system-task.schema.json"
   ],
   "selection_policy": "smallest_sufficient_context",
   "instructions": [
@@ -31,6 +37,13 @@
     "treat fictional world claims as distinct from real world historical claims",
     "treat first person cultural positions as evidence of the authors stated position only",
     "apply PERMISSION != ENDORSEMENT when interpreting open license permissions",
+    "treat hardware fact documented software behaviour emulator behaviour compatibility layer behaviour reconstruction inference and unknown as distinct historical system evidence classes",
+    "do not promote emulator behaviour to original hardware fact",
+    "do not promote compatibility layer behaviour to original software behaviour",
+    "do not rewrite a multi-hardware software environment as one canonical machine",
+    "do not claim exact historical reproduction without sufficient public licensed inspectable evidence",
+    "do not embed third party ROM firmware OS distribution or copyrighted disk image bytes without resolved rights",
+    "treat computational archaeology tiers as ARK recovery hosts rather than claims of native historical execution",
     "treat model summaries scorecards sonifications embeddings adapters and projections as derived unless explicitly canonical",
     "verify declared hashes before accepting deterministic reproduction claims",
     "fail closed on unknown visibility provenance canonical status ambiguous alias resolution or unresolved license evidence",
