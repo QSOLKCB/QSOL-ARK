@@ -4,7 +4,7 @@ QSOL-ARK is a **source-first recovery system**. Humans should be able to inspect
 
 ## Two readable layers, one authority chain
 
-The human layer (`README.md`, `ROADMAP.md`, `docs/`) explains intent and trade-offs. The AI/machine layer (`README4AI.md`, `AGENTS.md`, `manifest.json`, `ai/`, `schema/`) defines load order, source authority, visibility constraints, epistemic labels, and machine-verifiable structure.
+The human layer (`README.md`, `ROADMAP.md`, `docs/`) explains intent and trade-offs. The AI/machine layer (`README4AI.md`, `AGENTS.md`, `manifest.json`, `ai/`, `schema/`) defines load order, source authority, visibility constraints, epistemic labels, recovery tiers, and machine-verifiable structure.
 
 Structured canonical contracts win if prose and machine metadata accidentally diverge.
 
@@ -22,6 +22,8 @@ ARK is public. QSOL-CONTEXT may inform **what** is selected and how provenance/d
 
 QSOL-SUBSTRATE may provide public canonical substrate payloads. ARK records the exact imported slice and source identity rather than assuming an external repository is frozen forever.
 
+Third-party source bytes are stricter than metadata references: unresolved license evidence blocks byte import. Metadata, commit identities, content hashes, repository observations, and paraphrase may still be recorded where lawful and appropriately attributed.
+
 ## Authority order
 
 1. live repository state for live software claims;
@@ -31,9 +33,19 @@ QSOL-SUBSTRATE may provide public canonical substrate payloads. ARK records the 
 
 Authority is claim-specific.
 
+## Computational archaeology
+
+`ai/recovery-tiers.json` declares independent recovery surfaces from T0 plain text through T4 Python. T5 is reserved for the future model harness.
+
+A tier owns only the capabilities it explicitly declares. Capabilities are not automatically inherited from neighboring or higher tiers.
+
+`ai/minimum-recoverable-substrate.json` defines MRS as the lowest-rank implemented tier that explicitly satisfies every requested capability. If no such tier exists, selection fails closed with `ARK_MRS_UNAVAILABLE`.
+
+This prevents portability claims from becoming vibes: a browser verifier cannot silently borrow the C verifier's standalone hashing, and an unimplemented AI tier cannot satisfy a request merely because it appears in the registry.
+
 ## Fail closed
 
-Fail closed on missing provenance, unknown visibility, ambiguous aliases, unclear canonical status, insufficient deterministic inputs, unavailable required evidence, or license ambiguity.
+Fail closed on missing provenance, unknown visibility, ambiguous aliases, unclear canonical status, unresolved required license evidence, insufficient deterministic inputs, or unavailable required evidence.
 
 A correct `insufficient evidence` is successful recovery behavior.
 

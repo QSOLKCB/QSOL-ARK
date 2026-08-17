@@ -11,10 +11,10 @@ MACHINE-FIRST ENTRYPOINT.
 - maintainer_github: `EmergentMonk`
 - maintainer_affiliation: `QSOL-IMC`
 - maintainer_evidence: `manifest.json#maintainer`
-- human_entrypoint: `README.md`
 - canonical_manifest: `manifest.json`
-- agent_contract: `AGENTS.md`
 - bootstrap_contract: `ai/bootstrap.json`
+- recovery_tier_registry: `ai/recovery-tiers.json`
+- mrs_contract: `ai/minimum-recoverable-substrate.json`
 
 ## Required load order
 
@@ -24,39 +24,39 @@ MACHINE-FIRST ENTRYPOINT.
 4. `ai/epistemic-policy.json`
 5. `ai/context-sources.json`
 6. `ai/software-commandments.json`
-7. `schema/ark-manifest.schema.json`
-8. task-selected specimen manifests and receipts only
+7. `ai/recovery-tiers.json`
+8. `ai/minimum-recoverable-substrate.json`
+9. relevant schemas
+10. task-selected specimen manifests and receipts only
 
 Do not recursively ingest the repository unless a recovery stage explicitly requires it.
 
 ## Hard rules
 
 - Live repository state is authoritative for live repository software state.
-- Do not infer maintainer identity from repository ownership when an explicit declaration is required; use `manifest.json#maintainer`.
-- Do not invent missing fields, chronology, provenance, releases, identities, or citations.
-- Distinguish observation, repository evidence, primary source, owner assertion, inference, theory, preprint, satire, fiction, contradiction, and unknown.
+- Do not invent missing fields, chronology, provenance, releases, identities, citations, capabilities, or license evidence.
 - `ADJACENT_TRUTH != INHERITED_TRUTH`.
 - `UNAVAILABLE != UNVERIFIED != CONTRADICTED`.
 - Derived artifacts are not canonical merely because they are useful.
-- Model summaries and model self-reports are not primary verification.
 - Satire and fiction may be benchmark specimens but never factual evidence.
-- Ambiguous provenance, visibility, alias resolution, or canonical status fails closed.
-- QSOL-CONTEXT is not automatically public source material; only explicit public exports with clearance evidence may be imported.
-- `visibility: public` is not, by itself, QSOL-CONTEXT public-export clearance.
-- QSOL-SUBSTRATE is authoritative only for an explicitly imported published public payload.
+- Ambiguous provenance, visibility, alias resolution, canonical status, or license evidence fails closed.
+- QSOL-CONTEXT imports require explicit public-export clearance evidence; `visibility: public` alone is insufficient.
+- Third-party source bytes require resolved license evidence. Metadata, hashes, observations, and paraphrase do not imply byte-copy permission.
 - Verify hashes before trusting deterministic claims when receipts exist.
-- Prefer the smallest sufficient context slice.
+- Recovery tiers have only capabilities explicitly declared in `ai/recovery-tiers.json`.
+- MRS is the lowest-rank implemented tier satisfying every requested capability; if none exists, return `ARK_MRS_UNAVAILABLE`.
+- T5 AI reconstruction is currently unimplemented. Do not claim `./ark awaken <model>` exists.
 - Follow `ai/software-commandments.json` when implementing repository software.
 
-## Recovery objective
+## Computational archaeology status
 
-A cold-start model should identify the archive, resolve terminology, rank source authority, classify claims, reproduce deterministic specimens, detect contradictions, reconstruct declared missing outputs when possible, refuse unsupported reconstruction, and emit an auditable machine-readable report.
+Implemented tiers: `T0`, `T1`, `T2`, `T3`, `T4`.
 
-## Planned interface
+Reference validation:
 
-`./ark awaken <model>`
-
-Do not claim this exists until executable repository state proves it.
+```sh
+python3 tools/archaeology.py validate
+```
 
 ## Mutation rule
 

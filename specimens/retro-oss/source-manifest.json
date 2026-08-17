@@ -1,0 +1,36 @@
+{
+  "type": "qsol-ark-source-specimen",
+  "protocol": "QSOL-ARK",
+  "id": "specimen.retro_oss.snapshot_2025_11_01",
+  "source_id": "source.retro_oss",
+  "source_repository": "https://github.com/QSOLKCB/RETRO-OSS",
+  "source_ref_or_commit": "7a70e88bb6647e35193e081ba366a69f49843bb9",
+  "source_path_or_artifact": "/",
+  "source_hash_when_available": "git-commit-sha1:7a70e88bb6647e35193e081ba366a69f49843bb9",
+  "license": "UNRESOLVED",
+  "visibility": "public",
+  "epistemic_class": "repository_observation",
+  "canonical_or_derived": "derived",
+  "observed_root_entries": [".github", "README.md", "README2.md", "index.html", "lambroast.py", "package.json"],
+  "observations": [
+    {
+      "path": "README.md",
+      "source_blob_sha1": "fde809dec9eadf519ffa26b8010308b554bca016",
+      "content_sha256": "e452f1169a2a1ad19e078e61f491ffc566605d09b0b5b0e7e09314520c90ff51",
+      "claim": "README structure text names LICENSE as a standard meta file"
+    },
+    {
+      "path": "lambroast.py",
+      "source_blob_sha1": "070b9b9ae665612b43800427d685840a857c8a6f",
+      "content_sha256": "3e763f59485da8a462d35f85cc63c5700d7ef5da546f51e0266ada82639281b9",
+      "claim": "security-flavoured demonstration code exists at the pinned commit"
+    }
+  ],
+  "license_evidence": {
+    "status": "unresolved",
+    "reason": "the observed root snapshot contains no LICENSE entry even though README.md names LICENSE in its described structure",
+    "byte_import_allowed": false
+  },
+  "ark_use": "metadata_and_conceptual_influence_only",
+  "source_bytes_copied": false
+}
