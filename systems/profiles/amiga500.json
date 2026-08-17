@@ -38,7 +38,12 @@
     "source_type": "developer_documentation_archive",
     "title": "Amiga Hardware Reference Manual (ADCD 2.1 developer documentation)",
     "url": "https://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/",
-    "supports": ["cpu_family", "custom_chipset", "display_hardware", "audio_hardware", "dma_and_timing", "programming_environment"]
+    "supports": ["cpu_family", "custom_chipset", "display_hardware", "audio_hardware", "dma_and_timing", "programming_environment"],
+    "visibility": "public",
+    "license": "UNRESOLVED",
+    "epistemic_class": "external_historical_documentation",
+    "canonical_or_derived": "derived",
+    "byte_import_allowed": false
   }],
   "uncertainties": ["RAM expansions are common", "PAL/NTSC and board revisions affect timing", "Kickstart/OS versions vary"],
   "rights": {
@@ -64,6 +69,7 @@
   },
   "computational_archaeology_mapping": {
     "profile_validation_tier": "T4",
+    "profile_validation_capability": "validate_historical_system_contracts",
     "tiers_are_ark_recovery_hosts_not_native_historical_execution": true,
     "native_execution_claimed": false
   }
