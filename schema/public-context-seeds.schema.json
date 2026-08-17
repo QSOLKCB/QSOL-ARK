@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QSOL-ARK Public Context Seed Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "protocol",
+    "schema_version",
+    "visibility",
+    "selection_policy",
+    "substrate_binding",
+    "seeds"
+  ],
+  "properties": {
+    "type": {
+      "const": "qsol-ark-public-context-seed-index"
+    },
+    "protocol": {
+      "const": "QSOL-ARK"
+    },
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "visibility": {
+      "const": "public"
+    },
+    "selection_policy": {
+      "type": "object"
+    },
+    "substrate_binding": {
+      "type": "object"
+    },
+    "seeds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}
