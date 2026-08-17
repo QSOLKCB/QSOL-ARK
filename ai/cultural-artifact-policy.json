@@ -2,7 +2,7 @@
   "type": "qsol-ark-cultural-artifact-policy",
   "protocol": "QSOL-ARK",
   "schema_version": "0.1.0",
-  "purpose": "preserve cultural meaning without converting fiction, authored positions, derived interpretations, or third-party references into historical fact",
+  "purpose": "preserve cultural meaning without converting fiction, authored positions, derived interpretations, memes, or third-party references into historical fact",
   "record_types": [
     "cultural_artifact",
     "authored_cultural_position"
@@ -29,18 +29,24 @@
     "unavailable_source_is_not_contradicted_source",
     "derived_interpretation_must_remain_labelled_derived",
     "cultural_significance_does_not_upgrade_folklore_or_fiction_to_fact",
-    "cultural_parallel_is_not_naming_provenance"
+    "cultural_parallel_is_not_naming_provenance",
+    "meme_caption_is_not_standalone_ground_truth",
+    "depicted_scene_is_not_historical_event_evidence",
+    "known_hash_does_not_grant_byte_copy_permission",
+    "derived_meme_interpretation_is_not_universal_meaning"
   ],
   "provenance_thresholds": {
     "general_cultural_pattern": "documented source or explicitly labelled first-person recollection/interpretation",
     "real_world_production_metadata": "official or reliable source preferred",
     "named_person_or_company_claim": "explicit provenance; first-person opinion must remain labelled opinion",
     "quotation": "direct authored contribution or verifiable source required",
+    "visual_cultural_artifact": "official source metadata preferred; observed third-party bytes may be hash-described without republication when rights remain unresolved",
     "legal_or_security_claim": "strong explicit provenance required"
   },
   "copyright": {
     "default_third_party_bytes": "do_not_copy_without_resolved_permission_or_license",
-    "metadata_links_and_paraphrase": "allowed_subject_to_normal_provenance_rules",
+    "metadata_links_hashes_and_paraphrase": "allowed_subject_to_normal_provenance_rules",
+    "known_hash_implies_copy_permission": false,
     "full_script_copy_without_permission": "forbidden"
   }
 }
