@@ -28,7 +28,8 @@
     "third_party_source_bytes_require_resolved_license_evidence",
     "unavailable_source_is_not_contradicted_source",
     "derived_interpretation_must_remain_labelled_derived",
-    "cultural_significance_does_not_upgrade_folklore_or_fiction_to_fact"
+    "cultural_significance_does_not_upgrade_folklore_or_fiction_to_fact",
+    "cultural_parallel_is_not_naming_provenance"
   ],
   "provenance_thresholds": {
     "general_cultural_pattern": "documented source or explicitly labelled first-person recollection/interpretation",

@@ -35,6 +35,20 @@ These resolve to T1, T2, and T3 respectively. If only an unimplemented tier can 
 
 `capsules/minimal/ARK-CANARY.txt` is intentionally tiny. Its receipt is stored separately in `capsules/minimal/SHA256SUMS`. This gives every computational tier a shared byte-level specimen without pretending the canary is a complete ARK capsule.
 
+### Cultural parallel: Red Dwarf “Cassandra”
+
+QSOL-ARK also preserves a deliberately non-normative cultural parallel in `culture/television/red-dwarf/cassandra-canaries.json`.
+
+The fictional Canaries in *Red Dwarf: Cassandra* and `ARK-CANARY.txt` both fit the broader canary metaphor: a small or expendable precursor is exposed to danger first so that later action can be informed by what happens to it.
+
+This is a mnemonic and cultural interpretation, **not** historical naming evidence:
+
+```text
+CULTURAL_PARALLEL != NAMING_PROVENANCE
+```
+
+The engineering contract remains defined by ARK's machine-readable recovery tiers, canary bytes, receipt, and validators. The cultural record cannot redefine them.
+
 ## RETRO-OSS provenance exercise
 
 RETRO-OSS inspired this portability track, but ARK does not treat inspiration as license clearance.

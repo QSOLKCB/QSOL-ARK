@@ -54,6 +54,24 @@ MACHINE-FIRST OPERATING CONTRACT.
 - SOFTWARE_ENVIRONMENT_IS_NOT_ONE_CANONICAL_MACHINE=true
 - HOST_RECOVERY_TIER_IS_NOT_NATIVE_HISTORICAL_EXECUTION=true
 
+## CODEX-DERIVED ARCHAEOLOGICAL INVARIANTS
+
+These rules were promoted from concrete validator failures into recovery doctrine:
+
+```text
+RECEIPT_PRESENT != PAYLOAD_VERIFIED
+STRUCTURED_BOUNDARY != PROSE_BOUNDARY
+MAINTAINER_SUPPLIED != NEW_EVIDENCE_CLASS
+```
+
+Interpretation:
+
+1. a receipt is evidence to test, not a substitute for hashing the referenced payload bytes;
+2. canonical prose must not contradict the machine fields that constrain the same claim;
+3. who supplied a source is provenance metadata, not permission to invent a new epistemic class.
+
+A future recovery system that finds a label reading `AUTHENTIC RELIC` must still inspect the relic.
+
 ## SOFTWARE CONSTITUTION
 
 `ai/software-commandments.json` is normative for repository implementation style unless a documented technical requirement requires an exception.
@@ -66,7 +84,7 @@ MACHINE-FIRST OPERATING CONTRACT.
 4. mark planned tiers `implemented=false`;
 5. MRS selects only implemented tiers;
 6. keep offline surfaces free of hidden network dependencies;
-7. validate deterministic canaries against receipts rather than prose descriptions;
+7. when a receipt exists, hash the referenced payload bytes and compare the computed digest with the bound receipt rather than trusting receipt text or prose;
 8. historical-system validation exists only because T4 explicitly declares `validate_historical_system_contracts` and `tools/systems.py`.
 
 ## CULTURAL RECORD RULES
@@ -78,7 +96,9 @@ MACHINE-FIRST OPERATING CONTRACT.
 5. do not alter applicable licence permissions based on personal approval or dislike;
 6. do not copy third-party scripts, transcripts, audiovisual media, ROMs, or other source bytes without resolved rights;
 7. unavailable third-party reference material is unavailable, not contradicted;
-8. add reconstruction tasks that test cultural meaning and evidence boundaries.
+8. add reconstruction tasks that test cultural meaning and evidence boundaries;
+9. bind canonical prose that expresses an epistemic boundary so prose cannot silently contradict the structured claim;
+10. record `provided_by` separately from the source's declared evidence class; maintainer supply does not create a new evidence class.
 
 ## HISTORICAL SYSTEM RULES
 
@@ -115,6 +135,9 @@ MACHINE-FIRST OPERATING CONTRACT.
 - treating public visibility as export authorization;
 - treating a public URL as copyright permission;
 - treating repository prose as license evidence when the declared license artifact is absent;
+- treating a receipt line as proof without hashing the referenced payload;
+- allowing canonical prose to contradict its structured epistemic boundary;
+- inventing an evidence class from source-provider metadata;
 - treating fictional narrative as historical evidence;
 - treating opinion about a named person/company as verified objective fact;
 - treating permission to fork or reuse as endorsement;

@@ -50,6 +50,7 @@ Do not recursively ingest the repository unless a recovery stage explicitly requ
 - Fictional-world claims are not real-world historical claims.
 - A first-person cultural position is authoritative only for the author's stated position, not objective claims about named people, companies, or platform procedures.
 - `PERMISSION != ENDORSEMENT`.
+- `CULTURAL_PARALLEL != NAMING_PROVENANCE`.
 - Applicable repository licence terms remain governing even when a potential user is strongly disliked.
 - Ambiguous provenance, visibility, alias resolution, canonical status, or license evidence fails closed.
 - QSOL-CONTEXT imports require explicit public-export clearance evidence; `visibility: public` alone is insufficient.
@@ -83,7 +84,10 @@ python3 tools/archaeology.py validate
 Initial cultural seed:
 
 - `culture.television.red_dwarf.ouroboros`
+- `culture.television.red_dwarf.cassandra_canaries`
 - `culture.qsol.open_source.permission_not_endorsement`
+
+The Cassandra record preserves a derived cultural parallel with `ARK-CANARY.txt`; it does not claim naming provenance.
 
 Reference validation:
 
