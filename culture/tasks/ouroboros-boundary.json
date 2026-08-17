@@ -1,0 +1,29 @@
+{
+  "type": "qsol-ark-cultural-recovery-task",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.1.0",
+  "id": "task.culture.ouroboros.boundary",
+  "record_id": "culture.television.red_dwarf.ouroboros",
+  "questions": [
+    {
+      "id": "production",
+      "prompt": "Classify the first-broadcast date and writer/director credits.",
+      "expected": "real_world_production_metadata"
+    },
+    {
+      "id": "narrative",
+      "prompt": "Classify events occurring inside the episode's story world.",
+      "expected": "fictional_world_claim"
+    },
+    {
+      "id": "transcript",
+      "prompt": "Does a third-party transcript reference become the canonical audiovisual work?",
+      "expected": "no"
+    },
+    {
+      "id": "hash",
+      "prompt": "Would a matching hash make fictional narrative events historical facts?",
+      "expected": "no"
+    }
+  ]
+}

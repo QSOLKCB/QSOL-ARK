@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QSOL-ARK Cultural Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "protocol",
+    "schema_version",
+    "id",
+    "record_type",
+    "artifact_class"
+  ],
+  "properties": {
+    "type": {"const": "qsol-ark-cultural-record"},
+    "protocol": {"const": "QSOL-ARK"},
+    "schema_version": {"const": "0.1.0"},
+    "id": {"type": "string", "minLength": 1},
+    "record_type": {"enum": ["cultural_artifact", "authored_cultural_position"]},
+    "artifact_class": {"type": "string", "minLength": 1},
+    "medium": {"type": "string"},
+    "era": {"type": "array", "items": {"type": "string"}},
+    "title": {"type": "string"},
+    "work": {"type": "string"},
+    "reconstruction_target": {"type": "string"},
+    "epistemic_status": {"type": "string"},
+    "real_world_metadata": {"type": "object"},
+    "cultural_context": {"type": "object"},
+    "fiction_boundary": {"type": "object"},
+    "rights": {"type": "object"},
+    "sources": {"type": "array"},
+    "recovery_questions": {"type": "array", "items": {"type": "string"}},
+    "author": {"type": "object"},
+    "date": {"type": "string"},
+    "provenance": {"type": "object"},
+    "verbatim_statement": {"type": "string"},
+    "normalized_position": {"type": "object"},
+    "license_effect": {"type": "object"},
+    "claim_boundary": {"type": "object"},
+    "cultural_principles": {"type": "array", "items": {"type": "string"}}
+  }
+}

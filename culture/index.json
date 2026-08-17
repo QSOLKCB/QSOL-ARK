@@ -1,0 +1,29 @@
+{
+  "type": "qsol-ark-culture-index",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.1.0",
+  "records": [
+    {
+      "id": "culture.television.red_dwarf.ouroboros",
+      "path": "culture/television/red-dwarf/ouroboros.json",
+      "record_type": "cultural_artifact"
+    },
+    {
+      "id": "culture.qsol.open_source.permission_not_endorsement",
+      "path": "culture/positions/permission-not-endorsement.json",
+      "record_type": "authored_cultural_position"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task.culture.ouroboros.boundary",
+      "path": "culture/tasks/ouroboros-boundary.json",
+      "record_id": "culture.television.red_dwarf.ouroboros"
+    },
+    {
+      "id": "task.culture.permission_not_endorsement",
+      "path": "culture/tasks/permission-not-endorsement.json",
+      "record_id": "culture.qsol.open_source.permission_not_endorsement"
+    }
+  ]
+}

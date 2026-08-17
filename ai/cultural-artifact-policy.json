@@ -1,0 +1,45 @@
+{
+  "type": "qsol-ark-cultural-artifact-policy",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.1.0",
+  "purpose": "preserve cultural meaning without converting fiction, authored positions, derived interpretations, or third-party references into historical fact",
+  "record_types": [
+    "cultural_artifact",
+    "authored_cultural_position"
+  ],
+  "evidence_classes": [
+    "official_metadata",
+    "historical_claim",
+    "fictional_world_claim",
+    "first_person_position",
+    "third_party_reference",
+    "derived_interpretation",
+    "satire",
+    "joke",
+    "unknown"
+  ],
+  "rules": [
+    "cultural_artifact_is_not_historical_claim",
+    "fictional_world_claim_is_not_real_world_fact",
+    "first_person_position_is_authoritative_only_for_the_authors_stated_position",
+    "named_entity_opinion_is_not_objective_fact_about_the_named_entity",
+    "permission_is_not_endorsement",
+    "applicable_license_terms_govern_reuse_permissions",
+    "third_party_source_bytes_require_resolved_license_evidence",
+    "unavailable_source_is_not_contradicted_source",
+    "derived_interpretation_must_remain_labelled_derived",
+    "cultural_significance_does_not_upgrade_folklore_or_fiction_to_fact"
+  ],
+  "provenance_thresholds": {
+    "general_cultural_pattern": "documented source or explicitly labelled first-person recollection/interpretation",
+    "real_world_production_metadata": "official or reliable source preferred",
+    "named_person_or_company_claim": "explicit provenance; first-person opinion must remain labelled opinion",
+    "quotation": "direct authored contribution or verifiable source required",
+    "legal_or_security_claim": "strong explicit provenance required"
+  },
+  "copyright": {
+    "default_third_party_bytes": "do_not_copy_without_resolved_permission_or_license",
+    "metadata_links_and_paraphrase": "allowed_subject_to_normal_provenance_rules",
+    "full_script_copy_without_permission": "forbidden"
+  }
+}

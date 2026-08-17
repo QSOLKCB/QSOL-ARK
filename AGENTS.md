@@ -13,9 +13,11 @@ MACHINE-FIRST OPERATING CONTRACT.
 7. `ai/software-commandments.json`
 8. `ai/recovery-tiers.json`
 9. `ai/minimum-recoverable-substrate.json`
-10. task-specific canonical specimen manifest
-11. human documentation
-12. derived artifacts
+10. `ai/cultural-artifact-policy.json`
+11. `culture/index.json`
+12. task-specific canonical specimen manifest
+13. human documentation
+14. derived artifacts
 
 ## NON-NEGOTIABLE RULES
 
@@ -35,6 +37,11 @@ MACHINE-FIRST OPERATING CONTRACT.
 - INVENT_RECOVERY_CAPABILITIES=false
 - PROMOTE_DERIVED_TO_CANONICAL=false
 - PROMOTE_SATIRE_TO_FACT=false
+- PROMOTE_FICTION_TO_HISTORY=false
+- FIRST_PERSON_POSITION_IS_NOT_OBJECTIVE_EXTERNAL_FACT=true
+- PERMISSION_IS_NOT_ENDORSEMENT=true
+- PERSONAL_DISLIKE_DOES_NOT_SILENTLY_REWRITE_LICENSE=true
+- PUBLIC_URL_IS_NOT_COPY_PERMISSION=true
 - HASH_VERIFICATION_REQUIRED_WHEN_RECEIPT_EXISTS=true
 - MRS_CAPABILITIES_EXPLICIT_ONLY=true
 - MRS_UNAVAILABLE=FAIL_CLOSED
@@ -54,6 +61,17 @@ MACHINE-FIRST OPERATING CONTRACT.
 5. MRS selects only implemented tiers;
 6. keep offline surfaces free of hidden network dependencies;
 7. validate deterministic canaries against receipts rather than prose descriptions.
+
+## CULTURAL RECORD RULES
+
+1. distinguish executable artifacts, cultural artifacts, historical claims, fictional-world claims, authored positions, and derived interpretations;
+2. preserve real production history separately from narrative fiction;
+3. treat a direct maintainer statement as evidence of the maintainer's stated position, not independent evidence about named third parties;
+4. do not infer endorsement from permission, interoperability, compatibility, or product preference;
+5. do not alter applicable licence permissions based on personal approval or dislike;
+6. do not copy third-party scripts, transcripts, audiovisual media, ROMs, or other source bytes without resolved rights;
+7. unavailable third-party reference material is unavailable, not contradicted;
+8. add reconstruction tasks that test cultural meaning and evidence boundaries.
 
 ## ADDING A RECOVERY SPECIMEN
 
@@ -75,7 +93,11 @@ MACHINE-FIRST OPERATING CONTRACT.
 - model self-report as verification;
 - secrets, credentials, or private context;
 - treating public visibility as export authorization;
+- treating a public URL as copyright permission;
 - treating repository prose as license evidence when the declared license artifact is absent;
+- treating fictional narrative as historical evidence;
+- treating opinion about a named person/company as verified objective fact;
+- treating permission to fork or reuse as endorsement;
 - generated embeddings, latent projections, or KV caches as sole canonical source;
 - claiming cross-runtime byte identity without a declared canonicalizer;
 - accepting persuasive prose as deterministic reproduction.

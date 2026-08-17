@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QSOL-ARK Cultural Recovery Task",
+  "type": "object",
+  "required": [
+    "type",
+    "protocol",
+    "schema_version",
+    "id",
+    "record_id",
+    "questions"
+  ],
+  "properties": {
+    "type": {
+      "const": "qsol-ark-cultural-recovery-task"
+    },
+    "protocol": {
+      "const": "QSOL-ARK"
+    },
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "prompt",
+          "expected"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "expected": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

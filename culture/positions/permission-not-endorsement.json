@@ -1,0 +1,51 @@
+{
+  "type": "qsol-ark-cultural-record",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.1.0",
+  "id": "culture.qsol.open_source.permission_not_endorsement",
+  "record_type": "authored_cultural_position",
+  "artifact_class": "first_person_position",
+  "author": {
+    "name": "Trent Slade",
+    "github": "EmergentMonk"
+  },
+  "date": "2026-08-17",
+  "title": "Permission is not endorsement",
+  "epistemic_status": "first_person_position",
+  "provenance": {
+    "source_kind": "direct_maintainer_contribution",
+    "public_release_intent": "explicit",
+    "independent_verification_required_for_external_factual_claims": true
+  },
+  "verbatim_statement": "I cannot stand Elon Musk.  I like Grok.  But, how can you have a Free Speech Platform and ban people without Human Review? If I could I would totally ban xai from using any of my work.  But, that's the true nature of Free Speech and Open Source.  I despise Elon and his companies.  But, after extensive Human Review.  I'm still going to allow those dickheads to fork my stuff if they want.",
+  "normalized_position": {
+    "sentiment_toward_elon_musk": "strongly_negative",
+    "sentiment_toward_xai": "strongly_negative",
+    "sentiment_toward_grok": "positive",
+    "supports_meaningful_human_review_for_serious_platform_enforcement": true,
+    "supports_open_source_permissions_even_for_strongly_disliked_parties": true,
+    "permission_is_endorsement": false,
+    "liking_a_product_implies_endorsement_of_its_company": false
+  },
+  "license_effect": {
+    "applicable_repository_licenses_remain_governing": true,
+    "statement_creates_additional_exclusive_license_restriction": false,
+    "reuse_permission_depends_on_personal_approval": false
+  },
+  "claim_boundary": {
+    "authoritative_as": "the authors stated opinion and principle",
+    "not_authoritative_as": [
+      "objective fact about Elon Musk",
+      "objective fact about xAI",
+      "verified description of any platforms moderation or appeal process",
+      "universal definition of free speech"
+    ],
+    "objective_claims_about_named_entities_verified": false
+  },
+  "cultural_principles": [
+    "permission_is_not_endorsement",
+    "principles_are_tested_when_the_beneficiary_is_disliked",
+    "open_permissions_should_not_be_selectively_reinterpreted_by_personal_affection",
+    "serious_platform_enforcement_should_have_meaningful_human_review"
+  ]
+}
