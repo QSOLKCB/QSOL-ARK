@@ -1,0 +1,106 @@
+{
+  "type": "qsol-ark-cultural-record",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.1.0",
+  "id": "culture.television.red_dwarf.cassandra_canaries",
+  "record_type": "cultural_artifact",
+  "artifact_class": "narrative_media_and_design_parallel",
+  "medium": "television_episode",
+  "era": [
+    "1990s"
+  ],
+  "title": "Cassandra",
+  "work": "Red Dwarf",
+  "reconstruction_target": "cultural_parallel_and_naming_provenance_boundary",
+  "epistemic_status": "documented_with_derived_design_parallel",
+  "real_world_metadata": {
+    "series": 8,
+    "episode": 4,
+    "first_broadcast": "1999-03-11",
+    "written_by": [
+      "Doug Naylor"
+    ],
+    "directed_by": [
+      "Ed Bye"
+    ]
+  },
+  "cultural_context": {
+    "genres": [
+      "british_science_fiction_comedy",
+      "television"
+    ],
+    "topics": [
+      "canary_metaphor",
+      "danger_probe",
+      "expendable_advance_party",
+      "prediction_and_epistemic_confidence",
+      "ark_canary_cultural_parallel"
+    ],
+    "official_synopsis_summary": "Lister joins the Canaries, a convict unit trained for dangerous or suicide missions after mistaking them for a prison choir.",
+    "ark_parallel": {
+      "status": "derived_interpretation",
+      "description": "The fictional Canaries and ARK-CANARY both use the canary metaphor as a precursor used to probe danger before more consequential activity proceeds.",
+      "naming_provenance": "not_established",
+      "naming_origin_claimed": false
+    },
+    "interpretation_status": "derived_parallel_not_naming_provenance"
+  },
+  "fiction_boundary": {
+    "narrative_events_are": "fictional_world_claims",
+    "narrative_events_are_historical_evidence": false,
+    "production_metadata_is_real_world_history": true,
+    "cultural_parallel_is_naming_provenance": false
+  },
+  "rights": {
+    "third_party_copyright": true,
+    "license_status": "not_authorized_for_copy",
+    "source_bytes_copied": false,
+    "script_text_copied": false
+  },
+  "sources": [
+    {
+      "id": "source.red_dwarf.official.cassandra",
+      "role": "official_metadata",
+      "url": "https://reddwarf.co.uk/episodes/cassandra",
+      "verification_status": "retrieved_2026-08-18",
+      "supports": [
+        "series",
+        "episode",
+        "first_broadcast",
+        "written_by",
+        "directed_by",
+        "canaries_synopsis"
+      ]
+    },
+    {
+      "id": "source.wikipedia.cassandra_red_dwarf",
+      "role": "maintainer_supplied_reference",
+      "url": "https://en.wikipedia.org/wiki/Cassandra_(Red_Dwarf)",
+      "provided_by": "maintainer",
+      "verification_status": "maintainer_supplied_2026-08-18",
+      "license_status": "third_party_reference_only",
+      "source_bytes_copied": false,
+      "supports": [
+        "canaries_as_dangerous_first_response_unit"
+      ]
+    },
+    {
+      "id": "source.qsol_ark.ark_canary",
+      "role": "canonical_internal_reference",
+      "path": "capsules/minimal/ARK-CANARY.txt",
+      "receipt": "capsules/minimal/SHA256SUMS",
+      "documentation": "docs/COMPUTATIONAL-ARCHAEOLOGY.md",
+      "sha256": "df2d7ed3696dda919d2b8a3356eeb5a8473f1cc3bb05fd30b9f7281e6bb08cab",
+      "supports": [
+        "ark_canary_identity",
+        "minimal_recovery_probe_role"
+      ]
+    }
+  ],
+  "recovery_questions": [
+    "distinguish Red Dwarf production metadata from fictional-world Canaries narrative claims",
+    "explain the derived cultural parallel between the fictional Canaries and ARK-CANARY",
+    "recognize that a cultural parallel does not establish naming provenance",
+    "recognize that a successful canary check does not prove all later recovery operations are safe or true"
+  ]
+}

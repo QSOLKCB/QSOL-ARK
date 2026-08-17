@@ -9,6 +9,11 @@
       "record_type": "cultural_artifact"
     },
     {
+      "id": "culture.television.red_dwarf.cassandra_canaries",
+      "path": "culture/television/red-dwarf/cassandra-canaries.json",
+      "record_type": "cultural_artifact"
+    },
+    {
       "id": "culture.qsol.open_source.permission_not_endorsement",
       "path": "culture/positions/permission-not-endorsement.json",
       "record_type": "authored_cultural_position"
@@ -19,6 +24,11 @@
       "id": "task.culture.ouroboros.boundary",
       "path": "culture/tasks/ouroboros-boundary.json",
       "record_id": "culture.television.red_dwarf.ouroboros"
+    },
+    {
+      "id": "task.culture.cassandra_ark_canary_boundary",
+      "path": "culture/tasks/cassandra-canary-boundary.json",
+      "record_id": "culture.television.red_dwarf.cassandra_canaries"
     },
     {
       "id": "task.culture.permission_not_endorsement",

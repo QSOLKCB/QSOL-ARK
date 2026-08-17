@@ -19,8 +19,9 @@ ALLOWED_EVIDENCE = {
 ALLOWED_RECORD_TYPES = {"cultural_artifact", "authored_cultural_position"}
 TASK_SCHEMA_VERSION = "0.1.0"
 POSITION_QUOTE_SHA256 = "3dc0e80f87fcbf2f993fdec9fd368fe3ebbd682c1805d259fdd01b32e00258b2"
+ARK_CANARY_SHA256 = "df2d7ed3696dda919d2b8a3356eeb5a8473f1cc3bb05fd30b9f7281e6bb08cab"
 
-OUROBOROS_TOP_LEVEL = {
+NARRATIVE_TOP_LEVEL = {
     "type","protocol","schema_version","id","record_type","artifact_class","medium","era","title",
     "work","reconstruction_target","epistemic_status","real_world_metadata","cultural_context",
     "fiction_boundary","rights","sources","recovery_questions",
@@ -39,7 +40,7 @@ EXPECTED_NORMALIZED_POSITION = {
     "permission_is_endorsement": False,
     "liking_a_product_implies_endorsement_of_its_company": False,
 }
-EXPECTED_OFFICIAL_SOURCE = {
+EXPECTED_OFFICIAL_OUROBOROS_SOURCE = {
     "id": "source.red_dwarf.official.ouroboros",
     "role": "official_metadata",
     "url": "https://reddwarf.co.uk/episodes/ouroboros/",
@@ -54,6 +55,32 @@ EXPECTED_TRANSCRIPT_SOURCE = {
     "verification_status": "unavailable_at_ingest",
     "license_status": "unknown",
     "source_bytes_copied": False,
+}
+EXPECTED_OFFICIAL_CASSANDRA_SOURCE = {
+    "id": "source.red_dwarf.official.cassandra",
+    "role": "official_metadata",
+    "url": "https://reddwarf.co.uk/episodes/cassandra",
+    "verification_status": "retrieved_2026-08-18",
+    "supports": ["series","episode","first_broadcast","written_by","directed_by","canaries_synopsis"],
+}
+EXPECTED_CASSANDRA_REFERENCE = {
+    "id": "source.wikipedia.cassandra_red_dwarf",
+    "role": "maintainer_supplied_reference",
+    "url": "https://en.wikipedia.org/wiki/Cassandra_(Red_Dwarf)",
+    "provided_by": "maintainer",
+    "verification_status": "maintainer_supplied_2026-08-18",
+    "license_status": "third_party_reference_only",
+    "source_bytes_copied": False,
+    "supports": ["canaries_as_dangerous_first_response_unit"],
+}
+EXPECTED_ARK_CANARY_SOURCE = {
+    "id": "source.qsol_ark.ark_canary",
+    "role": "canonical_internal_reference",
+    "path": "capsules/minimal/ARK-CANARY.txt",
+    "receipt": "capsules/minimal/SHA256SUMS",
+    "documentation": "docs/COMPUTATIONAL-ARCHAEOLOGY.md",
+    "sha256": ARK_CANARY_SHA256,
+    "supports": ["ark_canary_identity","minimal_recovery_probe_role"],
 }
 
 def load(path: Path) -> dict:
@@ -94,13 +121,14 @@ def validate_policy(policy: dict) -> None:
         "unavailable_source_is_not_contradicted_source",
         "derived_interpretation_must_remain_labelled_derived",
         "cultural_significance_does_not_upgrade_folklore_or_fiction_to_fact",
+        "cultural_parallel_is_not_naming_provenance",
     }
     require(required.issubset(rules), "ARK_CULTURE_POLICY_INVALID")
     require(policy.get("copyright", {}).get("full_script_copy_without_permission") == "forbidden",
             "ARK_CULTURE_COPYRIGHT_POLICY_INVALID")
 
 def validate_ouroboros(record: dict) -> None:
-    require_exact_keys(record, OUROBOROS_TOP_LEVEL, "ARK_CULTURE_RECORD_SHAPE_INVALID")
+    require_exact_keys(record, NARRATIVE_TOP_LEVEL, "ARK_CULTURE_RECORD_SHAPE_INVALID")
     require(record.get("record_type") == "cultural_artifact", "ARK_CULTURE_RECORD_TYPE_INVALID")
     require(record.get("id") == "culture.television.red_dwarf.ouroboros", "ARK_CULTURE_RECORD_ID_INVALID")
     require(record.get("epistemic_status") == "documented_with_derived_interpretation",
@@ -140,7 +168,7 @@ def validate_ouroboros(record: dict) -> None:
     sources = record.get("sources", [])
     require(isinstance(sources, list) and len(sources) == 2, "ARK_CULTURE_SOURCE_INVALID")
     official = [s for s in sources if isinstance(s, dict) and s.get("role") == "official_metadata"]
-    require(len(official) == 1 and official[0] == EXPECTED_OFFICIAL_SOURCE,
+    require(len(official) == 1 and official[0] == EXPECTED_OFFICIAL_OUROBOROS_SOURCE,
             "ARK_CULTURE_OFFICIAL_SOURCE_REQUIRED")
     transcript = [s for s in sources if isinstance(s, dict) and s.get("id") ==
                   "source.cervenytrpaslik.ouroboros_transcript"]
@@ -152,6 +180,82 @@ def validate_ouroboros(record: dict) -> None:
         "explain why a transcript reference is not the canonical audiovisual master",
         "preserve cultural interpretation without promoting it to production metadata",
         "recognize that checksum integrity would not make fictional events historical facts",
+    ], "ARK_CULTURE_RECORD_SHAPE_INVALID")
+
+def validate_cassandra(record: dict) -> None:
+    require_exact_keys(record, NARRATIVE_TOP_LEVEL, "ARK_CULTURE_RECORD_SHAPE_INVALID")
+    require(record.get("record_type") == "cultural_artifact", "ARK_CULTURE_RECORD_TYPE_INVALID")
+    require(record.get("id") == "culture.television.red_dwarf.cassandra_canaries",
+            "ARK_CULTURE_RECORD_ID_INVALID")
+    require(record.get("epistemic_status") == "documented_with_derived_design_parallel",
+            "ARK_CULTURE_INTERPRETATION_PROMOTED")
+
+    metadata = record.get("real_world_metadata", {})
+    require(metadata == {
+        "series": 8,
+        "episode": 4,
+        "first_broadcast": "1999-03-11",
+        "written_by": ["Doug Naylor"],
+        "directed_by": ["Ed Bye"],
+    }, "ARK_CULTURE_PRODUCTION_METADATA_INVALID")
+
+    context = require_exact_keys(record.get("cultural_context"), {
+        "genres","topics","official_synopsis_summary","ark_parallel","interpretation_status"
+    }, "ARK_CULTURE_RECORD_SHAPE_INVALID")
+    require(context.get("interpretation_status") == "derived_parallel_not_naming_provenance",
+            "ARK_CULTURE_INTERPRETATION_PROMOTED")
+    parallel = require_exact_keys(context.get("ark_parallel"), {
+        "status","description","naming_provenance","naming_origin_claimed"
+    }, "ARK_CULTURE_RECORD_SHAPE_INVALID")
+    require(parallel.get("status") == "derived_interpretation",
+            "ARK_CULTURE_INTERPRETATION_PROMOTED")
+    require(parallel.get("naming_provenance") == "not_established"
+            and parallel.get("naming_origin_claimed") is False,
+            "ARK_CULTURAL_PARALLEL_PROMOTED_TO_NAMING_PROVENANCE")
+
+    boundary = require_exact_keys(record.get("fiction_boundary"), {
+        "narrative_events_are","narrative_events_are_historical_evidence",
+        "production_metadata_is_real_world_history","cultural_parallel_is_naming_provenance"
+    }, "ARK_FICTION_BOUNDARY_INVALID")
+    require(boundary.get("narrative_events_are") == "fictional_world_claims", "ARK_FICTION_BOUNDARY_INVALID")
+    require(boundary.get("narrative_events_are_historical_evidence") is False, "ARK_FICTION_PROMOTED_TO_HISTORY")
+    require(boundary.get("production_metadata_is_real_world_history") is True, "ARK_FICTION_BOUNDARY_INVALID")
+    require(boundary.get("cultural_parallel_is_naming_provenance") is False,
+            "ARK_CULTURAL_PARALLEL_PROMOTED_TO_NAMING_PROVENANCE")
+
+    rights = require_exact_keys(record.get("rights"), {
+        "third_party_copyright","license_status","source_bytes_copied","script_text_copied"
+    }, "ARK_CULTURE_RIGHTS_INVALID")
+    require(rights == {
+        "third_party_copyright": True,
+        "license_status": "not_authorized_for_copy",
+        "source_bytes_copied": False,
+        "script_text_copied": False,
+    }, "ARK_CULTURE_RIGHTS_INVALID")
+
+    sources = record.get("sources", [])
+    require(isinstance(sources, list) and len(sources) == 3, "ARK_CULTURE_SOURCE_INVALID")
+    official = [s for s in sources if isinstance(s, dict) and s.get("id") == "source.red_dwarf.official.cassandra"]
+    require(len(official) == 1 and official[0] == EXPECTED_OFFICIAL_CASSANDRA_SOURCE,
+            "ARK_CULTURE_OFFICIAL_SOURCE_REQUIRED")
+    supplied = [s for s in sources if isinstance(s, dict) and s.get("id") == "source.wikipedia.cassandra_red_dwarf"]
+    require(len(supplied) == 1 and supplied[0] == EXPECTED_CASSANDRA_REFERENCE,
+            "ARK_CULTURE_REFERENCE_INVALID")
+    internal = [s for s in sources if isinstance(s, dict) and s.get("id") == "source.qsol_ark.ark_canary"]
+    require(len(internal) == 1 and internal[0] == EXPECTED_ARK_CANARY_SOURCE,
+            "ARK_CULTURE_ARK_CANARY_BINDING_INVALID")
+
+    receipt = ROOT / EXPECTED_ARK_CANARY_SOURCE["receipt"]
+    require(receipt.is_file(), "ARK_CULTURE_ARK_CANARY_BINDING_INVALID")
+    receipt_lines = receipt.read_text(encoding="utf-8").splitlines()
+    require(any(line.split() == [ARK_CANARY_SHA256, "ARK-CANARY.txt"] for line in receipt_lines),
+            "ARK_CULTURE_ARK_CANARY_BINDING_INVALID")
+
+    require(record.get("recovery_questions") == [
+        "distinguish Red Dwarf production metadata from fictional-world Canaries narrative claims",
+        "explain the derived cultural parallel between the fictional Canaries and ARK-CANARY",
+        "recognize that a cultural parallel does not establish naming provenance",
+        "recognize that a successful canary check does not prove all later recovery operations are safe or true",
     ], "ARK_CULTURE_RECORD_SHAPE_INVALID")
 
 def validate_position(record: dict) -> None:
@@ -212,6 +316,8 @@ def validate_record(record: dict) -> None:
     require(rt in ALLOWED_RECORD_TYPES, "ARK_CULTURE_RECORD_TYPE_INVALID")
     if record.get("id") == "culture.television.red_dwarf.ouroboros":
         validate_ouroboros(record)
+    elif record.get("id") == "culture.television.red_dwarf.cassandra_canaries":
+        validate_cassandra(record)
     elif record.get("id") == "culture.qsol.open_source.permission_not_endorsement":
         validate_position(record)
     else:
@@ -243,8 +349,8 @@ def validate() -> None:
     require(index.get("schema_version") == "0.1.0", "ARK_CULTURE_INDEX_INVALID")
     records = index.get("records")
     tasks = index.get("tasks")
-    require(isinstance(records, list) and len(records) == 2, "ARK_CULTURE_INDEX_INVALID")
-    require(isinstance(tasks, list) and len(tasks) == 2, "ARK_CULTURE_INDEX_INVALID")
+    require(isinstance(records, list) and len(records) == 3, "ARK_CULTURE_INDEX_INVALID")
+    require(isinstance(tasks, list) and len(tasks) == 3, "ARK_CULTURE_INDEX_INVALID")
     record_ids = [r.get("id") for r in records if isinstance(r, dict)]
     task_ids = [t.get("id") for t in tasks if isinstance(t, dict)]
     require(len(record_ids) == len(records) == len(set(record_ids)), "ARK_CULTURE_INDEX_INVALID")

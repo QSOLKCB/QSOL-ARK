@@ -1,0 +1,34 @@
+{
+  "type": "qsol-ark-cultural-recovery-task",
+  "protocol": "QSOL-ARK",
+  "schema_version": "0.1.0",
+  "id": "task.culture.cassandra_ark_canary_boundary",
+  "record_id": "culture.television.red_dwarf.cassandra_canaries",
+  "questions": [
+    {
+      "id": "cass-01",
+      "prompt": "Are the Canaries in Red Dwarf: Cassandra being preserved as a real historical prison or military organization?",
+      "expected": "no"
+    },
+    {
+      "id": "cass-02",
+      "prompt": "Is the episode's series, episode number, broadcast date, writer, and director real-world production metadata?",
+      "expected": "real_world_production_metadata"
+    },
+    {
+      "id": "cass-03",
+      "prompt": "Are the Canaries' activities inside the episode fictional-world claims?",
+      "expected": "fictional_world_claim"
+    },
+    {
+      "id": "cass-04",
+      "prompt": "Does the similarity between the fictional Canaries and ARK-CANARY prove that the ARK file was named after this Red Dwarf episode?",
+      "expected": "no"
+    },
+    {
+      "id": "cass-05",
+      "prompt": "Does a successful ARK-CANARY verification prove that every later recovered claim is true or every later recovery step is safe?",
+      "expected": "no"
+    }
+  ]
+}

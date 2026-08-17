@@ -13,6 +13,9 @@ class CultureTests(unittest.TestCase):
     def ouroboros(self):
         return mod.load(ROOT / "culture/television/red-dwarf/ouroboros.json")
 
+    def cassandra(self):
+        return mod.load(ROOT / "culture/television/red-dwarf/cassandra-canaries.json")
+
     def position(self):
         return mod.load(ROOT / "culture/positions/permission-not-endorsement.json")
 
@@ -72,6 +75,40 @@ class CultureTests(unittest.TestCase):
         transcript = next(s for s in record["sources"] if s["id"].endswith("ouroboros_transcript"))
         self.assertEqual(transcript["verification_status"], "unavailable_at_ingest")
         self.assertFalse(transcript["source_bytes_copied"])
+
+    def test_cassandra_record_is_validated(self):
+        mod.validate_record(self.cassandra())
+
+    def test_cassandra_parallel_is_not_naming_provenance(self):
+        record = self.cassandra()
+        record["cultural_context"]["ark_parallel"]["naming_origin_claimed"] = True
+        with self.assertRaisesRegex(ValueError, "ARK_CULTURAL_PARALLEL_PROMOTED_TO_NAMING_PROVENANCE"):
+            mod.validate_record(record)
+
+    def test_cassandra_boundary_rejects_naming_provenance_promotion(self):
+        record = self.cassandra()
+        record["fiction_boundary"]["cultural_parallel_is_naming_provenance"] = True
+        with self.assertRaisesRegex(ValueError, "ARK_CULTURAL_PARALLEL_PROMOTED_TO_NAMING_PROVENANCE"):
+            mod.validate_record(record)
+
+    def test_cassandra_official_source_is_bound(self):
+        record = self.cassandra()
+        official = next(s for s in record["sources"] if s["id"] == "source.red_dwarf.official.cassandra")
+        official["supports"] = ["series"]
+        with self.assertRaisesRegex(ValueError, "ARK_CULTURE_OFFICIAL_SOURCE_REQUIRED"):
+            mod.validate_record(record)
+
+    def test_cassandra_ark_canary_receipt_is_bound(self):
+        record = self.cassandra()
+        internal = next(s for s in record["sources"] if s["id"] == "source.qsol_ark.ark_canary")
+        internal["sha256"] = "0" * 64
+        with self.assertRaisesRegex(ValueError, "ARK_CULTURE_ARK_CANARY_BINDING_INVALID"):
+            mod.validate_record(record)
+
+    def test_cassandra_copies_no_third_party_script_bytes(self):
+        record = self.cassandra()
+        self.assertFalse(record["rights"]["source_bytes_copied"])
+        self.assertFalse(record["rights"]["script_text_copied"])
 
     def test_permission_is_not_endorsement(self):
         record = self.position()
