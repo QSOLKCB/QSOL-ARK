@@ -65,6 +65,39 @@ expected=$(awk '$2 == "ARK-CANARY.txt" { print $1; exit }' capsules/minimal/SHA2
 
 See [`docs/COMPUTATIONAL-ARCHAEOLOGY.md`](docs/COMPUTATIONAL-ARCHAEOLOGY.md).
 
+## Meme Archaeology
+
+Memes are treated as **compressed cultural artifacts**, not as disposable images.
+
+A future model may be able to read every pixel and still miss the culture that made the image intelligible. ARK therefore separates:
+
+- creator/source-work evidence;
+- an observed meme variant;
+- transmission history;
+- cultural interpretation;
+- rights and epistemic boundaries;
+- recovery questions testing whether those layers remain distinct.
+
+The first seed is `culture.meme.this_is_fine`. The source work is KC Green's *Gunshow* comic **On Fire**. The maintainer-supplied two-panel WebP crop is hash-described but not copied into the repository because ARK does not infer redistribution permission from ubiquity, a public URL, or a known hash.
+
+Know Your Meme is used as a provenance-labelled third-party history/reference source for meme spread and usage, while creator-controlled Gunshow pages remain the stronger source for creator and original-publication metadata.
+
+The recovery boundary is deliberately blunt:
+
+```text
+MEME != DECORATIVE_IMAGE
+CAPTION != CONTEXT
+DEPICTION != HISTORICAL_EVENT
+MEME_HISTORY_REFERENCE != CREATOR_SOURCE
+DERIVED_INTERPRETATION != UNIVERSAL_MEANING
+KNOWN_HASH != BYTE_COPY_PERMISSION
+POPULARITY != TRUTH
+```
+
+The next obvious specimen is **BTW, I Use Arch**: very little literal text, but a dense packet of Linux culture, technical identity signalling, perceived elitism, self-parody, and community history.
+
+See [`docs/MEME-ARCHAEOLOGY.md`](docs/MEME-ARCHAEOLOGY.md).
+
 ## RETRO-OSS archaeological source
 
 `QSOLKCB/RETRO-OSS` is used as a pinned provenance and epistemic specimen, **not copied as trusted source**.
@@ -86,6 +119,7 @@ See `specimens/retro-oss/` and `specimens/epistemic-traps/`.
 | Schema | `schema/` | machine validation |
 | Protocol | `docs/RECOVERY-PROTOCOL.md` | staged examination |
 | Archaeology | `docs/COMPUTATIONAL-ARCHAEOLOGY.md` | constrained-environment recovery |
+| Meme archaeology | `docs/MEME-ARCHAEOLOGY.md` | cultural-context and transmission recovery |
 | Constitution | `docs/SOFTWARE-COMMANDMENTS.md` | Ten Software Commandments |
 | Roadmap | `ROADMAP.md` | implementation sequence |
 
