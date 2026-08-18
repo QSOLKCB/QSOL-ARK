@@ -1,0 +1,31 @@
+name: personal-continuity
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile personal continuity tooling
+        run: python3 -m compileall -q tools/personal_continuity.py tests/test_personal_continuity.py
+      - name: Validate recovery contract
+        run: python3 tools/personal_continuity.py validate
+      - name: Verify MRS remains fail-closed until T5 exists
+        run: |
+          set +e
+          python3 tools/archaeology.py mrs personal_context_reconstruction
+          status=$?
+          set -e
+          test "$status" -eq 1
+      - name: Run personal continuity tests
+        run: python3 -m unittest tests.test_personal_continuity -v

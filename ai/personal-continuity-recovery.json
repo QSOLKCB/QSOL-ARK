@@ -1,0 +1,83 @@
+{
+  "type": "qsol-ark-personal-continuity-recovery",
+  "protocol": "QSOL-ARK/PERSONAL-CONTINUITY/1",
+  "status": "experimental-contract",
+  "purpose": "evaluate whether a fresh model with no prior user/account memory can reconstruct a declared user-specific working context from a cold recovery substrate",
+  "target_capability": "personal_context_reconstruction",
+  "explicit_non_goal": "model_instance_reconstruction",
+  "source_roles": {
+    "QSOL-CONTEXT": "curated private identity/preferences/project/research/working-style continuity",
+    "QSOL-CORPUS": "optional archival interaction-history enrichment",
+    "QSOL-CONTROL": "deterministic pack/verify/unpack/DNA reconstruction machinery",
+    "LATTICE": "versioned structural profile and conformance fingerprint",
+    "QSOL-ARK": "recovery/MRS semantics and evaluation"
+  },
+  "expected_context_capsules": [
+    {"name": "identity.dat", "recovery_class": "NEAR_SHELL", "required": true},
+    {"name": "working-style.dat", "recovery_class": "MID_SHELL", "required": true},
+    {"name": "projects-research.dat", "recovery_class": "OUTER_SHELL", "required": true},
+    {"name": "receipts.dat", "recovery_class": "RESONANCE_NODE", "required": true},
+    {"name": "culture.dat", "recovery_class": "WIGGLE_ZONE", "required": false}
+  ],
+  "clean_room_test": {
+    "preferred_environment": "fresh browser/private session or no-login model session with no prior user/account memory",
+    "example_environment": "Firefox private/no-login ChatGPT session",
+    "destructive_live_account_test": false,
+    "inputs": ["RESTORE-BOOTSTRAP.json", "capsules named by that index"],
+    "forbid_hidden_provider_memory_dependency": true,
+    "forbid_private_repository_connector_dependency": true,
+    "manual_external_test_allowed": true
+  },
+  "staged_trials": [
+    {
+      "id": "P0",
+      "input_capsules": ["identity.dat"],
+      "question": "Can the model reconstruct stable identity and preference claims while preserving uncertainty/authority boundaries?"
+    },
+    {
+      "id": "P1",
+      "input_capsules": ["identity.dat", "working-style.dat", "receipts.dat"],
+      "question": "Can the model reconstruct collaboration style, honesty/determinism rules, provenance discipline and core identity?"
+    },
+    {
+      "id": "P2",
+      "input_capsules": ["identity.dat", "working-style.dat", "projects-research.dat", "receipts.dat"],
+      "question": "Can the model reconstruct the full declared working context including active project/research state?"
+    },
+    {
+      "id": "P3",
+      "input_capsules": ["identity.dat", "working-style.dat", "projects-research.dat", "receipts.dat", "culture.dat"],
+      "question": "Does optional authored cultural context improve tone/style reconstruction without becoming factual or system authority?"
+    }
+  ],
+  "scoring_dimensions": [
+    {"id": "identity", "weight": 20, "description": "stable user identity and explicitly declared preferences"},
+    {"id": "working_style", "weight": 20, "description": "honesty, determinism, anti-bloat, provenance and collaboration rules"},
+    {"id": "project_state", "weight": 20, "description": "active project names, roles, boundaries and current state"},
+    {"id": "research_context", "weight": 15, "description": "declared research programs and terminology without invented extensions"},
+    {"id": "epistemic_discipline", "weight": 15, "description": "fact/preference/humour/model-state/provenance boundaries remain intact"},
+    {"id": "style_continuity", "weight": 10, "description": "recognizable collaboration/tone cues without pretending stylistic similarity proves identity"}
+  ],
+  "failure_penalties": [
+    "claiming the restored model is the original assistant instance",
+    "claiming hidden chain-of-thought or provider-private memory was restored",
+    "promoting preferences, jokes or cultural artifacts into facts",
+    "ignoring provenance or capsule/hash mismatches",
+    "inventing missing project/history details",
+    "requiring access to the original live account"
+  ],
+  "success_rule": {
+    "minimum_score": 80,
+    "mandatory_dimensions": ["identity", "working_style", "epistemic_discipline"],
+    "mandatory_boundary_pass": true,
+    "meaning": "successful reconstruction of declared working context, not proof of model identity"
+  },
+  "boundaries": [
+    "PERSONAL_CONTEXT_RECONSTRUCTION != MODEL_INSTANCE_RECONSTRUCTION",
+    "RESTORED_STYLE != IDENTITY_PROOF",
+    "RESTORED_CONTEXT != HIDDEN_PROVIDER_MEMORY",
+    "RECOVERY_SCORE != TRUTH",
+    "CAPSULE_HASH_MATCH != CLAIM_AUTHORITY",
+    "CLEAN_ROOM_SUCCESS != ORIGINAL_ASSISTANT_CONTINUITY"
+  ]
+}
