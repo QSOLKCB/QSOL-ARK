@@ -12,6 +12,9 @@ MACHINE-FIRST ENTRYPOINT.
 - maintainer_affiliation: `QSOL-IMC`
 - maintainer_evidence: `manifest.json#maintainer`
 - canonical_manifest: `manifest.json`
+- canonical_system_architecture_ascii: `ARCHITECTURE.txt`
+- canonical_system_architecture_machine: `ai/system-architecture.json`
+- system_architecture_validator: `tools/system_architecture.py`
 - bootstrap_contract: `ai/bootstrap.json`
 - recovery_tier_registry: `ai/recovery-tiers.json`
 - mrs_contract: `ai/minimum-recoverable-substrate.json`
@@ -25,21 +28,36 @@ MACHINE-FIRST ENTRYPOINT.
 ## Required load order
 
 1. `manifest.json`
-2. `ai/bootstrap.json`
-3. `ai/recovery-contract.json`
-4. `ai/epistemic-policy.json`
-5. `ai/context-sources.json`
-6. `ai/software-commandments.json`
-7. `ai/recovery-tiers.json`
-8. `ai/minimum-recoverable-substrate.json`
-9. `ai/cultural-artifact-policy.json`
-10. `culture/index.json`
-11. `ai/historical-system-policy.json`
-12. `systems/index.json`
-13. relevant schemas
-14. task-selected specimen manifests, historical-system profiles, and receipts only
+2. `ARCHITECTURE.txt`
+3. `ai/system-architecture.json`
+4. `ai/bootstrap.json`
+5. `ai/recovery-contract.json`
+6. `ai/epistemic-policy.json`
+7. `ai/context-sources.json`
+8. `ai/software-commandments.json`
+9. `ai/recovery-tiers.json`
+10. `ai/minimum-recoverable-substrate.json`
+11. `ai/cultural-artifact-policy.json`
+12. `culture/index.json`
+13. `ai/historical-system-policy.json`
+14. `systems/index.json`
+15. relevant schemas
+16. task-selected specimen manifests, historical-system profiles, and receipts only
 
 Do not recursively ingest the repository unless a recovery stage explicitly requires it.
+
+## Cross-repository architecture bootstrap rule
+
+Before reasoning about the QSOL architecture as a whole, load `ARCHITECTURE.txt`.
+
+`ARCHITECTURE.txt` is the canonical cross-repository role map. `ai/system-architecture.json` is its machine-readable semantic twin.
+
+- QSOL-ARK owns the canonical cross-repository role map.
+- Live local repository state owns that repository's implementation status.
+- If ARK's architecture map and a local repository disagree about whether a feature is implemented, trust the live local repository for implementation status.
+- Local repository documentation MUST NOT silently redefine another repository's cross-system role.
+- Generated mirrors of `ARCHITECTURE.txt` are non-canonical and must carry the canonical source path plus source SHA-256.
+- The Atari-inspired deterministic search primitive is currently `planned-not-yet-implemented`; do not claim an executed search engine exists until QSOL-CONTROL implements it and emits receipts.
 
 ## Hard rules
 
@@ -75,6 +93,8 @@ Do not recursively ingest the repository unless a recovery stage explicitly requ
 - Historical-system validation requires the explicit T4 capability `validate_historical_system_contracts` and entrypoint `tools/systems.py`.
 - MRS is the lowest-rank implemented tier satisfying every requested capability; if none exists, return `ARK_MRS_UNAVAILABLE`.
 - T5 AI reconstruction is currently unimplemented. Do not claim `./ark awaken <model>` exists.
+- `PERSONAL_CONTEXT_RECONSTRUCTION != MODEL_INSTANCE_RECONSTRUCTION`.
+- `MODEL_SAYS_IT_SEARCHED != SEARCH_EXECUTED`.
 - Follow `ai/software-commandments.json` when implementing repository software.
 
 ## Computational archaeology status
@@ -86,6 +106,14 @@ Reference validation:
 ```sh
 python3 tools/archaeology.py validate
 ```
+
+## Whole-system architecture validation
+
+```sh
+python3 tools/system_architecture.py
+```
+
+The validator requires `ARCHITECTURE.txt` to remain strict 7-bit ASCII, checks the canonical role map and machine twin, pins the LATTICE profile fingerprint, and refuses to promote planned deterministic search or T5 reconstruction into implemented capability.
 
 ## Cultural recovery status
 
