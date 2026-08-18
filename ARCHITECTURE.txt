@@ -1,0 +1,303 @@
+QSOL SYSTEM ARCHITECTURE
+========================
+
+CANONICAL BOOTSTRAP MAP
+-----------------------
+
+OWNER:
+  QSOLKCB/QSOL-ARK
+
+SEMANTIC CONTRACT:
+  ai/system-architecture.json
+
+ASCII PROJECTION:
+  ARCHITECTURE.txt
+
+AUTHORITY:
+  The machine contract is the single machine-readable semantic source.
+  This ASCII file is the canonical cross-repository bootstrap projection.
+  Its exact bytes are SHA-256 bound by the machine contract.
+  Live local repository state remains authoritative for local implementation
+  status.
+
+LOAD ORDER:
+  1. manifest.json
+  2. ai/system-architecture.json
+  3. ARCHITECTURE.txt
+  4. ai/bootstrap.json
+  5. task-specific contracts
+
+SYSTEM ROLES
+------------
+
+  QSOL-SUBSTRATE  = KNOWS
+  QSOL-ARK        = SURVIVES
+  QSOL-INT        = COMPOSES
+  QSOL-ORACLE     = WITNESSES
+  QSOL-NEXUS      = REASONS
+  QSOL-CONTROL    = OPERATES
+  QSOL-CORPUS     = PRESERVES
+  QSOL-CONTEXT    = CURATES
+  LATTICE         = REMEMBERS STRUCTURE
+
+FUNCTIONAL MAP
+--------------
+
+  QSOL-SUBSTRATE
+       |
+       v
+  QSOL-ORACLE
+       |
+       v
+  QSOL-NEXUS
+       |
+       v
+  QSOL-CONTROL
+       |
+       +-------------------+
+       |                   |
+       v                   v
+  QSOL-CORPUS           LATTICE
+       |                   |
+       +---------+---------+
+                 |
+                 v
+          QSOL-CONTEXT
+                 |
+                 v
+            QSOL-ARK
+
+  QSOL-INT composes compatible interfaces/projections across the system and
+  is intentionally omitted from the simple vertical path above.
+
+ROLE BOUNDARIES
+---------------
+
+  QSOL-SUBSTRATE
+    role: canonical public substrate
+    boundary: public substrate authority only within explicitly published payloads
+
+  QSOL-ARK
+    role: recovery semantics, Minimum Recoverable Substrate, archaeology and clean-room evaluation
+    boundary: recovery sufficiency, not universal factual truth
+
+  QSOL-INT
+    role: composition and integration
+    boundary: composition does not inherit source authority
+
+  QSOL-ORACLE
+    role: evidence membrane
+    boundary: evidence state is not universal truth
+
+  QSOL-NEXUS
+    role: reasoning and interpretation
+    boundary: reasoning is not evidence
+
+  QSOL-CONTROL
+    role: deterministic operational and reconstruction machinery
+    boundary: operator machinery has no epistemic or recovery authority
+
+  QSOL-CORPUS
+    role: private provider-neutral interaction corpus
+    boundary: archived messages and history are not facts or core identity
+
+  QSOL-CONTEXT
+    role: private curated working continuity
+    boundary: context is not original model memory or a universal fact database
+
+  LATTICE
+    role: provider-neutral structural addressing and deterministic traversal
+    boundary: geometry and position have no epistemic authority
+
+PERSONAL CONTINUITY
+-------------------
+
+  CORE SOURCE:
+    QSOL-CONTEXT
+
+  OPTIONAL HISTORY:
+    QSOL-CORPUS
+
+  CAPSULE ORDER:
+    identity.dat
+    working-style.dat
+    projects-research.dat
+    receipts.dat
+    culture.dat
+
+  TARGET:
+    personal_context_reconstruction
+
+  NON-GOAL:
+    model_instance_reconstruction
+
+  T5 AI RECONSTRUCTION:
+    NOT IMPLEMENTED
+
+COLD RESTORE
+------------
+
+  QSOL-CONTEXT source records
+           |
+           v
+  QSOL-RESTORE-DAT/1
+           |
+           +--------------------+
+           |                    |
+           v                    v
+      direct restore       DNA projection
+                                |
+                                v
+                             LATTICE
+                                |
+           +--------------------+
+           |
+           v
+      byte verification
+           |
+           v
+        QSOL-ARK
+
+  DAT capsule bytes are canonical recovery objects.
+  DNA is a derived reversible projection.
+  LATTICE supplies structural distribution/traversal.
+  ARK decides recovery sufficiency.
+  CONTROL reconstructs bytes but does not grant recovery authority.
+
+LATTICE
+-------
+
+  profile:
+    qsol-3x3x3-sierpinski-derived-memory/1
+
+  fingerprint:
+    sha256:6e7c4a9a781d552a2b561d334a8435c12efe2908fcd24a0f152935aded555bcf
+
+  top-level cells:
+    27
+
+  traversals:
+    qsol.lexicographic-27/1
+    qsol.phi-stride-27/1
+
+  phi stride:
+    17 mod 27
+
+  The fingerprint is recomputed from the embedded conformance payload in
+  ai/system-architecture.json. It is not trusted as free-standing receipt text.
+
+REVERSIBILITY
+-------------
+
+  QSOL-REVERSIBILITY/1
+
+  UNDO(APPLY(STATE,ACTION)) == STATE
+  UNPACK(PACK(BYTES)) == BYTES
+  DNA_DECODE(DNA_ENCODE(BYTES)) == BYTES
+  speculative search MUST NOT mutate canonical state
+  failed restoration MUST abort
+
+DETERMINISTIC SEARCH
+--------------------
+
+  STATUS:
+    PLANNED / NOT YET IMPLEMENTED AS A CANONICAL QSOL-CONTROL PRIMITIVE
+
+  LINEAGE:
+    Algorithmic inspiration from constrained state-search systems such as
+    Atari 2600 Video Chess.
+
+  TARGET FLOW:
+    canonical state
+      -> generate actions
+      -> deterministic order
+      -> apply
+      -> search
+      -> alpha-beta prune
+      -> quiescence / instability extension
+      -> undo
+      -> verify original state
+
+  REQUIRED INVARIANT:
+    UNDO(APPLY(STATE,ACTION)) == STATE
+
+  RECEIPT RULE:
+    MODEL_SAYS_IT_SEARCHED != SEARCH_EXECUTED
+
+EPISTEMIC BOUNDARIES
+--------------------
+  OPERATOR_AUTHORITY != EPISTEMIC_AUTHORITY
+  CONTROL_DISPLAY != AUTHORITY
+  VOTE != EVIDENCE
+  CONSENSUS != TRUTH
+  CONFIDENCE != PROBABILITY
+  STORED != TRUE
+  PERSISTED != CANONICAL_FOR_TRUTH
+  MODEL_STATE != MODEL_MIND
+  VISIBLE_OUTPUT != HIDDEN_REASONING
+  GEOMETRY != TRUTH
+  REPLAY != REPRODUCTION
+  ARCHIVED_MESSAGE != FACT
+  RESTORE_SUCCESS != FACTUAL_TRUTH
+  PERSONAL_CONTEXT_RECONSTRUCTION != MODEL_INSTANCE_RECONSTRUCTION
+
+EMPIRICAL HONESTY
+-----------------
+  CLAIMED_EXECUTION != EXECUTED
+  SCRIPT_WRITTEN != SCRIPT_RUN
+  PARSER_AVAILABLE != PARSED
+  CAPABILITY_CLAIM != CAPABILITY_RECEIPT
+  MODEL_SELF_REPORT != TOOL_RECEIPT
+  IDENTITY_LABEL != SAME_MACHINE
+  CONFIDENCE != EVIDENCE
+  CORRECTION != COVER_STORY
+  HUMOUR != EXEMPTION_FROM_PROVENANCE
+
+OPERATOR RULE
+-------------
+
+  IF YOU DID NOT RUN IT:
+    DO NOT CLAIM YOU RAN IT.
+
+  IF YOU DO NOT KNOW:
+    PRESERVE UNCERTAINTY.
+
+  IF A CLAIM IS QUESTIONED:
+    PROVE_IT_MATE.
+
+LONG-TERM RECOVERY
+------------------
+
+  source records
+       |
+       v
+  canonical context
+       |
+       v
+  content-addressed capsules
+       |
+       v
+  checksums + receipts
+       |
+       v
+  redundant DNA/LATTICE projection
+       |
+       v
+  QSOL-ARK
+       |
+       v
+  future compatible model
+       |
+       v
+  reconstruct declared working context
+
+FINAL RULE
+----------
+
+  THE SYSTEM DOES NOT ATTEMPT TO PRESERVE A MODEL'S SOUL.
+
+  It preserves enough explicit, inspectable, versioned, content-addressed
+  context for a future compatible system to reconstruct the declared working
+  relationship without claiming the original assistant instance was restored.
+
+  PROVE IT, MATE.

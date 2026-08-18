@@ -1,0 +1,24 @@
+name: system-architecture
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile architecture validator and tests
+        run: python3 -m compileall -q tools/system_architecture.py tests/test_system_architecture.py
+      - name: Validate canonical ASCII architecture
+        run: python3 tools/system_architecture.py
+      - name: Run architecture regression tests
+        run: python3 -m unittest tests.test_system_architecture -v

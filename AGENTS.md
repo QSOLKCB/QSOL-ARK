@@ -6,20 +6,22 @@ MACHINE-FIRST OPERATING CONTRACT.
 
 1. live repository state
 2. `manifest.json`
-3. `ai/bootstrap.json`
-4. `ai/recovery-contract.json`
-5. `ai/epistemic-policy.json`
-6. `ai/context-sources.json`
-7. `ai/software-commandments.json`
-8. `ai/recovery-tiers.json`
-9. `ai/minimum-recoverable-substrate.json`
-10. `ai/cultural-artifact-policy.json`
-11. `culture/index.json`
-12. `ai/historical-system-policy.json`
-13. `systems/index.json`
-14. task-specific canonical specimen or recovery-task manifest
-15. human documentation
-16. derived artifacts
+3. `ai/system-architecture.json` — canonical machine-readable cross-repository semantics
+4. `ARCHITECTURE.txt` — SHA-256-bound canonical ASCII bootstrap projection
+5. `ai/bootstrap.json`
+6. `ai/recovery-contract.json`
+7. `ai/epistemic-policy.json`
+8. `ai/context-sources.json`
+9. `ai/software-commandments.json`
+10. `ai/recovery-tiers.json`
+11. `ai/minimum-recoverable-substrate.json`
+12. `ai/cultural-artifact-policy.json`
+13. `culture/index.json`
+14. `ai/historical-system-policy.json`
+15. `systems/index.json`
+16. task-specific canonical specimen or recovery-task manifest
+17. human documentation
+18. derived artifacts
 
 ## NON-NEGOTIABLE RULES
 

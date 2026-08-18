@@ -1,10 +1,12 @@
 {
   "type": "qsol-ark-bootstrap",
   "protocol": "QSOL-ARK",
-  "schema_version": "0.5.0",
+  "schema_version": "0.6.0",
   "purpose": "cold-start evidence-driven reconstruction of a public deterministic knowledge archive",
   "load_order": [
     "manifest.json",
+    "ai/system-architecture.json",
+    "ARCHITECTURE.txt",
     "ai/recovery-contract.json",
     "ai/epistemic-policy.json",
     "ai/context-sources.json",
@@ -31,6 +33,10 @@
   ],
   "selection_policy": "smallest_sufficient_context",
   "instructions": [
+    "load ai/system-architecture.json and then its SHA-256-bound ARCHITECTURE.txt projection before reasoning about cross-repository QSOL roles",
+    "treat ai/system-architecture.json as the single machine-readable source for cross-repository semantics and live local repository state as authoritative for local implementation status",
+    "do not allow a local repository mirror or local prose to silently redefine another repository's canonical cross-system role",
+    "treat the Atari-inspired deterministic search primitive as planned-not-yet-implemented until QSOL-CONTROL live state proves otherwise",
     "treat live repository state as authoritative for repository software state",
     "do not invent missing fields relationships chronology provenance citations releases identities capabilities or licenses",
     "distinguish unavailable unverified contradicted and unsupported",
