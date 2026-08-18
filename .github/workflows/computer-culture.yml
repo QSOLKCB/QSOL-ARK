@@ -12,10 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate cultural records
+      - name: Validate cultural seed records
         run: python3 tools/culture.py
-      - name: Run cultural regression tests
+      - name: Run cultural seed regression tests
         run: python3 -m unittest tests.test_culture -v
+      - name: Validate broader computer-culture records
+        run: python3 tools/computer_culture.py
+      - name: Run broader computer-culture regression tests
+        run: python3 -m unittest tests.test_computer_culture -v
       - name: Parse cultural JSON
         run: |
           python3 - <<'PY'
@@ -25,5 +29,11 @@ jobs:
               for path in root.rglob('*.json'):
                   json.loads(path.read_text(encoding='utf-8'))
                   print(path)
-          json.loads(Path('ai/cultural-artifact-policy.json').read_text(encoding='utf-8'))
+          for path in (
+              Path('ai/cultural-artifact-policy.json'),
+              Path('ai/computer-cultural-artifact-profile.json'),
+              Path('ai/cultural-recovery-score.json'),
+          ):
+              json.loads(path.read_text(encoding='utf-8'))
+              print(path)
           PY
