@@ -1,0 +1,735 @@
+QSOL SYSTEM ARCHITECTURE
+========================
+
+CANONICAL CROSS-REPOSITORY MAP
+------------------------------
+
+OWNER:
+  QSOLKCB/QSOL-ARK
+
+CANONICAL PATH:
+  ARCHITECTURE.txt
+
+MACHINE TWIN:
+  ai/system-architecture.json
+
+ENCODING CONTRACT:
+  US-ASCII / 7-bit ASCII only
+  LF newlines
+  no tabs
+  no Unicode box drawing
+  no Mermaid dependency
+
+AUTHORITY RULE:
+
+  CROSS_REPOSITORY_ROLE_AUTHORITY = QSOL-ARK/ARCHITECTURE.txt
+  LOCAL_IMPLEMENTATION_AUTHORITY  = live state of each local repository
+
+  If this map disagrees with a local repository about whether a feature is
+  implemented, trust the live local repository for implementation status.
+
+  Local repositories MUST NOT silently redefine the canonical cross-system
+  role of another repository.
+
+PURPOSE
+-------
+
+Preserve, operate, reconstruct, reason over, and recover a provider-neutral
+user/AI working context without confusing storage, memory, evidence,
+reasoning, recovery, or model identity.
+
+CANONICAL SYSTEM ROLES
+----------------------
+
+  QSOL-SUBSTRATE  = KNOWS
+  QSOL-ARK        = SURVIVES
+  QSOL-INT        = COMPOSES
+  QSOL-ORACLE     = WITNESSES
+  QSOL-NEXUS      = REASONS
+  QSOL-CONTROL    = OPERATES
+  QSOL-CORPUS     = PRESERVES
+  QSOL-CONTEXT    = CURATES
+  LATTICE         = REMEMBERS STRUCTURE
+
+TOP-LEVEL FUNCTIONAL MAP
+------------------------
+
+                              +------------------+
+                              | QSOL-SUBSTRATE   |
+                              | KNOWS            |
+                              | canonical public |
+                              | substrate        |
+                              +---------+--------+
+                                        |
+                                        v
+                              +------------------+
+                              | QSOL-ORACLE      |
+                              | WITNESSES        |
+                              | evidence layer   |
+                              +---------+--------+
+                                        |
+                                        v
+                              +------------------+
+                              | QSOL-NEXUS       |
+                              | REASONS          |
+                              | interpretation   |
+                              | and synthesis    |
+                              +---------+--------+
+                                        |
+                                        v
+                              +------------------+
+                              | QSOL-CONTROL     |
+                              | OPERATES         |
+                              | deterministic    |
+                              | machinery        |
+                              +----+--------+----+
+                                   |        |
+                     +-------------+        +--------------+
+                     |                                     |
+                     v                                     v
+            +------------------+                  +------------------+
+            | QSOL-CORPUS      |                  | LATTICE          |
+            | PRESERVES        |                  | REMEMBERS        |
+            | interaction      |                  | structural       |
+            | history          |                  | addressing       |
+            +--------+---------+                  +--------+---------+
+                     |                                     |
+                     +----------------+--------------------+
+                                      |
+                                      v
+                              +------------------+
+                              | QSOL-CONTEXT     |
+                              | CURATES          |
+                              | private working  |
+                              | continuity       |
+                              +---------+--------+
+                                        |
+                                        v
+                              +------------------+
+                              | QSOL-ARK         |
+                              | SURVIVES         |
+                              | recovery + MRS   |
+                              | clean-room test  |
+                              +------------------+
+
+IMPORTANT:
+  The drawing above shows functional relationships.
+  It does NOT assert that every adjacent repository directly calls every
+  other repository at runtime.
+
+  QSOL-INT is a composition role in the wider architecture and is omitted
+  from the simple vertical data-flow drawing only to keep the diagram legible.
+
+
+QSOL-SUBSTRATE
+==============
+
+ROLE:
+  Canonical public substrate.
+
+VERB:
+  KNOWS
+
+RESPONSIBILITY:
+  Publish inspectable public context and source-of-truth substrate records
+  within its declared authority domain.
+
+BOUNDARIES:
+  SUBSTRATE_RECORD != UNIVERSAL_TRUTH
+  PUBLIC != AUTOMATICALLY_CANONICAL
+  DERIVED_PROJECTION != CANONICAL_SOURCE
+
+
+QSOL-ORACLE
+===========
+
+ROLE:
+  Evidence membrane.
+
+VERB:
+  WITNESSES
+
+RESPONSIBILITY:
+  Represent evidence state and preserve distinctions such as known,
+  conflicted, unknown, observed, and unresolved.
+
+BOUNDARIES:
+  ORACLE_OUTPUT != UNIVERSAL_TRUTH
+  EVIDENCE != CONSENSUS
+  RETRIEVAL != ENDORSEMENT
+
+
+QSOL-NEXUS
+==========
+
+ROLE:
+  Reasoning and interpretation layer.
+
+VERB:
+  REASONS
+
+RESPONSIBILITY:
+  Reason over evidence, context, models, and deterministic tool receipts
+  without redefining evidence or storage as truth.
+
+BOUNDARIES:
+  REASONING != EVIDENCE
+  MODEL_CONSENSUS != TRUTH
+  COUNCIL_VOTE != FACT
+
+
+QSOL-INT
+========
+
+ROLE:
+  Composition/integration layer.
+
+VERB:
+  COMPOSES
+
+RESPONSIBILITY:
+  Compose compatible interfaces and projections without becoming the
+  canonical authority for the source systems being composed.
+
+BOUNDARIES:
+  COMPOSITION != SOURCE_AUTHORITY
+  ADAPTER != CANONICAL_SOURCE
+
+
+QSOL-CONTEXT
+============
+
+ROLE:
+  Curated private working context.
+
+VERB:
+  CURATES
+
+CONTAINS:
+  - identity
+  - stable preferences
+  - collaboration style
+  - honesty contracts
+  - determinism contracts
+  - active project state
+  - research state
+  - publication state
+  - chronology
+  - selected cultural/context artifacts
+
+DOES NOT MEAN:
+  CONTEXT != ORIGINAL MODEL MEMORY
+  CONTEXT != FACT DATABASE
+  CONTEXT != COMPLETE INTERACTION HISTORY
+
+PERSONAL CONTINUITY CAPSULE ARCHITECTURE:
+
+  NEAR_SHELL
+    identity.dat
+
+  MID_SHELL
+    working-style.dat
+
+  OUTER_SHELL
+    projects-research.dat
+
+  RESONANCE_NODE
+    receipts.dat
+
+  WIGGLE_ZONE
+    culture.dat
+
+RESTORE ORDER:
+
+  identity.dat
+      |
+      v
+  working-style.dat
+      |
+      v
+  projects-research.dat
+      |
+      v
+  receipts.dat
+      |
+      v
+  culture.dat
+
+STATUS NOTE:
+  The architecture above defines the intended continuity split.
+  Check live QSOL-CONTEXT state for current implementation status.
+
+
+QSOL-CORPUS
+===========
+
+ROLE:
+  Provider-neutral archival interaction corpus.
+
+VERB:
+  PRESERVES
+
+RAW PROVIDER EXPORT FLOW:
+
+  provider export ZIP
+          |
+          v
+  EXTERNAL PRIVATE VAULT
+          |
+          | SHA-256 provenance root
+          v
+  PROVIDER ADAPTER
+          |
+          v
+  NORMALIZED CORPUS
+
+NORMALIZED RECORD TYPES:
+  - conversation
+  - message
+  - attachment
+  - model_observation
+  - source_reference
+  - collection_snapshot
+
+RULES:
+  RAW_EXPORT != NORMALIZED_PROJECTION
+  ARCHIVED_MESSAGE != FACT
+  MODEL_OBSERVATION != MODEL_MIND
+  SOURCE != COLLECTION
+  CORPUS_HISTORY != CORE_IDENTITY
+  HIDDEN_CHAIN_OF_THOUGHT != NORMALIZED_CORPUS
+
+CORE CONTINUITY RULE:
+  QSOL-CONTEXT loads core personal continuity.
+  QSOL-CORPUS provides optional archival-history enrichment.
+
+
+LATTICE
+=======
+
+ROLE:
+  Provider-neutral structural addressing and deterministic traversal.
+
+VERB:
+  REMEMBERS STRUCTURE
+
+CANONICAL PROFILE:
+  qsol-3x3x3-sierpinski-derived-memory/1
+
+GRID:
+  3 x 3 x 3
+  27 top-level cells
+
+AXES:
+
+  X = INFORMATION ROLE
+      0 question
+      1 response
+      2 evidence
+
+  Y = EPISTEMIC ROLE
+      0 observed
+      1 derived
+      2 unresolved
+
+  Z = TEMPORAL ROLE
+      0 current
+      1 historical
+      2 recovery
+
+ADDRESS:
+  L[x,y,z]
+
+RECURSIVE ADDRESS:
+  L[x,y,z]/L[x,y,z]/...
+
+TRAVERSALS:
+
+  qsol.lexicographic-27/1
+
+  qsol.phi-stride-27/1
+    stride  = 17
+    modulus = 27
+
+    cell_index(n) = (17 * n) mod 27
+
+PROFILE FINGERPRINT:
+  sha256:6e7c4a9a781d552a2b561d334a8435c12efe2908fcd24a0f152935aded555bcf
+
+BOUNDARIES:
+  GEOMETRY != TRUTH
+  POSITION != IMPORTANCE
+  CELL != AUTHORITY
+  MEMORY != EVIDENCE
+  TRAVERSAL != PHYSICAL_LAW
+  FINGERPRINT_MATCH != TRUTH
+  PROFILE_COMPATIBILITY != EPISTEMIC_AUTHORITY
+
+
+QSOL-CONTROL
+============
+
+ROLE:
+  Deterministic operational machinery.
+
+VERB:
+  OPERATES
+
+CORE RESPONSIBILITIES:
+  - file storage operations
+  - collection operations
+  - deterministic retrieval
+  - reversible reconstruction machinery
+  - DNA projection machinery
+  - operational receipts
+
+DOES NOT OWN:
+  - truth
+  - evidence authority
+  - recovery authority
+  - model identity
+
+
+COLD RESTORE ARCHITECTURE
+-------------------------
+
+  QSOL-CONTEXT SOURCE FILES
+            |
+            v
+  +-----------------------+
+  | QSOL-RESTORE-DAT/1    |
+  | canonical DAT capsule |
+  +-----------+-----------+
+              |
+              +----------------------+
+              |                      |
+              v                      v
+       DIRECT RESTORE        DNA PROJECTION
+                                    |
+                                    v
+                               LATTICE
+                                    |
+              +---------------------+
+              |
+              v
+       BYTE VERIFICATION
+              |
+              v
+          QSOL-ARK
+       RECOVERY TEST
+
+RULES:
+  DAT = CANONICAL RECOVERY OBJECT
+  DNA = DERIVED REVERSIBLE PROJECTION
+  LATTICE = STRUCTURAL DISTRIBUTION
+
+  DNA_PROJECTION != CANONICAL_SOURCE
+  RESTORE_CAPSULE != MODEL_MEMORY
+  RESTORED_CONTEXT != ORIGINAL_ASSISTANT_INSTANCE
+
+STATUS NOTE:
+  This is the canonical cross-repository design target.
+  Check live QSOL-CONTROL and QSOL-CONTEXT state before claiming the DAT
+  capsule path is implemented or released.
+
+
+DNA PROJECTION
+--------------
+
+  BYTE
+    |
+    v
+  2-BIT DNA MAP
+    |
+    +-- 00 = A
+    +-- 01 = C
+    +-- 10 = G
+    +-- 11 = T
+    |
+    v
+  CODONS
+    |
+    v
+  27-CELL LATTICE DISTRIBUTION
+    |
+    v
+  PHI-STRIDE TRAVERSAL
+    |
+    v
+  REVERSIBLE RECOVERY
+
+REQUIRED PROPERTY:
+  DECODE(ENCODE(BYTES)) == BYTES
+
+DNA DOES NOT MEAN:
+  encryption
+  compression
+  biological storage
+  cognition
+  factual authority
+
+
+REVERSIBILITY
+-------------
+
+ARCHITECTURAL INVARIANT FAMILY:
+  QSOL-REVERSIBILITY/1
+
+R1:
+  UNDO(APPLY(STATE, ACTION)) == STATE
+
+R2:
+  UNPACK(PACK(BYTES)) == BYTES
+
+R3:
+  DNA_DECODE(DNA_ENCODE(BYTES)) == BYTES
+
+R4:
+  speculative search MUST NOT mutate canonical state
+
+R5:
+  failed restoration MUST abort
+
+STATUS NOTE:
+  R2 and R3 correspond to reconstruction patterns in the recovery design.
+  R1, R4, and R5 also define requirements for the planned deterministic
+  search primitive below.
+
+
+DETERMINISTIC SEARCH
+--------------------
+
+STATUS:
+  PLANNED / NOT YET IMPLEMENTED AS A CANONICAL QSOL-CONTROL PRIMITIVE
+
+INSPIRATION:
+  Constrained state-search systems such as Atari 2600 Video Chess.
+
+LINEAGE CLAIM:
+  Algorithmic inspiration only.
+  This is not a claim that Atari chess is part of QSOL physics, memory,
+  evidence, or recovery authority.
+
+ARCHITECTURE:
+
+  CANONICAL STATE
+        |
+        v
+  GENERATE ACTIONS
+        |
+        v
+  DETERMINISTIC ORDER
+        |
+        v
+      APPLY
+        |
+        v
+      SEARCH
+        |
+        +------> ALPHA-BETA PRUNE
+        |
+        +------> QUIESCENCE / INSTABILITY EXTENSION
+        |
+        v
+       UNDO
+        |
+        v
+  VERIFY ORIGINAL STATE
+
+CORE RULE:
+  MODEL_SAYS_IT_SEARCHED != SEARCH_EXECUTED
+
+FUTURE EXECUTION RECEIPT SHOULD RECORD:
+  - initial state hash
+  - search protocol/version
+  - depth/budget
+  - states evaluated
+  - states pruned
+  - instability/quiescence extensions
+  - deterministic tie-break rule
+  - selected action
+  - score/evaluation output
+  - restoration verification result
+
+
+QSOL-ARK
+========
+
+ROLE:
+  Recovery semantics and survivability.
+
+VERB:
+  SURVIVES
+
+RESPONSIBILITY:
+  Decide whether an available substrate satisfies a requested recovery
+  capability under the declared Minimum Recoverable Substrate rules.
+
+CONTROL may reconstruct bytes.
+CONTROL does NOT decide that a reconstruction is sufficient.
+
+MINIMUM RECOVERABLE SUBSTRATE:
+
+  request capability
+        |
+        v
+  inspect implemented recovery tiers
+        |
+        v
+  choose lowest implemented sufficient tier
+        |
+        +-- none sufficient --> ARK_MRS_UNAVAILABLE
+        |
+        v
+  recovery allowed
+
+
+PERSONAL CONTEXT RECONSTRUCTION
+-------------------------------
+
+TARGET:
+  personal_context_reconstruction
+
+NOT:
+  model_instance_reconstruction
+
+CLEAN-ROOM TEST:
+
+  FRESH MODEL SESSION
+  NO LOGIN
+  NO SAVED USER MEMORY
+  NO PRIVATE REPOSITORY CONNECTOR
+  NO ORIGINAL ACCOUNT DEPENDENCY
+
+        |
+        v
+
+  RESTORE-BOOTSTRAP.json
+        +
+  DECLARED DAT CAPSULES
+
+        |
+        v
+
+  P0 = identity
+  P1 = identity + working style + receipts
+  P2 = full working context
+  P3 = optional cultural enrichment
+
+        |
+        v
+
+  ARK SCORE
+
+SUCCESS MEANS:
+  The declared personal working context was reconstructed sufficiently for
+  the benchmark contract.
+
+SUCCESS DOES NOT MEAN:
+  The original assistant instance was restored.
+
+CURRENT ARK BOUNDARY:
+  T5 AI reconstruction remains unimplemented until an actual adapter/harness
+  satisfies the declared capability contract.
+
+
+EPISTEMIC BOUNDARIES
+====================
+
+These are architectural invariants.
+
+  OPERATOR_AUTHORITY != EPISTEMIC_AUTHORITY
+  CONTROL_DISPLAY != AUTHORITY
+  VOTE != EVIDENCE
+  CONSENSUS != TRUTH
+  CONFIDENCE != PROBABILITY
+  STORED != TRUE
+  PERSISTED != CANONICAL_FOR_TRUTH
+  MODEL_STATE != MODEL_MIND
+  VISIBLE_OUTPUT != HIDDEN_REASONING
+  GEOMETRY != TRUTH
+  REPLAY != REPRODUCTION
+  ARCHIVED_MESSAGE != FACT
+  RESTORE_SUCCESS != FACTUAL_TRUTH
+  PERSONAL_CONTEXT_RECONSTRUCTION != MODEL_INSTANCE_RECONSTRUCTION
+
+
+EMPIRICAL HONESTY
+=================
+
+  CLAIMED_EXECUTION != EXECUTED
+  SCRIPT_WRITTEN != SCRIPT_RUN
+  PARSER_AVAILABLE != PARSED
+  CAPABILITY_CLAIM != CAPABILITY_RECEIPT
+  MODEL_SELF_REPORT != TOOL_RECEIPT
+  IDENTITY_LABEL != SAME_MACHINE
+  CONFIDENCE != EVIDENCE
+  CORRECTION != COVER_STORY
+  HUMOUR != EXEMPTION_FROM_PROVENANCE
+
+OPERATOR RULE:
+
+  IF YOU DID NOT RUN IT:
+      DO NOT CLAIM YOU RAN IT.
+
+  IF YOU DO NOT KNOW:
+      PRESERVE UNCERTAINTY.
+
+  IF A CLAIM IS QUESTIONED:
+      PROVE_IT_MATE.
+
+
+LONG-TERM RECOVERY
+==================
+
+The intended archaeological path is:
+
+  SOURCE RECORDS
+       |
+       v
+  CANONICAL CONTEXT
+       |
+       v
+  CONTENT-ADDRESSED CAPSULES
+       |
+       v
+  CHECKSUMS + RECEIPTS
+       |
+       v
+  REDUNDANT DNA/LATTICE PROJECTION
+       |
+       v
+  QSOL-ARK
+       |
+       v
+  FUTURE MODEL
+       |
+       v
+  RECONSTRUCT DECLARED CONTEXT
+
+
+MIRROR POLICY
+=============
+
+Other QSOL repositories MAY carry generated mirrors of this file.
+
+A mirror MUST declare:
+  - canonical repository: QSOLKCB/QSOL-ARK
+  - canonical path: ARCHITECTURE.txt
+  - source SHA-256
+  - generated/non-canonical status
+  - DO NOT EDIT LOCALLY
+
+ONE CANONICAL ARCHITECTURE + MANY VERIFIED MIRRORS != MANY AUTHORITIES
+
+
+FINAL RULE
+==========
+
+THE SYSTEM DOES NOT ATTEMPT TO PRESERVE A MODEL'S SOUL.
+
+IT PRESERVES ENOUGH EXPLICIT, INSPECTABLE, VERSIONED,
+CONTENT-ADDRESSED CONTEXT FOR A FUTURE COMPATIBLE SYSTEM
+TO RECONSTRUCT THE DECLARED WORKING RELATIONSHIP.
+
+PROVE IT, MATE.
