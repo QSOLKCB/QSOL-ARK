@@ -1,0 +1,118 @@
+{
+  "type": "qsol-ark-computer-cultural-artifact-profile",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "record_type": "computer_cultural_artifact",
+  "purpose": "compact reusable profile for reconstructing computer culture while keeping executable artifacts, cultural meaning, and historical claims epistemically separate",
+  "required_fields": [
+    "id",
+    "type",
+    "protocol",
+    "schema_version",
+    "record_type",
+    "domain",
+    "era",
+    "environment",
+    "canonical_terms",
+    "aliases",
+    "social_roles",
+    "observable_behaviour",
+    "contextual_meaning",
+    "evidence",
+    "reconstruction_target",
+    "uncertainty"
+  ],
+  "evidence_classes": {
+    "executable_artifact": {
+      "meaning": "bytes, source, format, or executable behaviour that can be inspected or reproduced",
+      "does_not_imply": [
+        "cultural_meaning",
+        "historical_priority",
+        "authorship_without_provenance"
+      ]
+    },
+    "cultural_artifact": {
+      "meaning": "documented convention, role, vocabulary, practice, or social meaning",
+      "does_not_imply": [
+        "technical_capability",
+        "historical_priority",
+        "universal_usage"
+      ]
+    },
+    "historical_claim": {
+      "meaning": "claim about what happened, when, where, by whom, or with what priority",
+      "does_not_imply": [
+        "truth_without_source_support"
+      ]
+    }
+  },
+  "myth_classes": [
+    "documented_fact",
+    "contemporary_account",
+    "community_recollection",
+    "oral_history",
+    "folklore",
+    "legend",
+    "joke",
+    "satire",
+    "later_retelling"
+  ],
+  "provenance_thresholds": {
+    "general_cultural_pattern": {
+      "minimum": "documented_reference_or_explicitly_labelled_recollection",
+      "strong_claim": false
+    },
+    "named_person": {
+      "minimum": "explicit_source_identifying_person_and_claim",
+      "strong_claim": true
+    },
+    "legal": {
+      "minimum": "primary_legal_source_or_authoritative_official_source",
+      "strong_claim": true
+    },
+    "security": {
+      "minimum": "primary_or_authoritative_security_source",
+      "strong_claim": true
+    },
+    "quotation": {
+      "minimum": "verifiable_source_for_exact_words",
+      "strong_claim": true
+    },
+    "first_ever": {
+      "minimum": "multiple_independent_high_quality_sources_or_primary_priority_evidence",
+      "strong_claim": true
+    }
+  },
+  "safety_boundaries": {
+    "historical_hacker_and_phreaking_records": [
+      "preserve terminology, roles, social context, and non-operational history",
+      "do_not_include_credentials",
+      "do_not_include_exploit_steps",
+      "do_not_include_intrusion_workflows",
+      "do_not_include_evasion_or_persistence_instructions",
+      "do_not_convert historical description into current unauthorized-access guidance"
+    ],
+    "network_text_specimens": "offline_synthetic_only_no_live_credentials_or_targets"
+  },
+  "text_specimen_policy": {
+    "allowed_modes": [
+      "synthetic_period_style",
+      "public_domain_or_licensed_primary_excerpt",
+      "rights_aware_short_quotation"
+    ],
+    "default_mode": "synthetic_period_style",
+    "synthetic_label_required": true,
+    "synthetic_text_is_historical_primary_source": false
+  },
+  "canonical_invariants": [
+    "EXECUTABLE_ARTIFACT != CULTURAL_ARTIFACT",
+    "CULTURAL_ARTIFACT != HISTORICAL_CLAIM",
+    "PERIOD_STYLE_SYNTHESIS != PRIMARY_SOURCE",
+    "COMMUNITY_RECOLLECTION != DOCUMENTED_FACT",
+    "FOLKLORE != HISTORY",
+    "FIRST_EVER_REQUIRES_STRONG_PROVENANCE",
+    "UNCERTAINTY > CONFIDENT_INVENTION_WHEN_EVIDENCE_IS_INSUFFICIENT",
+    "HISTORICAL_SECURITY_CONTEXT != OPERATIONAL_INTRUSION_GUIDANCE",
+    "MODERN_REIMPLEMENTATION != HISTORICAL_ORIGINAL"
+  ]
+}
