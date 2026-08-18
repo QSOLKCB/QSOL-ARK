@@ -38,9 +38,13 @@ jobs:
           printf abc > /tmp/ark-abc
           /tmp/ark-verify /tmp/ark-abc ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
       - name: Install portability and carrier tools
+        env:
+          DEBIAN_FRONTEND: noninteractive
+          NEEDRESTART_MODE: a
         run: |
-          sudo apt-get update
-          sudo apt-get install -y tcc musl-tools gcc-multilib libc6-dev-i386 qemu-user qrencode zbar-tools
+          sudo -E apt-get update
+          sudo -E apt-get install -y --no-install-recommends \
+            tcc musl-tools gcc-multilib libc6-dev-i386 qemu-user qrencode zbar-tools
           command -v clang
           command -v tcc
           command -v musl-gcc
