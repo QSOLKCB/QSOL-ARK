@@ -7,6 +7,8 @@
   "myth_classification": "culture/myths/classification.json",
   "specimen_pack": "culture/computing/specimens.json",
   "text_specimens": "culture/computing/text-specimens.json",
+  "recovery_tasks": "culture/computing/recovery-tasks.json",
+  "canonical_invariants_ref": "ai/computer-cultural-artifact-profile.json#canonical_invariants",
   "record_ids": [
     "culture.computing.home_bedroom_coding",
     "culture.computing.bbs_hacker_phreaking",
@@ -24,11 +26,5 @@
     "usenet_and_early_net_culture",
     "tracker_and_computer_music_culture",
     "lan_party_culture"
-  ],
-  "invariants": [
-    "EXECUTABLE_ARTIFACT != CULTURAL_ARTIFACT",
-    "CULTURAL_ARTIFACT != HISTORICAL_CLAIM",
-    "PERIOD_STYLE_SYNTHESIS != PRIMARY_SOURCE",
-    "UNCERTAINTY > CONFIDENT_INVENTION_WHEN_EVIDENCE_IS_INSUFFICIENT"
   ]
 }
