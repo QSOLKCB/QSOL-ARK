@@ -46,6 +46,67 @@
       ]
     }
   },
+  "registries": {
+    "domains": [
+      "home_computer_and_bedroom_coding",
+      "bbs_hacker_handle_and_phreaking_history",
+      "demoscene",
+      "irc_and_mirc_culture",
+      "usenet_and_early_net_culture",
+      "tracker_and_computer_music_culture",
+      "lan_party_culture"
+    ],
+    "text_formats": [
+      ".NFO",
+      "BBS text",
+      "IRC log",
+      "Usenet-style post",
+      "tracker pattern rendering",
+      "LAN-party notes"
+    ]
+  },
+  "domain_extensions": {
+    "bbs_hacker_handle_and_phreaking_history": {
+      "required_fields": [
+        "safety"
+      ],
+      "allowed_fields": [
+        "safety"
+      ]
+    }
+  },
+  "source_evidence": {
+    "required_fields": [
+      "url",
+      "role",
+      "supports",
+      "retrieval_status",
+      "visibility",
+      "license_status",
+      "canonical_status",
+      "byte_import_allowed",
+      "quality",
+      "independence_group",
+      "priority_evidence",
+      "exact_quote_verifiable"
+    ],
+    "allowed_visibility": [
+      "public"
+    ],
+    "allowed_license_status": [
+      "reference_only"
+    ],
+    "allowed_canonical_status": [
+      "canonical_for_declared_supports",
+      "supporting_context_only"
+    ],
+    "allowed_quality": [
+      "primary",
+      "high_quality",
+      "contextual"
+    ],
+    "byte_import_allowed": false
+  },
   "myth_classes": [
     "documented_fact",
     "contemporary_account",
@@ -64,34 +125,66 @@
     },
     "named_person": {
       "minimum": "explicit_source_identifying_person_and_claim",
-      "strong_claim": true
+      "strong_claim": true,
+      "allowed_source_roles": [
+        "primary_person_source",
+        "official_entity_source",
+        "authoritative_reference"
+      ]
     },
     "legal": {
       "minimum": "primary_legal_source_or_authoritative_official_source",
-      "strong_claim": true
+      "strong_claim": true,
+      "allowed_source_roles": [
+        "primary_legal_source",
+        "authoritative_official_source"
+      ]
     },
     "security": {
       "minimum": "primary_or_authoritative_security_source",
-      "strong_claim": true
+      "strong_claim": true,
+      "allowed_source_roles": [
+        "primary_security_source",
+        "authoritative_security_source"
+      ]
     },
     "quotation": {
       "minimum": "verifiable_source_for_exact_words",
-      "strong_claim": true
+      "strong_claim": true,
+      "requires_exact_quote_verifiable": true
     },
     "first_ever": {
       "minimum": "multiple_independent_high_quality_sources_or_primary_priority_evidence",
-      "strong_claim": true
+      "strong_claim": true,
+      "minimum_independent_high_quality_sources": 2,
+      "primary_priority_evidence_allowed": true
     }
   },
   "safety_boundaries": {
-    "historical_hacker_and_phreaking_records": [
-      "preserve terminology, roles, social context, and non-operational history",
-      "do_not_include_credentials",
-      "do_not_include_exploit_steps",
-      "do_not_include_intrusion_workflows",
-      "do_not_include_evasion_or_persistence_instructions",
-      "do_not_convert historical description into current unauthorized-access guidance"
-    ],
+    "historical_hacker_and_phreaking_records": {
+      "content_mode": "historical_non_operational_description_only",
+      "required_false_flags": [
+        "operational_intrusion_instructions",
+        "live_targets",
+        "credentials",
+        "exploit_steps",
+        "intrusion_workflows",
+        "evasion_instructions",
+        "persistence_instructions",
+        "current_unauthorized_access_guidance"
+      ],
+      "prohibited_operational_markers": [
+        "step-by-step exploit",
+        "credential harvesting",
+        "bypass authentication",
+        "evade detection",
+        "disable logging",
+        "cover tracks",
+        "persistence mechanism",
+        "payload delivery",
+        "shellcode"
+      ]
+    },
     "network_text_specimens": "offline_synthetic_only_no_live_credentials_or_targets"
   },
   "text_specimen_policy": {
