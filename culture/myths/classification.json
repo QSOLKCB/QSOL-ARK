@@ -3,6 +3,7 @@
   "protocol": "QSOL-ARK",
   "schema_version": "1.0.0",
   "path_contract": "culture/myths/",
+  "automatic_promotion_to_fact": "forbidden",
   "classes": [
     {"id": "documented_fact", "definition": "claim supported to the threshold required for its claim category", "promotion_to_fact": "already_fact_if_threshold_met"},
     {"id": "contemporary_account", "definition": "account created during or near the period; perspective is preserved and not automatically universalized", "promotion_to_fact": "requires_claim_specific_corroboration"},
@@ -17,6 +18,7 @@
   "strong_claim_categories": ["named_person", "legal", "security", "quotation", "first_ever"],
   "rules": [
     "classification_must_be_explicit",
+    "automatic_myth_to_fact_promotion_is_forbidden",
     "later_popularity_does_not_upgrade_truth_status",
     "multiple_retellings_do_not_equal_independent_primary_sources",
     "first_ever_claims_fail_closed_without_strong_provenance",
