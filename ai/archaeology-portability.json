@@ -1,0 +1,92 @@
+{
+  "type": "qsol-ark-archaeology-portability",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "purpose": "exercise the T2 C99 verifier across materially different compilers, libc implementations, word sizes, and a constrained CPU-emulation target without promoting compatibility results into historical-hardware claims",
+  "canonical_verifier": "retro/c/ark-verify.c",
+  "canonical_payload": "capsules/minimal/ARK-CANARY.txt",
+  "canonical_receipt": "capsules/minimal/SHA256SUMS",
+  "compiler_targets": [
+    {
+      "id": "host-gcc-glibc",
+      "compiler": "gcc",
+      "libc": "glibc",
+      "architecture": "runner-native",
+      "class": "baseline",
+      "ci_required": true,
+      "compile_argv": ["gcc", "-std=c99", "-O2", "-Wall", "-Wextra", "-pedantic", "{source}", "-o", "{output}"],
+      "run_argv": ["{output}"]
+    },
+    {
+      "id": "host-clang-glibc",
+      "compiler": "clang",
+      "libc": "glibc",
+      "architecture": "runner-native",
+      "class": "independent-compiler",
+      "ci_required": true,
+      "compile_argv": ["clang", "-std=c99", "-O2", "-Wall", "-Wextra", "-pedantic", "{source}", "-o", "{output}"],
+      "run_argv": ["{output}"]
+    },
+    {
+      "id": "tcc-glibc",
+      "compiler": "tcc",
+      "libc": "glibc",
+      "architecture": "runner-native",
+      "class": "small-limited-compiler",
+      "ci_required": true,
+      "compile_argv": ["tcc", "-std=c99", "-Wall", "{source}", "-o", "{output}"],
+      "run_argv": ["{output}"]
+    },
+    {
+      "id": "musl-gcc-static",
+      "compiler": "musl-gcc",
+      "libc": "musl",
+      "architecture": "x86_64-static",
+      "class": "alternate-libc",
+      "ci_required": true,
+      "compile_argv": ["musl-gcc", "-std=c99", "-O2", "-static", "-Wall", "-Wextra", "-pedantic", "{source}", "-o", "{output}"],
+      "run_argv": ["{output}"]
+    },
+    {
+      "id": "gcc-i386-static",
+      "compiler": "gcc -m32",
+      "libc": "glibc",
+      "architecture": "i386-static",
+      "class": "reduced-word-size",
+      "ci_required": true,
+      "compile_argv": ["gcc", "-m32", "-static", "-std=c99", "-O2", "-Wall", "-Wextra", "-pedantic", "-march=i686", "{source}", "-o", "{output}"],
+      "run_argv": ["{output}"]
+    }
+  ],
+  "emulator_target": {
+    "id": "qemu-i386-pentium3",
+    "contract": "retro/emulator/qemu-i386.json",
+    "binary_target": "gcc-i386-static",
+    "execution_class": "constrained_cpu_emulation",
+    "historical_recovery_equivalence": "functional_equivalence_only",
+    "ci_required": true,
+    "run_argv": ["qemu-i386", "-cpu", "pentium3", "{output}"],
+    "timeout_seconds": 5,
+    "file_size_limit_blocks": 1024,
+    "clean_environment": true
+  },
+  "required_vectors": [
+    {
+      "id": "ark-canary",
+      "path": "capsules/minimal/ARK-CANARY.txt",
+      "expected_from": "capsules/minimal/SHA256SUMS"
+    },
+    {
+      "id": "sha256-abc",
+      "generated_bytes_utf8": "abc",
+      "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+    }
+  ],
+  "invariants": [
+    "COMPILER_SUCCESS != HISTORICAL_HARDWARE_EQUIVALENCE",
+    "LIBC_VARIANCE != PAYLOAD_VARIANCE",
+    "EMULATOR_SUCCESS != ORIGINAL_HARDWARE_EXECUTION",
+    "T2_VERIFIER_OUTPUT_MUST_MATCH_CANONICAL_SHA256",
+    "FAILED_OPTIONAL_TOOL_DISCOVERY != CONTRADICTED_PAYLOAD"
+  ]
+}
