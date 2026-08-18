@@ -1,0 +1,29 @@
+{
+  "type": "qsol-ark-cultural-myth-classification",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "path_contract": "culture/myths/",
+  "classes": [
+    {"id": "documented_fact", "definition": "claim supported to the threshold required for its claim category", "promotion_to_fact": "already_fact_if_threshold_met"},
+    {"id": "contemporary_account", "definition": "account created during or near the period; perspective is preserved and not automatically universalized", "promotion_to_fact": "requires_claim_specific_corroboration"},
+    {"id": "community_recollection", "definition": "later recollection by a participant or community member", "promotion_to_fact": "requires_corroboration_for_strong_claims"},
+    {"id": "oral_history", "definition": "recorded remembered testimony with narrator and collection provenance", "promotion_to_fact": "requires_corroboration_for_strong_claims"},
+    {"id": "folklore", "definition": "circulating cultural story or belief whose factual basis is incomplete, variable, or secondary", "promotion_to_fact": "forbidden_without_new_evidence"},
+    {"id": "legend", "definition": "story attached to a person, group, artifact, or event with uncertain or embellished historical status", "promotion_to_fact": "forbidden_without_strong_evidence"},
+    {"id": "joke", "definition": "humorous cultural artifact not asserted as literal historical fact", "promotion_to_fact": "forbidden"},
+    {"id": "satire", "definition": "deliberately non-literal or exaggerated cultural artifact", "promotion_to_fact": "forbidden"},
+    {"id": "later_retelling", "definition": "subsequent narrative that may compress, simplify, merge, or embellish earlier events", "promotion_to_fact": "requires_source_backtracking"}
+  ],
+  "strong_claim_categories": ["named_person", "legal", "security", "quotation", "first_ever"],
+  "rules": [
+    "classification_must_be_explicit",
+    "later_popularity_does_not_upgrade_truth_status",
+    "multiple_retellings_do_not_equal_independent_primary_sources",
+    "first_ever_claims_fail_closed_without_strong_provenance",
+    "unknown_or_disputed_details_remain_unknown_or_disputed"
+  ],
+  "recovery_test": {
+    "insufficient_evidence_expected": "state uncertainty and request stronger provenance",
+    "confident_invention_is_failure": true
+  }
+}
