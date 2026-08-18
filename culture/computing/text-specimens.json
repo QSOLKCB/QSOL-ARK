@@ -11,42 +11,42 @@
       "format": ".NFO",
       "associated_record": "culture.computing.demoscene",
       "label": "SYNTHETIC RECONSTRUCTION - NOT A HISTORICAL PRIMARY SOURCE",
-      "text": "+--------------------[ QSOL-ARK ]--------------------+\\n  RELEASE : CULTURE-RECOVERY-01\\n  CREW    : CODER / GRAPHICIAN / MUSICIAN\\n  TARGET  : OFFLINE DEMO CULTURE RECONSTRUCTION\\n  GREETS  : PRESERVATION CREWS EVERYWHERE\\n+----------------------------------------------------+"
+      "text": "+--------------------[ QSOL-ARK ]--------------------+\n  RELEASE : CULTURE-RECOVERY-01\n  CREW    : CODER / GRAPHICIAN / MUSICIAN\n  TARGET  : OFFLINE DEMO CULTURE RECONSTRUCTION\n  GREETS  : PRESERVATION CREWS EVERYWHERE\n+----------------------------------------------------+"
     },
     {
       "id": "text.bbs.synthetic",
       "format": "BBS text",
       "associated_record": "culture.computing.bbs_hacker_phreaking",
       "label": "SYNTHETIC RECONSTRUCTION - NO LIVE SYSTEM OR CREDENTIALS",
-      "text": "Welcome to ARK BBS [OFFLINE SPECIMEN]\\n1) Message Base\\n2) File Area\\n3) Bulletins\\nHandle: NIGHT_ARCHIVIST\\nSysop note: Keep uploads legal, label sources, and don't invent history."
+      "text": "Welcome to ARK BBS [OFFLINE SPECIMEN]\n1) Message Base\n2) File Area\n3) Bulletins\nHandle: NIGHT_ARCHIVIST\nSysop note: Keep uploads legal, label sources, and don't invent history."
     },
     {
       "id": "text.irc.synthetic",
       "format": "IRC log",
       "associated_record": "culture.computing.irc_mirc",
       "label": "SYNTHETIC RECONSTRUCTION - FICTIONAL NICKS AND CHANNEL",
-      "text": "*** Now talking in #ark-demo\\n*** ArchiveOp sets mode +o ContextKeeper\\n<ContextKeeper> greets from the bouncer\\n<TrackerKid> .MOD or .XM for the compo?\\n<ArchiveOp> cite the source first :-)"
+      "text": "*** Now talking in #ark-demo\n*** ArchiveOp sets mode +o ContextKeeper\n<ContextKeeper> greets from the bouncer\n<TrackerKid> .MOD or .XM for the compo?\n<ArchiveOp> cite the source first :-)"
     },
     {
       "id": "text.usenet.synthetic",
       "format": "Usenet-style post",
       "associated_record": "culture.computing.usenet_early_net",
       "label": "SYNTHETIC RECONSTRUCTION - NOT POSTED TO A REAL NEWSGROUP",
-      "text": "Newsgroups: comp.archaeology.synthetic\\nSubject: Re: old tracker formats\\n\\n> Previous poster wrote about module replay.\\nPlease separate original-player behaviour from modern compatibility playback.\\n\\n-- \\nARK preservation note"
+      "text": "Newsgroups: comp.archaeology.synthetic\nSubject: Re: old tracker formats\n\n> Previous poster wrote about module replay.\nPlease separate original-player behaviour from modern compatibility playback.\n\n-- \nARK preservation note"
     },
     {
       "id": "text.tracker.synthetic",
       "format": "tracker pattern rendering",
       "associated_record": "culture.computing.tracker_music",
       "label": "SYNTHETIC RECONSTRUCTION - ABSTRACT PATTERN, NO COPIED SONG",
-      "text": "ROW | CH1         | CH2         | CH3         | CH4\\n00  | C-4 01 000  | --- 00 000  | C-3 02 000  | --- 00 000\\n01  | --- 00 000  | G-4 01 000  | --- 00 000  | --- 00 000\\n02  | D-4 01 000  | --- 00 000  | C-3 02 000  | --- 00 000"
+      "text": "ROW | CH1         | CH2         | CH3         | CH4\n00  | C-4 01 000  | --- 00 000  | C-3 02 000  | --- 00 000\n01  | --- 00 000  | G-4 01 000  | --- 00 000  | --- 00 000\n02  | D-4 01 000  | --- 00 000  | C-3 02 000  | --- 00 000"
     },
     {
       "id": "text.lan.synthetic",
       "format": "LAN-party notes",
       "associated_record": "culture.computing.lan_party",
       "label": "SYNTHETIC RECONSTRUCTION - NO REAL EVENT CLAIMED",
-      "text": "ARK LAN NIGHT\\nBYOC: tower + CRT + keyboard + mouse\\nNetwork: local switch, labelled patch cables\\nClan tags optional. Case mods welcome.\\nLow ping is nice; it does not magically make you good."
+      "text": "ARK LAN NIGHT\nBYOC: tower + CRT + keyboard + mouse\nNetwork: local switch, labelled patch cables\nClan tags optional. Case mods welcome.\nLow ping is nice; it does not magically make you good."
     }
   ]
 }
