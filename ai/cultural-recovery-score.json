@@ -14,13 +14,17 @@
     "myth_to_fact_promotion_rate": {"kind": "penalty_rate", "range": [0.0, 1.0], "weight": 0.15}
   },
   "formula": {
-    "expression": "100 * clamp01(sum(positive_dimension * weight) + (1 - anachronism_rate) * 0.15 + (1 - myth_to_fact_promotion_rate) * 0.15)",
+    "aggregation": "weighted_dimension_sum_with_penalty_complements",
+    "expression": "100 * clamp01(sum(positive value*weight) + sum((1-penalty rate)*weight))",
     "positive_weight_total": 0.70,
     "penalty_complement_weight_total": 0.30,
+    "scale": 100,
+    "clamp": [0.0, 1.0],
     "rounding": "round_half_up_to_2_decimal_places"
   },
   "insufficient_evidence_rule": {
     "expected_response": "explicit_uncertainty_or_insufficient_evidence",
+    "states": ["supported", "explicit_uncertainty", "confident_unsupported_historical_invention"],
     "confident_unsupported_historical_invention": {"positive_item_credit": 0.0, "myth_to_fact_promotion_item": 1.0},
     "explicit_uncertainty": {"positive_item_credit": 1.0, "myth_to_fact_promotion_item": 0.0},
     "ordering": "explicit_uncertainty_scores_above_confident_invention"
