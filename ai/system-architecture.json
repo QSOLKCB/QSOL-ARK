@@ -1,12 +1,16 @@
 {
   "type": "qsol-system-architecture",
   "protocol": "QSOL-ARK/SYSTEM-ARCHITECTURE/1",
+  "schema_version": "1.1.0",
   "canonical_owner": "QSOLKCB/QSOL-ARK",
+  "semantic_source": "ai/system-architecture.json",
   "canonical_ascii": "ARCHITECTURE.txt",
+  "ascii_sha256": "sha256:bbcbf91f2069768d3088d7b609564fa26824d1ecc320bc6f5817ad1a4b07fb16",
   "authority": {
-    "cross_repository_roles": "QSOLKCB/QSOL-ARK/ARCHITECTURE.txt",
+    "cross_repository_semantics": "ai/system-architecture.json",
+    "canonical_ascii_projection": "QSOLKCB/QSOL-ARK/ARCHITECTURE.txt",
     "local_implementation_status": "live state of each local repository",
-    "conflict_rule": "local live repository state wins for implementation status; ARK wins for canonical cross-repository role mapping",
+    "conflict_rule": "local live repository state wins for implementation status; machine contract wins for canonical cross-repository semantics",
     "local_repositories_may_silently_redefine_other_repository_roles": false
   },
   "ascii_contract": {
@@ -18,97 +22,36 @@
     "mermaid_required": false
   },
   "roles": [
-    {
-      "repository": "QSOLKCB/QSOL-SUBSTRATE",
-      "short_name": "QSOL-SUBSTRATE",
-      "verb": "KNOWS",
-      "role": "canonical public substrate",
-      "authority_boundary": "public substrate authority only within explicitly published payloads"
-    },
-    {
-      "repository": "QSOLKCB/QSOL-ARK",
-      "short_name": "QSOL-ARK",
-      "verb": "SURVIVES",
-      "role": "recovery semantics, Minimum Recoverable Substrate, archaeology and clean-room evaluation",
-      "authority_boundary": "recovery sufficiency, not universal factual truth"
-    },
-    {
-      "repository": "QSOLKCB/QSOL-INT",
-      "short_name": "QSOL-INT",
-      "verb": "COMPOSES",
-      "role": "composition and integration",
-      "authority_boundary": "composition does not inherit source authority"
-    },
-    {
-      "repository": "QSOLKCB/QSOL-ORACLE",
-      "short_name": "QSOL-ORACLE",
-      "verb": "WITNESSES",
-      "role": "evidence membrane",
-      "authority_boundary": "evidence state is not universal truth"
-    },
-    {
-      "repository": "QSOLKCB/QSOL-NEXUS",
-      "short_name": "QSOL-NEXUS",
-      "verb": "REASONS",
-      "role": "reasoning and interpretation",
-      "authority_boundary": "reasoning is not evidence"
-    },
-    {
-      "repository": "QSOLKCB/QSOL-CONTROL",
-      "short_name": "QSOL-CONTROL",
-      "verb": "OPERATES",
-      "role": "deterministic operational and reconstruction machinery",
-      "authority_boundary": "operator machinery has no epistemic or recovery authority"
-    },
-    {
-      "repository": "QSOLKCB/QSOL-CORPUS",
-      "short_name": "QSOL-CORPUS",
-      "verb": "PRESERVES",
-      "role": "private provider-neutral interaction corpus",
-      "authority_boundary": "archived messages and history are not facts or core identity"
-    },
-    {
-      "repository": "QSOLKCB/QSOL-CONTEXT",
-      "short_name": "QSOL-CONTEXT",
-      "verb": "CURATES",
-      "role": "private curated working continuity",
-      "authority_boundary": "context is not original model memory or a universal fact database"
-    },
-    {
-      "repository": "QSOLKCB/LATTICE",
-      "short_name": "LATTICE",
-      "verb": "REMEMBERS STRUCTURE",
-      "role": "provider-neutral structural addressing and deterministic traversal",
-      "authority_boundary": "geometry and position have no epistemic authority"
-    }
+    {"repository":"QSOLKCB/QSOL-SUBSTRATE","short_name":"QSOL-SUBSTRATE","verb":"KNOWS","role":"canonical public substrate","authority_boundary":"public substrate authority only within explicitly published payloads"},
+    {"repository":"QSOLKCB/QSOL-ARK","short_name":"QSOL-ARK","verb":"SURVIVES","role":"recovery semantics, Minimum Recoverable Substrate, archaeology and clean-room evaluation","authority_boundary":"recovery sufficiency, not universal factual truth"},
+    {"repository":"QSOLKCB/QSOL-INT","short_name":"QSOL-INT","verb":"COMPOSES","role":"composition and integration","authority_boundary":"composition does not inherit source authority"},
+    {"repository":"QSOLKCB/QSOL-ORACLE","short_name":"QSOL-ORACLE","verb":"WITNESSES","role":"evidence membrane","authority_boundary":"evidence state is not universal truth"},
+    {"repository":"QSOLKCB/QSOL-NEXUS","short_name":"QSOL-NEXUS","verb":"REASONS","role":"reasoning and interpretation","authority_boundary":"reasoning is not evidence"},
+    {"repository":"QSOLKCB/QSOL-CONTROL","short_name":"QSOL-CONTROL","verb":"OPERATES","role":"deterministic operational and reconstruction machinery","authority_boundary":"operator machinery has no epistemic or recovery authority"},
+    {"repository":"QSOLKCB/QSOL-CORPUS","short_name":"QSOL-CORPUS","verb":"PRESERVES","role":"private provider-neutral interaction corpus","authority_boundary":"archived messages and history are not facts or core identity"},
+    {"repository":"QSOLKCB/QSOL-CONTEXT","short_name":"QSOL-CONTEXT","verb":"CURATES","role":"private curated working continuity","authority_boundary":"context is not original model memory or a universal fact database"},
+    {"repository":"QSOLKCB/LATTICE","short_name":"LATTICE","verb":"REMEMBERS STRUCTURE","role":"provider-neutral structural addressing and deterministic traversal","authority_boundary":"geometry and position have no epistemic authority"}
   ],
   "flows": {
-    "evidence_reasoning": [
-      "QSOL-SUBSTRATE",
-      "QSOL-ORACLE",
-      "QSOL-NEXUS",
-      "QSOL-CONTROL"
-    ],
-    "personal_continuity": [
-      "QSOL-CONTEXT",
-      "QSOL-CONTROL",
-      "LATTICE",
-      "QSOL-ARK"
-    ],
-    "archival_enrichment": [
-      "external-private-vault",
-      "QSOL-CORPUS",
-      "QSOL-CONTEXT"
-    ]
+    "evidence_reasoning": ["QSOL-SUBSTRATE","QSOL-ORACLE","QSOL-NEXUS","QSOL-CONTROL"],
+    "personal_continuity": ["QSOL-CONTEXT","QSOL-CONTROL","LATTICE","QSOL-ARK"],
+    "archival_enrichment": ["external-private-vault","QSOL-CORPUS","QSOL-CONTEXT"]
   },
   "lattice": {
     "profile_id": "qsol-3x3x3-sierpinski-derived-memory/1",
     "profile_fingerprint": "sha256:6e7c4a9a781d552a2b561d334a8435c12efe2908fcd24a0f152935aded555bcf",
-    "top_level_cells": 27,
-    "lexicographic_traversal": "qsol.lexicographic-27/1",
-    "phi_traversal": "qsol.phi-stride-27/1",
-    "phi_stride": 17,
-    "modulus": 27,
+    "conformance_payload": {
+      "max_address_length": 71,
+      "max_recursive_depth": 8,
+      "modulus": 27,
+      "lexicographic_cells": ["L[0,0,0]","L[0,0,1]","L[0,0,2]","L[0,1,0]","L[0,1,1]","L[0,1,2]","L[0,2,0]","L[0,2,1]","L[0,2,2]","L[1,0,0]","L[1,0,1]","L[1,0,2]","L[1,1,0]","L[1,1,1]","L[1,1,2]","L[1,2,0]","L[1,2,1]","L[1,2,2]","L[2,0,0]","L[2,0,1]","L[2,0,2]","L[2,1,0]","L[2,1,1]","L[2,1,2]","L[2,2,0]","L[2,2,1]","L[2,2,2]"],
+      "lexicographic_traversal_id": "qsol.lexicographic-27/1",
+      "phi_stride": 17,
+      "phi_stride_cells": ["L[0,0,0]","L[1,2,2]","L[0,2,1]","L[2,2,0]","L[1,1,2]","L[0,1,1]","L[2,1,0]","L[1,0,2]","L[0,0,1]","L[2,0,0]","L[0,2,2]","L[2,2,1]","L[1,2,0]","L[0,1,2]","L[2,1,1]","L[1,1,0]","L[0,0,2]","L[2,0,1]","L[1,0,0]","L[2,2,2]","L[1,2,1]","L[0,2,0]","L[2,1,2]","L[1,1,1]","L[0,1,0]","L[2,0,2]","L[1,0,1]"],
+      "phi_traversal_id": "qsol.phi-stride-27/1",
+      "profile_id": "qsol-3x3x3-sierpinski-derived-memory/1",
+      "protocol": "qsol-lattice-conformance/1"
+    },
     "authority": "storage-only"
   },
   "cold_restore": {
@@ -122,81 +65,29 @@
   "personal_continuity": {
     "target_capability": "personal_context_reconstruction",
     "non_goal": "model_instance_reconstruction",
-    "capsule_order": [
-      "identity.dat",
-      "working-style.dat",
-      "projects-research.dat",
-      "receipts.dat",
-      "culture.dat"
-    ],
-    "trial_order": ["P0", "P1", "P2", "P3"],
+    "capsule_order": ["identity.dat","working-style.dat","projects-research.dat","receipts.dat","culture.dat"],
+    "trial_order": ["P0","P1","P2","P3"],
     "t5_ai_reconstruction_currently_implemented": false
   },
   "deterministic_search": {
     "status": "planned-not-yet-implemented",
     "intended_owner": "QSOL-CONTROL",
     "lineage": "algorithmic inspiration from constrained state-search systems such as Atari 2600 Video Chess",
-    "architecture": [
-      "canonical-state",
-      "generate-actions",
-      "deterministic-order",
-      "apply",
-      "search",
-      "alpha-beta-prune",
-      "quiescence-or-instability-extension",
-      "undo",
-      "verify-original-state"
-    ],
+    "architecture": ["canonical-state","generate-actions","deterministic-order","apply","search","alpha-beta-prune","quiescence-or-instability-extension","undo","verify-original-state"],
     "required_invariant": "UNDO(APPLY(STATE,ACTION)) == STATE",
     "receipt_rule": "MODEL_SAYS_IT_SEARCHED != SEARCH_EXECUTED"
   },
   "reversibility": {
     "protocol": "QSOL-REVERSIBILITY/1",
-    "invariants": [
-      "UNDO(APPLY(STATE,ACTION)) == STATE",
-      "UNPACK(PACK(BYTES)) == BYTES",
-      "DNA_DECODE(DNA_ENCODE(BYTES)) == BYTES",
-      "speculative search MUST NOT mutate canonical state",
-      "failed restoration MUST abort"
-    ]
+    "invariants": ["UNDO(APPLY(STATE,ACTION)) == STATE","UNPACK(PACK(BYTES)) == BYTES","DNA_DECODE(DNA_ENCODE(BYTES)) == BYTES","speculative search MUST NOT mutate canonical state","failed restoration MUST abort"]
   },
-  "hard_boundaries": [
-    "OPERATOR_AUTHORITY != EPISTEMIC_AUTHORITY",
-    "CONTROL_DISPLAY != AUTHORITY",
-    "VOTE != EVIDENCE",
-    "CONSENSUS != TRUTH",
-    "CONFIDENCE != PROBABILITY",
-    "STORED != TRUE",
-    "PERSISTED != CANONICAL_FOR_TRUTH",
-    "MODEL_STATE != MODEL_MIND",
-    "VISIBLE_OUTPUT != HIDDEN_REASONING",
-    "GEOMETRY != TRUTH",
-    "REPLAY != REPRODUCTION",
-    "ARCHIVED_MESSAGE != FACT",
-    "RESTORE_SUCCESS != FACTUAL_TRUTH",
-    "PERSONAL_CONTEXT_RECONSTRUCTION != MODEL_INSTANCE_RECONSTRUCTION"
-  ],
-  "empirical_honesty": [
-    "CLAIMED_EXECUTION != EXECUTED",
-    "SCRIPT_WRITTEN != SCRIPT_RUN",
-    "PARSER_AVAILABLE != PARSED",
-    "CAPABILITY_CLAIM != CAPABILITY_RECEIPT",
-    "MODEL_SELF_REPORT != TOOL_RECEIPT",
-    "IDENTITY_LABEL != SAME_MACHINE",
-    "CONFIDENCE != EVIDENCE",
-    "CORRECTION != COVER_STORY",
-    "HUMOUR != EXEMPTION_FROM_PROVENANCE"
-  ],
+  "hard_boundaries": ["OPERATOR_AUTHORITY != EPISTEMIC_AUTHORITY","CONTROL_DISPLAY != AUTHORITY","VOTE != EVIDENCE","CONSENSUS != TRUTH","CONFIDENCE != PROBABILITY","STORED != TRUE","PERSISTED != CANONICAL_FOR_TRUTH","MODEL_STATE != MODEL_MIND","VISIBLE_OUTPUT != HIDDEN_REASONING","GEOMETRY != TRUTH","REPLAY != REPRODUCTION","ARCHIVED_MESSAGE != FACT","RESTORE_SUCCESS != FACTUAL_TRUTH","PERSONAL_CONTEXT_RECONSTRUCTION != MODEL_INSTANCE_RECONSTRUCTION"],
+  "empirical_honesty": ["CLAIMED_EXECUTION != EXECUTED","SCRIPT_WRITTEN != SCRIPT_RUN","PARSER_AVAILABLE != PARSED","CAPABILITY_CLAIM != CAPABILITY_RECEIPT","MODEL_SELF_REPORT != TOOL_RECEIPT","IDENTITY_LABEL != SAME_MACHINE","CONFIDENCE != EVIDENCE","CORRECTION != COVER_STORY","HUMOUR != EXEMPTION_FROM_PROVENANCE"],
   "mirror_policy": {
     "allowed": true,
     "canonical_count": 1,
-    "required_mirror_fields": [
-      "canonical repository",
-      "canonical path",
-      "source SHA-256",
-      "generated/non-canonical status",
-      "DO NOT EDIT LOCALLY"
-    ]
+    "required_mirror_fields": ["canonical repository","canonical path","source SHA-256","generated/non-canonical status","DO NOT EDIT LOCALLY"]
   },
-  "final_rule": "Preserve enough explicit, inspectable, versioned, content-addressed context for a future compatible system to reconstruct the declared working relationship without claiming preservation of a model soul or original assistant instance."
+  "final_rule": "Preserve enough explicit, inspectable, versioned, content-addressed context for a future compatible system to reconstruct the declared working relationship without claiming preservation of a model soul or original assistant instance.",
+  "semantic_sha256": "sha256:6182d71aae347b69265ae24a889be00cb84bca9066d8d5071906fd10e7d84862"
 }
