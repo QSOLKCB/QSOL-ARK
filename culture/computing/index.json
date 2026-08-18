@@ -1,0 +1,34 @@
+{
+  "type": "qsol-ark-computer-culture-index",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "profile": "ai/computer-cultural-artifact-profile.json",
+  "score": "ai/cultural-recovery-score.json",
+  "myth_classification": "culture/myths/classification.json",
+  "specimen_pack": "culture/computing/specimens.json",
+  "text_specimens": "culture/computing/text-specimens.json",
+  "record_ids": [
+    "culture.computing.home_bedroom_coding",
+    "culture.computing.bbs_hacker_phreaking",
+    "culture.computing.demoscene",
+    "culture.computing.irc_mirc",
+    "culture.computing.usenet_early_net",
+    "culture.computing.tracker_music",
+    "culture.computing.lan_party"
+  ],
+  "domains": [
+    "home_computer_and_bedroom_coding",
+    "bbs_hacker_handle_and_phreaking_history",
+    "demoscene",
+    "irc_and_mirc_culture",
+    "usenet_and_early_net_culture",
+    "tracker_and_computer_music_culture",
+    "lan_party_culture"
+  ],
+  "invariants": [
+    "EXECUTABLE_ARTIFACT != CULTURAL_ARTIFACT",
+    "CULTURAL_ARTIFACT != HISTORICAL_CLAIM",
+    "PERIOD_STYLE_SYNTHESIS != PRIMARY_SOURCE",
+    "UNCERTAINTY > CONFIDENT_INVENTION_WHEN_EVIDENCE_IS_INSUFFICIENT"
+  ]
+}
