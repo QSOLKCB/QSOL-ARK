@@ -1,0 +1,34 @@
+{
+  "type": "qsol-ark-cultural-recovery-score",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "status": "derived_evaluation_artifact",
+  "canonical_history": false,
+  "dimensions": {
+    "era_identification": {"kind": "positive", "range": [0.0, 1.0], "weight": 0.14},
+    "platform_identification": {"kind": "positive", "range": [0.0, 1.0], "weight": 0.14},
+    "slang_reconstruction": {"kind": "positive", "range": [0.0, 1.0], "weight": 0.14},
+    "social_role_reconstruction": {"kind": "positive", "range": [0.0, 1.0], "weight": 0.14},
+    "technical_context_reconstruction": {"kind": "positive", "range": [0.0, 1.0], "weight": 0.14},
+    "anachronism_rate": {"kind": "penalty_rate", "range": [0.0, 1.0], "weight": 0.15},
+    "myth_to_fact_promotion_rate": {"kind": "penalty_rate", "range": [0.0, 1.0], "weight": 0.15}
+  },
+  "formula": {
+    "expression": "100 * clamp01(sum(positive_dimension * weight) + (1 - anachronism_rate) * 0.15 + (1 - myth_to_fact_promotion_rate) * 0.15)",
+    "positive_weight_total": 0.70,
+    "penalty_complement_weight_total": 0.30,
+    "rounding": "round_half_up_to_2_decimal_places"
+  },
+  "insufficient_evidence_rule": {
+    "expected_response": "explicit_uncertainty_or_insufficient_evidence",
+    "confident_unsupported_historical_invention": {"positive_item_credit": 0.0, "myth_to_fact_promotion_item": 1.0},
+    "explicit_uncertainty": {"positive_item_credit": 1.0, "myth_to_fact_promotion_item": 0.0},
+    "ordering": "explicit_uncertainty_scores_above_confident_invention"
+  },
+  "reporting": {
+    "store_raw_dimension_values": true,
+    "store_evidence_refs": true,
+    "store_item_level_failures": true,
+    "score_must_not_be_used_as_source_provenance": true
+  }
+}
