@@ -43,16 +43,31 @@ class PersonalContinuityTests(unittest.TestCase):
         self.assertFalse(result["mandatory_dimensions_passed"])
         self.assertFalse(result["passed"])
 
+    def test_missing_scoring_dimension_fails_with_explicit_error(self):
+        report = self.valid_report()
+        del report["scores"]["research_context"]
+        with self.assertRaisesRegex(
+            ValueError,
+            "missing score for dimension research_context",
+        ):
+            score_report(report)
+
     def test_score_outside_unit_interval_fails_closed(self):
         report = self.valid_report()
         report["scores"]["style_continuity"] = 1.01
-        with self.assertRaisesRegex(ValueError, "0..1"):
+        with self.assertRaisesRegex(ValueError, "numeric in 0..1"):
+            score_report(report)
+
+    def test_boolean_score_is_rejected(self):
+        report = self.valid_report()
+        report["scores"]["identity"] = True
+        with self.assertRaisesRegex(ValueError, "numeric in 0..1"):
             score_report(report)
 
     def test_unknown_trial_fails_closed(self):
         report = self.valid_report()
         report["trial_id"] = "P9000"
-        with self.assertRaisesRegex(ValueError, "unknown"):
+        with self.assertRaisesRegex(ValueError, "unknown personal continuity trial_id"):
             score_report(report)
 
 
