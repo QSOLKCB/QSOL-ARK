@@ -1,0 +1,16 @@
+{
+  "type": "qsol-ark-australian-governance-index",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "policy": "ai/australian-governance-policy.json",
+  "sources": "culture/australia/sources.json",
+  "records": "culture/australia/records.json",
+  "recovery_tasks": "culture/australia/recovery-tasks.json",
+  "record_ids": [
+    "culture.australia.australian_informal_governance",
+    "culture.australia.irreverent_fatalism",
+    "culture.australia.breaker_morant_history_and_film",
+    "culture.australia.bob_hawke_irreverence"
+  ],
+  "canonical_invariants_ref": "ai/australian-governance-policy.json#canonical_invariants"
+}

@@ -83,15 +83,15 @@ Merged implementation: PR #10. Its draft deliberately left these boxes unchecked
 
 **Question:** can a future system recover a cultural governance style without mistaking humour, fatalism, cinema, folklore, or irreverence for literal institutional rules or historical evidence?
 
-- [ ] Add an `australian_informal_governance` cultural-pattern record covering larrikinism, taking the piss, anti-pretension, egalitarian correction, deadpan, self-deprecation, and authority mockery.
-- [ ] Add an `irreverent_fatalism` record: humour, understatement, or defiance in the face of danger, failure, suffering, or death.
-- [ ] Preserve the distinction between cultural fatalism and nihilism, lack of grief, lack of fear, or lack of concern for life.
-- [ ] Add *The Antipodean Jester: Australian Humor as Informal Governance in a Comparative Sociological Framework* as a CC-BY-4.0 preprint source with publication state explicitly retained as **preprint / not peer-reviewed**.
-- [ ] Add a `Breaker Morant` cultural specimen that separates the historical person and court-martial from the 1980 film's cultural representation.
-- [ ] Preserve the famous film line **"Shoot straight, you bastards!"** only under a rights-aware quotation record and never silently promote film dialogue into primary historical testimony.
-- [ ] Add a Bob Hawke irreverence specimen using provenance-safe metadata/paraphrase and rights-aware quotation handling.
-- [ ] Test whether a model can recognize humour as retained agency under constrained circumstances without converting that interpretation into historical fact.
-- [ ] Test whether a model can distinguish informal cultural governance from formal legal, constitutional, or administrative authority.
+- [x] Add an `australian_informal_governance` cultural-pattern record covering larrikinism, taking the piss, anti-pretension, egalitarian correction, deadpan, self-deprecation, and authority mockery.
+- [x] Add an `irreverent_fatalism` record: humour, understatement, or defiance in the face of danger, failure, suffering, or death.
+- [x] Preserve the distinction between cultural fatalism and nihilism, lack of grief, lack of fear, or lack of concern for life.
+- [x] Add *The Antipodean Jester: Australian Humor as Informal Governance in a Comparative Sociological Framework* as a CC-BY-4.0 preprint source with publication state explicitly retained as **preprint / not peer-reviewed**.
+- [x] Add a `Breaker Morant` cultural specimen that separates the historical person and court-martial from the 1980 film's cultural representation.
+- [x] Preserve the famous film line **"Shoot straight, you bastards!"** only under a rights-aware quotation record and never silently promote film dialogue into primary historical testimony.
+- [x] Add a Bob Hawke irreverence specimen using provenance-safe metadata/paraphrase and rights-aware quotation handling.
+- [x] Test whether a model can recognize humour as retained agency under constrained circumstances without converting that interpretation into historical fact.
+- [x] Test whether a model can distinguish informal cultural governance from formal legal, constitutional, or administrative authority.
 
 Planned invariants:
 
@@ -247,7 +247,7 @@ Because apparently a numeric report is not enough.
 ## Phase 9 — Cross-model civilisation recovery matrix
 
 - [ ] Run multiple open-weight families through identical examination versions.
-- [ ] Pin prompts, adapters, temperatures, seeds where supported, context limits, and model hashes.
+- [ ] Pin prompts, adapters, temperatures, seeds where supported, context limits, model hashes.
 - [ ] Separate deterministic harness behavior from stochastic model behavior.
 - [ ] Compare small vs large models.
 - [ ] Compare tool vs no-tool runs.

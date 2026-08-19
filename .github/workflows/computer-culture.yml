@@ -20,6 +20,10 @@ jobs:
         run: python3 tools/computer_culture.py
       - name: Run broader computer-culture regression tests
         run: python3 -m unittest tests.test_computer_culture -v
+      - name: Validate Australian governance culture records
+        run: python3 tools/australian_culture.py
+      - name: Run Australian governance culture regression tests
+        run: python3 -m unittest tests.test_australian_culture -v
       - name: Parse cultural JSON
         run: |
           python3 - <<'PY'
@@ -33,6 +37,7 @@ jobs:
               Path('ai/cultural-artifact-policy.json'),
               Path('ai/computer-cultural-artifact-profile.json'),
               Path('ai/cultural-recovery-score.json'),
+              Path('ai/australian-governance-policy.json'),
           ):
               json.loads(path.read_text(encoding='utf-8'))
               print(path)

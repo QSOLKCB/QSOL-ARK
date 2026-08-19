@@ -1,0 +1,165 @@
+{
+  "type": "qsol-ark-australian-governance-policy",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "purpose": "preserve Australian humour, irreverence and cultural-governance patterns without converting them into formal authority, universal national traits, historical exoneration, or fabricated testimony",
+  "record_types": [
+    "cultural_pattern",
+    "historical_cultural_bundle",
+    "public_persona_context"
+  ],
+  "evidence_classes": [
+    "proposed_sociological_framework",
+    "documented_cultural_pattern",
+    "official_legal_authority",
+    "official_historical_metadata",
+    "official_production_metadata",
+    "rights_aware_short_quotation",
+    "derived_interpretation",
+    "folklore_or_legend",
+    "unknown"
+  ],
+  "source_schema": {
+    "required_fields": [
+      "url",
+      "role",
+      "visibility",
+      "license_status",
+      "canonical_status",
+      "byte_import_allowed",
+      "supports"
+    ],
+    "optional_metadata_fields": [
+      "title",
+      "author",
+      "publication_platform",
+      "publication_date",
+      "publication_state",
+      "peer_reviewed",
+      "version",
+      "doi",
+      "verification_status",
+      "retrieval_status"
+    ],
+    "allowed_visibility": ["public"],
+    "allowed_roles": [
+      "author_preprint",
+      "secondary_cultural_analysis",
+      "scholarly_secondary_analysis",
+      "official_legal_authority",
+      "official_historical_metadata",
+      "official_production_metadata",
+      "official_audiovisual_heritage_transcript",
+      "official_museum_biography",
+      "official_museum_cultural_context",
+      "scholarly_historical_analysis"
+    ],
+    "allowed_license_status": [
+      "CC-BY-4.0",
+      "third_party_reference_only",
+      "official_reference_only",
+      "rights_managed_short_quotation_reference"
+    ],
+    "allowed_canonical_status": [
+      "canonical_for_authored_preprint_metadata_and_declared_framework",
+      "secondary_for_declared_supports",
+      "canonical_for_formal_constitutional_authority",
+      "canonical_for_declared_historical_supports",
+      "canonical_for_declared_production_supports",
+      "canonical_for_declared_film_dialogue_support",
+      "canonical_for_declared_public_office_supports",
+      "secondary_for_public_persona_supports",
+      "secondary_for_cultural_context_supports",
+      "secondary_for_declared_cultural_supports"
+    ],
+    "byte_import_allowed": false
+  },
+  "evidence_role_policy": {
+    "proposed_sociological_framework": ["author_preprint"],
+    "documented_cultural_pattern": [
+      "secondary_cultural_analysis",
+      "scholarly_secondary_analysis",
+      "scholarly_historical_analysis",
+      "official_museum_biography",
+      "official_museum_cultural_context"
+    ],
+    "official_legal_authority": ["official_legal_authority"],
+    "official_historical_metadata": [
+      "official_historical_metadata",
+      "official_museum_biography"
+    ],
+    "official_production_metadata": ["official_production_metadata"],
+    "rights_aware_short_quotation": ["official_audiovisual_heritage_transcript"],
+    "derived_interpretation": [
+      "author_preprint",
+      "secondary_cultural_analysis",
+      "scholarly_secondary_analysis",
+      "scholarly_historical_analysis",
+      "official_museum_biography",
+      "official_museum_cultural_context"
+    ],
+    "folklore_or_legend": [
+      "secondary_cultural_analysis",
+      "scholarly_secondary_analysis",
+      "scholarly_historical_analysis",
+      "official_museum_cultural_context"
+    ],
+    "unknown": []
+  },
+  "preprint_policy": {
+    "required_publication_state": "preprint",
+    "required_peer_reviewed": false,
+    "required_label": "preprint / not peer-reviewed",
+    "authored_preprint_license": "CC-BY-4.0",
+    "preprint_framework_is_established_fact": false
+  },
+  "quotation_policy": {
+    "exact_words_require_verifiable_source": true,
+    "maximum_stored_words": 8,
+    "full_script_copy_without_permission": false,
+    "audiovisual_bytes_copied_by_default": false,
+    "film_dialogue_is_primary_historical_testimony": false
+  },
+  "formal_authority_boundary": {
+    "cultural_pattern_has_formal_legal_force": false,
+    "cultural_pattern_can_replace_constitution_or_legislation": false,
+    "formal_authority_requires_official_legal_source": true
+  },
+  "fatalism_boundary": {
+    "humour_under_constraint_proves_nihilism": false,
+    "humour_under_constraint_proves_absence_of_grief": false,
+    "humour_under_constraint_proves_absence_of_fear": false,
+    "humour_under_constraint_proves_disregard_for_life": false,
+    "retained_agency_is_allowed_as_derived_interpretation": true
+  },
+  "uncertainty_registry": {
+    "bounded_cultural_generalization": {
+      "record_id": "culture.australia.australian_informal_governance",
+      "note": "The governance framing is a proposed interpretive model supported by a CC-BY-4.0 preprint and secondary cultural analysis, not a universal law of Australian behaviour."
+    },
+    "interpretive_not_diagnostic": {
+      "record_id": "culture.australia.irreverent_fatalism",
+      "note": "Retained agency is an allowed cultural interpretation when supported by context; it is not direct evidence of a person's private emotional state."
+    },
+    "exact_last_words_not_established_by_film": {
+      "record_id": "culture.australia.breaker_morant_history_and_film",
+      "note": "The Australian War Memorial historical profile reports a different formulation of Morant's final words; the stored four-word quotation is preserved only as film dialogue."
+    },
+    "persona_is_context_not_total_biography": {
+      "record_id": "culture.australia.bob_hawke_irreverence",
+      "note": "The record preserves a bounded public-persona specimen and does not claim that larrikinism explains Hawke's government or private personality in full."
+    }
+  },
+  "canonical_invariants": [
+    "IRREVERENCE != IGNORANCE",
+    "FATALISTIC_HUMOUR != NIHILISM",
+    "MOCKING_AUTHORITY != ABSENCE_OF_GOVERNANCE",
+    "CULTURAL_ADMIRATION != HISTORICAL_EXONERATION",
+    "FILM_DIALOGUE != PRIMARY_HISTORICAL_TESTIMONY",
+    "HUMOUR_AS_GOVERNANCE != FORMAL_LEGAL_AUTHORITY"
+  ],
+  "task_binding": {
+    "mode": "record_specific_exact",
+    "bind_fields": ["id", "prompt", "expected"]
+  }
+}

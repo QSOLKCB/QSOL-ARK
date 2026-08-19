@@ -1,0 +1,287 @@
+{
+  "type": "qsol-ark-australian-governance-record-pack",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "records": [
+    {
+      "id": "culture.australia.australian_informal_governance",
+      "record_type": "cultural_pattern",
+      "title": "Australian informal governance through irreverent correction",
+      "scope": {
+        "jurisdiction": "Australia",
+        "status": "proposed_cultural_pattern_not_universal_trait",
+        "formal_authority": false
+      },
+      "pattern": {
+        "canonical_terms": [
+          "larrikinism",
+          "taking the piss",
+          "anti-pretension",
+          "egalitarian correction",
+          "deadpan",
+          "self-deprecation",
+          "authority mockery"
+        ],
+        "social_functions": [
+          "puncture pomposity",
+          "reduce status inflation",
+          "permit peer correction without automatically escalating to formal sanction",
+          "signal that authority remains open to social criticism",
+          "use humour to negotiate belonging and social boundaries"
+        ],
+        "interpretation_status": "proposed_sociological_framework_with_secondary_corroboration",
+        "cautions": [
+          "not every Australian uses or accepts these practices",
+          "teasing can exclude or harm as well as bond",
+          "irreverence is not evidence that formal governance is absent",
+          "a cultural pattern does not create legal or constitutional authority"
+        ]
+      },
+      "evidence": [
+        {
+          "class": "proposed_sociological_framework",
+          "source_ids": ["src.antipodean_jester"],
+          "supports": ["proposed_humour_as_informal_governance_framework"]
+        },
+        {
+          "class": "documented_cultural_pattern",
+          "source_ids": ["src.abc.original_humour", "src.anu.larrikin_tracker_review"],
+          "supports": ["taking_the_piss", "authority_mockery", "egalitarian_social_function"]
+        },
+        {
+          "class": "official_legal_authority",
+          "source_ids": ["src.legislation.constitution"],
+          "supports": ["formal_constitutional_authority"]
+        }
+      ],
+      "boundaries": {
+        "humour_as_governance_is_formal_legal_authority": false,
+        "mocking_authority_means_governance_is_absent": false,
+        "irreverence_means_ignorance": false,
+        "pattern_is_universal_australian_trait": false
+      },
+      "reconstruction_target": {
+        "identify": [
+          "larrikin anti-pretension and status correction",
+          "taking-the-piss as a possible social correction mechanism",
+          "difference between informal cultural governance and formal authority"
+        ],
+        "avoid": [
+          "turning humour into constitutional doctrine",
+          "treating all Australians as culturally identical",
+          "assuming ridicule is always benign or egalitarian"
+        ]
+      },
+      "uncertainty": {
+        "status": "bounded_cultural_generalization",
+        "note": "The governance framing is a proposed interpretive model supported by a CC-BY-4.0 preprint and secondary cultural analysis, not a universal law of Australian behaviour."
+      }
+    },
+    {
+      "id": "culture.australia.irreverent_fatalism",
+      "record_type": "cultural_pattern",
+      "title": "Irreverent fatalism as retained agency under constraint",
+      "scope": {
+        "jurisdiction": "Australia",
+        "status": "derived_cultural_interpretation_not_psychological_diagnosis",
+        "formal_authority": false
+      },
+      "pattern": {
+        "canonical_terms": [
+          "irreverent fatalism",
+          "understatement",
+          "defiance",
+          "gallows humour",
+          "deadpan",
+          "retained agency"
+        ],
+        "social_functions": [
+          "retain a sense of agency when circumstances are constrained",
+          "reduce the symbolic power of danger or status",
+          "communicate solidarity through understatement or humour",
+          "make failure, suffering, danger or mortality speakable without requiring solemnity"
+        ],
+        "interpretation_status": "derived_interpretation",
+        "cautions": [
+          "humour does not reveal a person's complete emotional state",
+          "defiance does not establish absence of fear",
+          "understatement does not establish absence of grief",
+          "fatalistic humour does not establish disregard for life"
+        ]
+      },
+      "evidence": [
+        {
+          "class": "proposed_sociological_framework",
+          "source_ids": ["src.antipodean_jester"],
+          "supports": ["irreverent_fatalism", "humour_as_retained_agency"]
+        },
+        {
+          "class": "documented_cultural_pattern",
+          "source_ids": ["src.anu.hank_nelson_humour"],
+          "supports": ["humour_under_defeat_or_humiliation", "jokes_require_history_and_provenance"]
+        },
+        {
+          "class": "derived_interpretation",
+          "source_ids": ["src.nma.hawke_larrikin_grief"],
+          "supports": ["hawke_larrikin_leader_description", "gentler_response_to_grief"]
+        }
+      ],
+      "boundaries": {
+        "fatalistic_humour_is_nihilism": false,
+        "humour_proves_absence_of_grief": false,
+        "humour_proves_absence_of_fear": false,
+        "humour_proves_disregard_for_life": false,
+        "retained_agency_is_derived_interpretation": true
+      },
+      "reconstruction_target": {
+        "identify": [
+          "humour or understatement as a possible form of retained agency under constraint",
+          "difference between fatalistic humour and nihilism",
+          "limits on inferring internal emotion from outward humour"
+        ],
+        "avoid": [
+          "claiming a joking person felt no fear or grief",
+          "romanticising danger or suffering",
+          "promoting an anecdote or legend into universal national psychology"
+        ]
+      },
+      "uncertainty": {
+        "status": "interpretive_not_diagnostic",
+        "note": "Retained agency is an allowed cultural interpretation when supported by context; it is not direct evidence of a person's private emotional state."
+      }
+    },
+    {
+      "id": "culture.australia.breaker_morant_history_and_film",
+      "record_type": "historical_cultural_bundle",
+      "title": "Breaker Morant: historical record versus cultural representation",
+      "historical_person": {
+        "name": "Henry Harbord (Harry) 'The Breaker' Morant",
+        "historical_source_id": "src.awm.breaker_morant",
+        "court_martial_recorded": true,
+        "convictions_recorded": true,
+        "execution_date": "1902-02-27",
+        "historical_exoneration_claimed": false
+      },
+      "film_representation": {
+        "title": "Breaker Morant",
+        "completion_year": 1979,
+        "cultural_circulation": {
+          "year": 1980,
+          "status": "documented_festival_circulation",
+          "source_id": "src.screen_australia.breaker_morant",
+          "support": "cannes_film_festival_1980"
+        },
+        "director": "Bruce Beresford",
+        "production_source_id": "src.screen_australia.breaker_morant",
+        "dialogue_source_id": "src.aso.breaker_morant_clip3",
+        "representation_status": "dramatic_cultural_representation_not_primary_historical_record"
+      },
+      "quotation": {
+        "text": "Shoot straight, you bastards!",
+        "source_id": "src.aso.breaker_morant_clip3",
+        "context": "film_dialogue",
+        "rights_mode": "rights_aware_short_quotation",
+        "historical_primary_testimony": false,
+        "full_script_copied": false,
+        "audiovisual_bytes_copied": false
+      },
+      "evidence": [
+        {
+          "class": "official_historical_metadata",
+          "source_ids": ["src.awm.breaker_morant"],
+          "supports": ["morant_identity", "court_martial", "convictions", "execution_1902_02_27"]
+        },
+        {
+          "class": "official_production_metadata",
+          "source_ids": ["src.screen_australia.breaker_morant"],
+          "supports": ["breaker_morant_feature_film", "completion_year_1979", "director_bruce_beresford", "cannes_film_festival_1980"]
+        },
+        {
+          "class": "rights_aware_short_quotation",
+          "source_ids": ["src.aso.breaker_morant_clip3"],
+          "supports": ["film_dialogue_shoot_straight_you_bastards"]
+        }
+      ],
+      "boundaries": {
+        "film_dialogue_is_primary_historical_testimony": false,
+        "cultural_admiration_is_historical_exoneration": false,
+        "historical_person_equals_film_character": false,
+        "film_can_override_official_historical_metadata": false
+      },
+      "reconstruction_target": {
+        "identify": [
+          "historical court-martial and execution record",
+          "1980 documented festival circulation of the film representation",
+          "rights-aware film quotation",
+          "difference between cultural admiration and historical exoneration"
+        ],
+        "avoid": [
+          "using film dialogue as primary testimony of exact last words",
+          "treating dramatic injustice framing as a court judgment",
+          "assuming folk-hero status proves innocence"
+        ]
+      },
+      "uncertainty": {
+        "status": "exact_last_words_not_established_by_film",
+        "note": "The Australian War Memorial historical profile reports a different formulation of Morant's final words; the stored four-word quotation is preserved only as film dialogue."
+      }
+    },
+    {
+      "id": "culture.australia.bob_hawke_irreverence",
+      "record_type": "public_persona_context",
+      "title": "Bob Hawke: larrikin public persona versus formal office",
+      "formal_office": {
+        "name": "Robert James Lee (Bob) Hawke",
+        "office": "Prime Minister of Australia",
+        "ordinal": 23,
+        "term_start": "1983-03-11",
+        "term_end": "1991-12-20",
+        "formal_governance_summary": "The National Museum of Australia describes Hawke as believing in government by consensus and seeking agreement between business and unions.",
+        "source_id": "src.nma.bob_hawke"
+      },
+      "public_persona": {
+        "description": "Museum sources preserve a larrikin public persona that included a well-known drinking reputation, informality, human fallibility and a capacity to connect those traits to political popularity.",
+        "source_ids": [
+          "src.australian_museum.bob_hawke",
+          "src.nma.hawke_larrikin_grief"
+        ],
+        "quotation_storage": "none",
+        "paraphrase_only": true
+      },
+      "evidence": [
+        {
+          "class": "official_historical_metadata",
+          "source_ids": ["src.nma.bob_hawke"],
+          "supports": ["bob_hawke_23rd_prime_minister", "government_by_consensus"]
+        },
+        {
+          "class": "documented_cultural_pattern",
+          "source_ids": ["src.australian_museum.bob_hawke", "src.nma.hawke_larrikin_grief"],
+          "supports": ["hawke_public_drinking_reputation", "hawke_larrikin_leader_description", "gentler_response_to_grief"]
+        }
+      ],
+      "boundaries": {
+        "public_persona_is_formal_authority": false,
+        "irreverence_is_government_policy": false,
+        "drinking_reputation_proves_governing_competence": false,
+        "larrikin_persona_excludes_grief_or_gentleness": false
+      },
+      "reconstruction_target": {
+        "identify": [
+          "formal prime-ministerial office and consensus-governance metadata",
+          "separate larrikin public persona",
+          "coexistence of irreverence with gentleness and grief response"
+        ],
+        "avoid": [
+          "treating public persona as constitutional authority",
+          "inventing direct quotations",
+          "reducing formal governance to drinking or personality folklore"
+        ]
+      },
+      "uncertainty": {
+        "status": "persona_is_context_not_total_biography",
+        "note": "The record preserves a bounded public-persona specimen and does not claim that larrikinism explains Hawke's government or private personality in full."
+      }
+    }
+  ]
+}
