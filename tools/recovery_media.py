@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import base64
 import hashlib
+import json
 import math
 import struct
 import sys
@@ -13,16 +14,47 @@ import wave
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CANARY = ROOT / "capsules" / "minimal" / "ARK-CANARY.txt"
-RECEIPT = ROOT / "capsules" / "minimal" / "SHA256SUMS"
-CONTRACT = ROOT / "ai" / "recovery-media.json"
-PROTOCOL = "QSOL-ARK-CARRIER/1"
+CONTRACT_PATH = ROOT / "ai" / "recovery-media.json"
 AUDIO_MAGIC = b"ARKA"
-SAMPLE_RATE = 8000
-SAMPLES_PER_BIT = 40
-ZERO_HZ = 800
-ONE_HZ = 1600
 AMPLITUDE = 12000
+
+
+def _repo_file(value: object) -> Path:
+    if not isinstance(value, str) or not value:
+        raise ValueError("ARK_MEDIA_CONTRACT_PATH_INVALID")
+    path = Path(value)
+    if path.is_absolute() or ".." in path.parts:
+        raise ValueError("ARK_MEDIA_CONTRACT_PATH_INVALID")
+    full = ROOT / path
+    if not full.is_file():
+        raise ValueError(f"ARK_MEDIA_CONTRACT_PATH_MISSING:{value}")
+    return full
+
+
+def _load_contract() -> dict:
+    return json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
+
+
+MEDIA_CONTRACT = _load_contract()
+CANARY = _repo_file(MEDIA_CONTRACT.get("canonical_payload"))
+RECEIPT = _repo_file(MEDIA_CONTRACT.get("canonical_receipt"))
+PROTOCOL = MEDIA_CONTRACT.get("envelope_protocol")
+_AUDIO = MEDIA_CONTRACT.get("carriers", {}).get("audio", {})
+SAMPLE_RATE = _AUDIO.get("sample_rate")
+SAMPLES_PER_BIT = _AUDIO.get("samples_per_bit")
+ZERO_HZ = _AUDIO.get("zero_hz")
+ONE_HZ = _AUDIO.get("one_hz")
+
+if not isinstance(PROTOCOL, str) or not PROTOCOL:
+    raise ValueError("ARK_MEDIA_PROTOCOL_INVALID")
+for _name, _value in {
+    "sample_rate": SAMPLE_RATE,
+    "samples_per_bit": SAMPLES_PER_BIT,
+    "zero_hz": ZERO_HZ,
+    "one_hz": ONE_HZ,
+}.items():
+    if not isinstance(_value, int) or _value <= 0:
+        raise ValueError(f"ARK_MEDIA_AUDIO_PARAMETER_INVALID:{_name}")
 
 
 def receipt_hash(name: str) -> str:
