@@ -3,6 +3,7 @@
 """Validate compiler/emulator portability and derived recovery-media contracts."""
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 import sys
@@ -12,7 +13,6 @@ ROOT = Path(__file__).resolve().parents[1]
 PORTABILITY_PATH = ROOT / "ai" / "archaeology-portability.json"
 MEDIA_PATH = ROOT / "ai" / "recovery-media.json"
 EMULATOR_PATH = ROOT / "retro" / "emulator" / "qemu-i386.json"
-PRINTABLE_PATH = ROOT / "recovery" / "printable" / "ARK-CANARY-CARD.txt"
 MEDIA_TOOL_PATH = ROOT / "tools" / "recovery_media.py"
 VERSION = "1.0.0"
 
@@ -72,23 +72,99 @@ def argv(value, code: str) -> list[str]:
     return value
 
 
+def receipt_hash(receipt: Path, name: str, code: str) -> str:
+    for line in receipt.read_text(encoding="utf-8").splitlines():
+        parts = line.split()
+        if len(parts) == 2 and parts[1] == name:
+            digest = parts[0].lower()
+            require(len(digest) == 64 and all(c in "0123456789abcdef" for c in digest), code)
+            return digest
+    raise ValueError(code)
+
+
+def validate_target_semantics(target: dict, baseline_compiler: str, baseline_libc: str) -> None:
+    compiler = target["compiler"]
+    libc = target["libc"]
+    architecture = target["architecture"]
+    klass = target["class"]
+    compile_argv = target["compile_argv"]
+
+    require(compile_argv[0] == compiler, "ARK_PORTABILITY_COMPILER_COMMAND_DRIFT")
+    if architecture.endswith("-static"):
+        require("-static" in compile_argv, "ARK_PORTABILITY_STATIC_BINDING_INVALID")
+    if klass == "independent-compiler":
+        require(compiler != baseline_compiler, "ARK_PORTABILITY_INDEPENDENT_COMPILER_INVALID")
+    elif klass == "small-limited-compiler":
+        require(compiler == "tcc", "ARK_PORTABILITY_LIMITED_COMPILER_BINDING_INVALID")
+    elif klass == "alternate-libc":
+        require(libc != baseline_libc, "ARK_PORTABILITY_ALTERNATE_LIBC_INVALID")
+        if libc == "musl":
+            require(compiler == "musl-gcc" and "-static" in compile_argv,
+                    "ARK_PORTABILITY_MUSL_BINDING_INVALID")
+    elif klass == "reduced-word-size":
+        require(architecture.startswith("i386") and "-m32" in compile_argv,
+                "ARK_PORTABILITY_WORD_SIZE_BINDING_INVALID")
+
+
+def validate_vectors(vectors: object, canonical_payload: Path, canonical_receipt: Path) -> None:
+    require(isinstance(vectors, list) and len(vectors) >= 2, "ARK_PORTABILITY_VECTORS_INVALID")
+    ids: list[str] = []
+    canary_bound = False
+    generated_count = 0
+    for vector in vectors:
+        require(isinstance(vector, dict), "ARK_PORTABILITY_VECTOR_INVALID")
+        vid = nonempty(vector.get("id"), "ARK_PORTABILITY_VECTOR_ID_INVALID")
+        ids.append(vid)
+        keys = set(vector)
+        if keys == {"id", "path", "expected_from"}:
+            path = repo_file(vector["path"], "ARK_PORTABILITY_VECTOR_PATH_INVALID")
+            receipt = repo_file(vector["expected_from"], "ARK_PORTABILITY_VECTOR_RECEIPT_INVALID")
+            expected = receipt_hash(receipt, path.name, "ARK_PORTABILITY_VECTOR_RECEIPT_INVALID")
+            actual = hashlib.sha256(path.read_bytes()).hexdigest()
+            require(actual == expected, "ARK_PORTABILITY_VECTOR_SOURCE_MISMATCH")
+            if vid == "ark-canary":
+                require(path == canonical_payload and receipt == canonical_receipt,
+                        "ARK_PORTABILITY_CANARY_VECTOR_BINDING_INVALID")
+                canary_bound = True
+        elif keys == {"id", "generated_bytes_utf8", "sha256"}:
+            raw_text = nonempty(vector["generated_bytes_utf8"], "ARK_PORTABILITY_VECTOR_BYTES_INVALID")
+            digest = nonempty(vector["sha256"], "ARK_PORTABILITY_VECTOR_DIGEST_INVALID").lower()
+            require(len(digest) == 64 and all(c in "0123456789abcdef" for c in digest),
+                    "ARK_PORTABILITY_VECTOR_DIGEST_INVALID")
+            actual = hashlib.sha256(raw_text.encode("utf-8")).hexdigest()
+            require(actual == digest, "ARK_PORTABILITY_VECTOR_DECLARATION_MISMATCH")
+            generated_count += 1
+        else:
+            raise ValueError("ARK_PORTABILITY_VECTOR_SHAPE_INVALID")
+    require(len(ids) == len(set(ids)), "ARK_PORTABILITY_VECTOR_ID_DUPLICATE")
+    require(canary_bound, "ARK_PORTABILITY_CANARY_VECTOR_MISSING")
+    require(generated_count >= 1, "ARK_PORTABILITY_GENERATED_VECTOR_MISSING")
+
+
 def validate_portability(doc: dict) -> None:
     require(doc.get("type") == "qsol-ark-archaeology-portability", "ARK_PORTABILITY_CONTRACT_INVALID")
     require(doc.get("protocol") == "QSOL-ARK" and doc.get("schema_version") == VERSION,
             "ARK_PORTABILITY_CONTRACT_INVALID")
-    repo_file(doc.get("canonical_verifier"), "ARK_PORTABILITY_VERIFIER_MISSING")
-    repo_file(doc.get("canonical_payload"), "ARK_PORTABILITY_PAYLOAD_MISSING")
-    repo_file(doc.get("canonical_receipt"), "ARK_PORTABILITY_RECEIPT_MISSING")
+    verifier = repo_file(doc.get("canonical_verifier"), "ARK_PORTABILITY_VERIFIER_MISSING")
+    payload = repo_file(doc.get("canonical_payload"), "ARK_PORTABILITY_PAYLOAD_MISSING")
+    receipt = repo_file(doc.get("canonical_receipt"), "ARK_PORTABILITY_RECEIPT_MISSING")
+    require(verifier.suffix == ".c", "ARK_PORTABILITY_VERIFIER_TYPE_INVALID")
 
     targets = doc.get("compiler_targets")
     require(isinstance(targets, list) and targets, "ARK_PORTABILITY_TARGETS_INVALID")
     ids = []
     classes = set()
+    baseline = [t for t in targets if isinstance(t, dict) and t.get("class") == "baseline"]
+    require(len(baseline) == 1, "ARK_PORTABILITY_BASELINE_INVALID")
+    baseline_compiler = nonempty(baseline[0].get("compiler"), "ARK_PORTABILITY_COMPILER_INVALID")
+    baseline_libc = nonempty(baseline[0].get("libc"), "ARK_PORTABILITY_LIBC_INVALID")
+
     for target in targets:
         require(isinstance(target, dict), "ARK_PORTABILITY_TARGET_INVALID")
         tid = nonempty(target.get("id"), "ARK_PORTABILITY_TARGET_ID_INVALID")
         ids.append(tid)
-        classes.add(nonempty(target.get("class"), "ARK_PORTABILITY_TARGET_CLASS_INVALID"))
+        klass = nonempty(target.get("class"), "ARK_PORTABILITY_TARGET_CLASS_INVALID")
+        classes.add(klass)
         nonempty(target.get("compiler"), "ARK_PORTABILITY_COMPILER_INVALID")
         nonempty(target.get("libc"), "ARK_PORTABILITY_LIBC_INVALID")
         nonempty(target.get("architecture"), "ARK_PORTABILITY_ARCH_INVALID")
@@ -98,6 +174,7 @@ def validate_portability(doc: dict) -> None:
         require("{source}" in compile_argv and "{output}" in compile_argv,
                 "ARK_PORTABILITY_COMPILE_BINDING_INVALID")
         require("{output}" in run_argv, "ARK_PORTABILITY_RUN_BINDING_INVALID")
+        validate_target_semantics(target, baseline_compiler, baseline_libc)
     require(len(ids) == len(set(ids)), "ARK_PORTABILITY_TARGET_ID_DUPLICATE")
     require(REQUIRED_COMPILER_CLASSES.issubset(classes), "ARK_PORTABILITY_TARGET_CLASS_MISSING")
 
@@ -121,13 +198,7 @@ def validate_portability(doc: dict) -> None:
             "ARK_EMULATOR_FILE_LIMIT_INVALID")
     require(emulator.get("clean_environment") is True, "ARK_EMULATOR_ENVIRONMENT_NOT_CONSTRAINED")
 
-    vectors = doc.get("required_vectors")
-    require(isinstance(vectors, list) and len(vectors) >= 2, "ARK_PORTABILITY_VECTORS_INVALID")
-    require(any(v.get("id") == "ark-canary" for v in vectors if isinstance(v, dict)),
-            "ARK_PORTABILITY_CANARY_VECTOR_MISSING")
-    require(any(v.get("sha256") == "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
-                for v in vectors if isinstance(v, dict)),
-            "ARK_PORTABILITY_SHA256_VECTOR_MISSING")
+    validate_vectors(doc.get("required_vectors"), payload, receipt)
 
     require(REQUIRED_PORTABILITY_INVARIANTS.issubset(set(doc.get("invariants", []))),
             "ARK_PORTABILITY_INVARIANTS_INCOMPLETE")
@@ -178,8 +249,8 @@ def validate_media(doc: dict) -> None:
             "ARK_MEDIA_CONTRACT_INVALID")
     require(doc.get("status") == "derived_recovery_carrier_experiment",
             "ARK_MEDIA_CANONICALITY_INVALID")
-    repo_file(doc.get("canonical_payload"), "ARK_MEDIA_CANONICAL_PAYLOAD_MISSING")
-    repo_file(doc.get("canonical_receipt"), "ARK_MEDIA_CANONICAL_RECEIPT_MISSING")
+    payload = repo_file(doc.get("canonical_payload"), "ARK_MEDIA_CANONICAL_PAYLOAD_MISSING")
+    receipt = repo_file(doc.get("canonical_receipt"), "ARK_MEDIA_CANONICAL_RECEIPT_MISSING")
     require(doc.get("envelope_protocol") == "QSOL-ARK-CARRIER/1", "ARK_MEDIA_PROTOCOL_INVALID")
     require(doc.get("tool") == "tools/recovery_media.py", "ARK_MEDIA_TOOL_BINDING_INVALID")
     repo_file(doc.get("tool"), "ARK_MEDIA_TOOL_MISSING")
@@ -198,6 +269,9 @@ def validate_media(doc: dict) -> None:
             "ARK_MEDIA_AUDIO_BINARY_PROMOTED")
 
     tool = load_media_tool()
+    require(tool.CONTRACT_PATH == MEDIA_PATH, "ARK_MEDIA_TOOL_CONTRACT_PATH_DRIFT")
+    require(tool.CANARY == payload, "ARK_MEDIA_TOOL_PAYLOAD_PATH_DRIFT")
+    require(tool.RECEIPT == receipt, "ARK_MEDIA_TOOL_RECEIPT_PATH_DRIFT")
     audio = carriers["audio"]
     require(
         (audio.get("sample_rate"), audio.get("samples_per_bit"), audio.get("zero_hz"), audio.get("one_hz"))
@@ -205,10 +279,10 @@ def validate_media(doc: dict) -> None:
         "ARK_MEDIA_AUDIO_PARAMETERS_DRIFT",
     )
     require(tool.PROTOCOL == doc["envelope_protocol"], "ARK_MEDIA_ENVELOPE_PROTOCOL_DRIFT")
-    require(PRINTABLE_PATH == ROOT / carriers["printable"]["committed_example"],
-            "ARK_MEDIA_PRINTABLE_PATH_DRIFT")
+    printable_path = repo_file(carriers["printable"].get("committed_example"),
+                               "ARK_MEDIA_PRINTABLE_PATH_INVALID")
     expected = tool.canonical_envelope()
-    require(PRINTABLE_PATH.read_bytes() == expected, "ARK_MEDIA_PRINTABLE_DRIFT")
+    require(printable_path.read_bytes() == expected, "ARK_MEDIA_PRINTABLE_DRIFT")
     tool.verify_against_canonical(expected)
 
     require(REQUIRED_MEDIA_INVARIANTS.issubset(set(doc.get("invariants", []))),
