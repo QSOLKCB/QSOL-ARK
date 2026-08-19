@@ -36,6 +36,7 @@ class PortabilityContractTests(unittest.TestCase):
             if target["id"] == "gcc-i386-static"
         )
         self.assertEqual(target["architecture"], "i386-static")
+        self.assertEqual(target["compiler"], target["compile_argv"][0])
         self.assertIn("-m32", target["compile_argv"])
         self.assertIn("-static", target["compile_argv"])
 
@@ -67,6 +68,40 @@ class PortabilityContractTests(unittest.TestCase):
         altered["emulator_target"]["historical_recovery_equivalence"] = "exact_reproduction"
         with self.assertRaisesRegex(ValueError, "ARK_EMULATOR_EQUIVALENCE_PROMOTED"):
             pc.validate_portability(altered)
+
+    def test_generated_vector_bytes_are_bound_to_digest(self):
+        altered = copy.deepcopy(self.portability)
+        vector = next(v for v in altered["required_vectors"] if "generated_bytes_utf8" in v)
+        vector["generated_bytes_utf8"] = "abd"
+        with self.assertRaisesRegex(ValueError, "ARK_PORTABILITY_VECTOR_DECLARATION_MISMATCH"):
+            pc.validate_portability(altered)
+
+    def test_canary_vector_is_bound_to_canonical_payload_and_receipt(self):
+        altered = copy.deepcopy(self.portability)
+        altered["canonical_payload"] = "recovery/printable/ARK-CANARY-CARD.txt"
+        with self.assertRaisesRegex(ValueError, "ARK_PORTABILITY_CANARY_VECTOR_BINDING_INVALID"):
+            pc.validate_portability(altered)
+
+    def test_compiler_label_cannot_drift_from_executable(self):
+        altered = copy.deepcopy(self.portability)
+        target = next(t for t in altered["compiler_targets"] if t["id"] == "host-clang-glibc")
+        target["compile_argv"][0] = "gcc"
+        with self.assertRaisesRegex(ValueError, "ARK_PORTABILITY_COMPILER_COMMAND_DRIFT"):
+            pc.validate_portability(altered)
+
+    def test_libc_class_cannot_drift_from_compiler_binding(self):
+        altered = copy.deepcopy(self.portability)
+        target = next(t for t in altered["compiler_targets"] if t["id"] == "musl-gcc-static")
+        target["compiler"] = "gcc"
+        target["compile_argv"][0] = "gcc"
+        with self.assertRaisesRegex(ValueError, "ARK_PORTABILITY_MUSL_BINDING_INVALID"):
+            pc.validate_portability(altered)
+
+    def test_media_contract_paths_must_match_execution_tool(self):
+        altered = copy.deepcopy(self.media)
+        altered["canonical_payload"] = "recovery/printable/ARK-CANARY-CARD.txt"
+        with self.assertRaisesRegex(ValueError, "ARK_MEDIA_TOOL_PAYLOAD_PATH_DRIFT"):
+            pc.validate_media(altered)
 
 
 if __name__ == "__main__":
