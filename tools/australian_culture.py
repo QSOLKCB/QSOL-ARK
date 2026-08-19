@@ -13,6 +13,9 @@ INDEX_PATH = ROOT / "culture" / "australia" / "index.json"
 SOURCES_PATH = ROOT / "culture" / "australia" / "sources.json"
 RECORDS_PATH = ROOT / "culture" / "australia" / "records.json"
 TASKS_PATH = ROOT / "culture" / "australia" / "recovery-tasks.json"
+MANIFEST_PATH = ROOT / "manifest.json"
+BOOTSTRAP_PATH = ROOT / "ai" / "bootstrap.json"
+MANIFEST_SCHEMA_PATH = ROOT / "schema" / "ark-manifest.schema.json"
 VERSION = "1.0.0"
 
 RECORD_IDS = {
@@ -20,29 +23,6 @@ RECORD_IDS = {
     "culture.australia.irreverent_fatalism",
     "culture.australia.breaker_morant_history_and_film",
     "culture.australia.bob_hawke_irreverence",
-}
-RECORD_TYPES = {"cultural_pattern", "historical_cultural_bundle", "public_persona_context"}
-INVARIANTS = {
-    "IRREVERENCE != IGNORANCE",
-    "FATALISTIC_HUMOUR != NIHILISM",
-    "MOCKING_AUTHORITY != ABSENCE_OF_GOVERNANCE",
-    "CULTURAL_ADMIRATION != HISTORICAL_EXONERATION",
-    "FILM_DIALOGUE != PRIMARY_HISTORICAL_TESTIMONY",
-    "HUMOUR_AS_GOVERNANCE != FORMAL_LEGAL_AUTHORITY",
-}
-EVIDENCE_CLASSES = {
-    "proposed_sociological_framework",
-    "documented_cultural_pattern",
-    "official_legal_authority",
-    "official_historical_metadata",
-    "official_production_metadata",
-    "rights_aware_short_quotation",
-    "derived_interpretation",
-    "folklore_or_legend",
-    "unknown",
-}
-SOURCE_FIELDS = {
-    "url", "role", "visibility", "license_status", "canonical_status", "byte_import_allowed", "supports"
 }
 
 EXPECTED_TASKS = {
@@ -102,8 +82,9 @@ def text(value: object, code: str) -> str:
     return value
 
 
-def texts(value: object, code: str) -> list[str]:
-    require(isinstance(value, list) and bool(value), code)
+def texts(value: object, code: str, *, allow_empty: bool = False) -> list[str]:
+    require(isinstance(value, list), code)
+    require(allow_empty or bool(value), code)
     require(all(isinstance(item, str) and item.strip() for item in value), code)
     require(len(value) == len(set(value)), code)
     return value
@@ -122,11 +103,35 @@ def validate_policy(policy: dict) -> None:
     require(policy.get("type") == "qsol-ark-australian-governance-policy", "ARK_AUS_POLICY_INVALID")
     require(policy.get("protocol") == "QSOL-ARK" and policy.get("schema_version") == VERSION,
             "ARK_AUS_POLICY_INVALID")
-    require(set(policy.get("record_types", [])) == RECORD_TYPES, "ARK_AUS_RECORD_TYPES_INVALID")
-    require(set(policy.get("evidence_classes", [])) == EVIDENCE_CLASSES, "ARK_AUS_EVIDENCE_CLASSES_INVALID")
-    require(set(policy.get("source_evidence_required_fields", [])) == SOURCE_FIELDS,
+
+    record_types = texts(policy.get("record_types"), "ARK_AUS_RECORD_TYPES_INVALID")
+    require({"cultural_pattern", "historical_cultural_bundle", "public_persona_context"}.issubset(record_types),
+            "ARK_AUS_RECORD_TYPES_INVALID")
+    evidence_classes = texts(policy.get("evidence_classes"), "ARK_AUS_EVIDENCE_CLASSES_INVALID")
+
+    schema = require_exact_keys(
+        policy.get("source_schema"),
+        {"required_fields", "optional_metadata_fields", "allowed_visibility", "allowed_roles", "allowed_license_status", "allowed_canonical_status", "byte_import_allowed"},
+        "ARK_AUS_SOURCE_POLICY_INVALID",
+    )
+    required = set(texts(schema["required_fields"], "ARK_AUS_SOURCE_POLICY_INVALID"))
+    optional = set(texts(schema["optional_metadata_fields"], "ARK_AUS_SOURCE_POLICY_INVALID", allow_empty=True))
+    require(required == {"url", "role", "visibility", "license_status", "canonical_status", "byte_import_allowed", "supports"},
             "ARK_AUS_SOURCE_POLICY_INVALID")
-    require(set(policy.get("canonical_invariants", [])) == INVARIANTS, "ARK_AUS_INVARIANTS_INVALID")
+    require(not required.intersection(optional), "ARK_AUS_SOURCE_POLICY_INVALID")
+    for key in ("allowed_visibility", "allowed_roles", "allowed_license_status", "allowed_canonical_status"):
+        texts(schema[key], "ARK_AUS_SOURCE_POLICY_INVALID")
+    require(schema["byte_import_allowed"] is False, "ARK_AUS_SOURCE_POLICY_INVALID")
+
+    role_policy = policy.get("evidence_role_policy")
+    require(isinstance(role_policy, dict) and set(role_policy) == set(evidence_classes),
+            "ARK_AUS_EVIDENCE_ROLE_POLICY_INVALID")
+    allowed_roles = set(schema["allowed_roles"])
+    for evidence_class, roles in role_policy.items():
+        declared = set(texts(roles, "ARK_AUS_EVIDENCE_ROLE_POLICY_INVALID", allow_empty=True))
+        require(declared.issubset(allowed_roles), "ARK_AUS_EVIDENCE_ROLE_POLICY_INVALID")
+        if evidence_class != "unknown":
+            require(bool(declared), "ARK_AUS_EVIDENCE_ROLE_POLICY_INVALID")
 
     preprint = require_exact_keys(
         policy.get("preprint_policy"),
@@ -154,15 +159,12 @@ def validate_policy(policy: dict) -> None:
     require(quote["film_dialogue_is_primary_historical_testimony"] is False,
             "ARK_AUS_FILM_PROMOTED_TO_HISTORY")
 
-    formal = policy.get("formal_authority_boundary", {})
-    require(formal == {
+    require(policy.get("formal_authority_boundary") == {
         "cultural_pattern_has_formal_legal_force": False,
         "cultural_pattern_can_replace_constitution_or_legislation": False,
         "formal_authority_requires_official_legal_source": True,
     }, "ARK_AUS_FORMAL_AUTHORITY_BOUNDARY_INVALID")
-
-    fatalism = policy.get("fatalism_boundary", {})
-    require(fatalism == {
+    require(policy.get("fatalism_boundary") == {
         "humour_under_constraint_proves_nihilism": False,
         "humour_under_constraint_proves_absence_of_grief": False,
         "humour_under_constraint_proves_absence_of_fear": False,
@@ -170,9 +172,25 @@ def validate_policy(policy: dict) -> None:
         "retained_agency_is_allowed_as_derived_interpretation": True,
     }, "ARK_AUS_FATALISM_BOUNDARY_INVALID")
 
-    binding = policy.get("task_binding", {})
-    require(binding == {"mode": "record_specific_exact", "bind_fields": ["id", "prompt", "expected"]},
-            "ARK_AUS_TASK_BINDING_INVALID")
+    uncertainty = policy.get("uncertainty_registry")
+    require(isinstance(uncertainty, dict) and uncertainty, "ARK_AUS_UNCERTAINTY_POLICY_INVALID")
+    seen_records = set()
+    for status, entry in uncertainty.items():
+        text(status, "ARK_AUS_UNCERTAINTY_POLICY_INVALID")
+        require_exact_keys(entry, {"record_id", "note"}, "ARK_AUS_UNCERTAINTY_POLICY_INVALID")
+        require(entry["record_id"] in RECORD_IDS and entry["record_id"] not in seen_records,
+                "ARK_AUS_UNCERTAINTY_POLICY_INVALID")
+        seen_records.add(entry["record_id"])
+        text(entry["note"], "ARK_AUS_UNCERTAINTY_POLICY_INVALID")
+    require(seen_records == RECORD_IDS, "ARK_AUS_UNCERTAINTY_POLICY_INVALID")
+
+    invariants = texts(policy.get("canonical_invariants"), "ARK_AUS_INVARIANTS_INVALID")
+    require(all(" != " in invariant for invariant in invariants), "ARK_AUS_INVARIANTS_INVALID")
+
+    require(policy.get("task_binding") == {
+        "mode": "record_specific_exact",
+        "bind_fields": ["id", "prompt", "expected"],
+    }, "ARK_AUS_TASK_BINDING_INVALID")
 
 
 def validate_sources(doc: dict, policy: dict) -> dict[str, dict]:
@@ -181,16 +199,29 @@ def validate_sources(doc: dict, policy: dict) -> dict[str, dict]:
     require(doc["protocol"] == "QSOL-ARK" and doc["schema_version"] == VERSION, "ARK_AUS_SOURCES_INVALID")
     sources = doc["sources"]
     require(isinstance(sources, dict) and len(sources) >= 10, "ARK_AUS_SOURCE_CATALOG_INVALID")
+
+    schema = policy["source_schema"]
+    required = set(schema["required_fields"])
+    permitted = required | set(schema["optional_metadata_fields"])
+    allowed_roles = set(schema["allowed_roles"])
+    allowed_visibility = set(schema["allowed_visibility"])
+    allowed_licenses = set(schema["allowed_license_status"])
+    allowed_canonical = set(schema["allowed_canonical_status"])
+
     for sid, source in sources.items():
         text(sid, "ARK_AUS_SOURCE_ID_INVALID")
-        require(isinstance(source, dict) and SOURCE_FIELDS.issubset(source), "ARK_AUS_SOURCE_STATE_INCOMPLETE")
+        require(isinstance(source, dict), "ARK_AUS_SOURCE_INVALID")
+        require(required.issubset(source), "ARK_AUS_SOURCE_STATE_INCOMPLETE")
+        require(set(source).issubset(permitted), "ARK_AUS_SOURCE_UNDECLARED_FIELD")
         require(source["url"].startswith("https://"), "ARK_AUS_SOURCE_URL_INVALID")
-        text(source["role"], "ARK_AUS_SOURCE_ROLE_INVALID")
-        require(source["visibility"] == "public", "ARK_AUS_SOURCE_VISIBILITY_INVALID")
-        text(source["license_status"], "ARK_AUS_SOURCE_LICENSE_INVALID")
-        text(source["canonical_status"], "ARK_AUS_SOURCE_CANONICAL_STATUS_INVALID")
-        require(source["byte_import_allowed"] is False, "ARK_AUS_THIRD_PARTY_BYTES_FORBIDDEN")
+        require(source["role"] in allowed_roles, "ARK_AUS_SOURCE_ROLE_INVALID")
+        require(source["visibility"] in allowed_visibility, "ARK_AUS_SOURCE_VISIBILITY_INVALID")
+        require(source["license_status"] in allowed_licenses, "ARK_AUS_SOURCE_LICENSE_INVALID")
+        require(source["canonical_status"] in allowed_canonical, "ARK_AUS_SOURCE_CANONICAL_STATUS_INVALID")
+        require(source["byte_import_allowed"] is schema["byte_import_allowed"], "ARK_AUS_THIRD_PARTY_BYTES_FORBIDDEN")
         texts(source["supports"], "ARK_AUS_SOURCE_SUPPORTS_INVALID")
+        if "retrieval_status" in source:
+            require(source["retrieval_status"].startswith("retrieved_"), "ARK_AUS_SOURCE_RETRIEVAL_STATUS_INVALID")
 
     preprint = sources.get("src.antipodean_jester", {})
     require(preprint.get("role") == "author_preprint", "ARK_AUS_PREPRINT_SOURCE_INVALID")
@@ -221,35 +252,29 @@ def validate_sources(doc: dict, policy: dict) -> dict[str, dict]:
 
 def validate_evidence(item: dict, sources: dict[str, dict], policy: dict) -> None:
     require_exact_keys(item, {"class", "source_ids", "supports"}, "ARK_AUS_EVIDENCE_SHAPE_INVALID")
-    evidence_class = item["class"]
-    require(evidence_class in EVIDENCE_CLASSES, "ARK_AUS_EVIDENCE_CLASS_INVALID")
+    evidence_class = text(item["class"], "ARK_AUS_EVIDENCE_CLASS_INVALID")
+    require(evidence_class in policy["evidence_classes"], "ARK_AUS_EVIDENCE_CLASS_INVALID")
     source_ids = texts(item["source_ids"], "ARK_AUS_EVIDENCE_SOURCE_IDS_INVALID")
     supports = texts(item["supports"], "ARK_AUS_EVIDENCE_SUPPORTS_INVALID")
     require(all(sid in sources for sid in source_ids), "ARK_AUS_EVIDENCE_SOURCE_UNKNOWN")
+
     declared_supports = set()
+    roles = set()
     for sid in source_ids:
         declared_supports.update(sources[sid]["supports"])
+        roles.add(sources[sid]["role"])
     require(set(supports).issubset(declared_supports), "ARK_AUS_EVIDENCE_SUPPORT_NOT_SOURCE_BOUND")
 
-    roles = {sources[sid]["role"] for sid in source_ids}
+    allowed_roles = set(policy["evidence_role_policy"][evidence_class])
+    require(bool(allowed_roles) and roles.issubset(allowed_roles), "ARK_AUS_EVIDENCE_ROLE_MISMATCH")
     if evidence_class == "proposed_sociological_framework":
-        require(roles == {"author_preprint"}, "ARK_AUS_FRAMEWORK_SOURCE_INVALID")
         require(all(sources[sid].get("peer_reviewed") is False for sid in source_ids),
                 "ARK_AUS_PREPRINT_PEER_REVIEW_PROMOTED")
-    elif evidence_class == "official_legal_authority":
-        require(roles == {"official_legal_authority"}, "ARK_AUS_FORMAL_AUTHORITY_SOURCE_INVALID")
-    elif evidence_class == "official_historical_metadata":
-        require("official_historical_metadata" in roles or "official_museum_biography" in roles,
-                "ARK_AUS_HISTORICAL_SOURCE_INVALID")
-    elif evidence_class == "official_production_metadata":
-        require(roles == {"official_production_metadata"}, "ARK_AUS_PRODUCTION_SOURCE_INVALID")
-    elif evidence_class == "rights_aware_short_quotation":
-        require(roles == {"official_audiovisual_heritage_transcript"}, "ARK_AUS_QUOTE_SOURCE_INVALID")
 
 
 def validate_common_record(record: dict, sources: dict[str, dict], policy: dict) -> None:
     require(record.get("id") in RECORD_IDS, "ARK_AUS_RECORD_ID_INVALID")
-    require(record.get("record_type") in RECORD_TYPES, "ARK_AUS_RECORD_TYPE_INVALID")
+    require(record.get("record_type") in policy["record_types"], "ARK_AUS_RECORD_TYPE_INVALID")
     text(record.get("title"), "ARK_AUS_RECORD_TITLE_INVALID")
     evidence = record.get("evidence")
     require(isinstance(evidence, list) and evidence, "ARK_AUS_EVIDENCE_INVALID")
@@ -260,8 +285,12 @@ def validate_common_record(record: dict, sources: dict[str, dict], policy: dict)
     texts(target["identify"], "ARK_AUS_RECONSTRUCTION_TARGET_INVALID")
     texts(target["avoid"], "ARK_AUS_RECONSTRUCTION_TARGET_INVALID")
     uncertainty = require_exact_keys(record.get("uncertainty"), {"status", "note"}, "ARK_AUS_UNCERTAINTY_INVALID")
-    text(uncertainty["status"], "ARK_AUS_UNCERTAINTY_INVALID")
-    text(uncertainty["note"], "ARK_AUS_UNCERTAINTY_INVALID")
+    status = text(uncertainty["status"], "ARK_AUS_UNCERTAINTY_INVALID")
+    registry = policy["uncertainty_registry"]
+    require(status in registry, "ARK_AUS_UNCERTAINTY_STATUS_UNKNOWN")
+    expected = registry[status]
+    require(expected["record_id"] == record["id"] and uncertainty["note"] == expected["note"],
+            "ARK_AUS_UNCERTAINTY_BOUNDARY_DRIFT")
 
 
 def validate_informal_governance(record: dict, sources: dict[str, dict], policy: dict) -> None:
@@ -325,23 +354,37 @@ def validate_morant(record: dict, sources: dict[str, dict], policy: dict) -> Non
     require(record["record_type"] == "historical_cultural_bundle", "ARK_AUS_RECORD_TYPE_INVALID")
     person = require_exact_keys(record["historical_person"], {"name", "historical_source_id", "court_martial_recorded", "convictions_recorded", "execution_date", "historical_exoneration_claimed"},
                                 "ARK_AUS_MORANT_HISTORY_INVALID")
+    require(person["name"] == "Henry Harbord (Harry) 'The Breaker' Morant", "ARK_AUS_MORANT_IDENTITY_INVALID")
     require(person["historical_source_id"] == "src.awm.breaker_morant", "ARK_AUS_MORANT_HISTORY_SOURCE_INVALID")
+    require("morant_identity" in sources[person["historical_source_id"]]["supports"], "ARK_AUS_MORANT_IDENTITY_NOT_SOURCE_BOUND")
     require(person["court_martial_recorded"] is True and person["convictions_recorded"] is True,
             "ARK_AUS_MORANT_HISTORY_INVALID")
     require(person["execution_date"] == "1902-02-27", "ARK_AUS_MORANT_HISTORY_INVALID")
     require(person["historical_exoneration_claimed"] is False, "ARK_AUS_MORANT_EXONERATION_PROMOTED")
 
-    film = require_exact_keys(record["film_representation"], {"title", "completion_year", "cultural_circulation_year", "director", "production_source_id", "dialogue_source_id", "representation_status"},
+    film = require_exact_keys(record["film_representation"], {"title", "completion_year", "cultural_circulation", "director", "production_source_id", "dialogue_source_id", "representation_status"},
                               "ARK_AUS_MORANT_FILM_INVALID")
-    require(film == {
-        "title": "Breaker Morant",
-        "completion_year": 1979,
-        "cultural_circulation_year": 1980,
-        "director": "Bruce Beresford",
-        "production_source_id": "src.screen_australia.breaker_morant",
-        "dialogue_source_id": "src.aso.breaker_morant_clip3",
-        "representation_status": "dramatic_cultural_representation_not_primary_historical_record",
-    }, "ARK_AUS_MORANT_FILM_INVALID")
+    require(film["title"] == "Breaker Morant" and film["completion_year"] == 1979 and film["director"] == "Bruce Beresford",
+            "ARK_AUS_MORANT_FILM_INVALID")
+    require(film["production_source_id"] == "src.screen_australia.breaker_morant",
+            "ARK_AUS_MORANT_FILM_SOURCE_INVALID")
+    production_supports = set(sources[film["production_source_id"]]["supports"])
+    require({"breaker_morant_feature_film", "completion_year_1979", "director_bruce_beresford"}.issubset(production_supports),
+            "ARK_AUS_MORANT_FILM_NOT_SOURCE_BOUND")
+    circulation = require_exact_keys(film["cultural_circulation"], {"year", "status", "source_id", "support"},
+                                     "ARK_AUS_MORANT_CIRCULATION_INVALID")
+    require(circulation == {
+        "year": 1980,
+        "status": "documented_festival_circulation",
+        "source_id": "src.screen_australia.breaker_morant",
+        "support": "cannes_film_festival_1980",
+    }, "ARK_AUS_MORANT_CIRCULATION_INVALID")
+    require(circulation["support"] in sources[circulation["source_id"]]["supports"],
+            "ARK_AUS_MORANT_CIRCULATION_NOT_SOURCE_BOUND")
+    require(film["dialogue_source_id"] == "src.aso.breaker_morant_clip3",
+            "ARK_AUS_MORANT_QUOTE_SOURCE_INVALID")
+    require(film["representation_status"] == "dramatic_cultural_representation_not_primary_historical_record",
+            "ARK_AUS_MORANT_FILM_INVALID")
 
     quote = require_exact_keys(record["quotation"], {"text", "source_id", "context", "rights_mode", "historical_primary_testimony", "full_script_copied", "audiovisual_bytes_copied"},
                                "ARK_AUS_MORANT_QUOTE_INVALID")
@@ -453,17 +496,53 @@ def validate_index(index: dict, known_records: set[str]) -> None:
             "ARK_AUS_INDEX_INVARIANT_REF_INVALID")
 
 
+def validate_discovery(manifest: dict, bootstrap: dict, manifest_schema: dict) -> None:
+    expected = {
+        "australian_governance_policy": "ai/australian-governance-policy.json",
+        "australian_culture_index": "culture/australia/index.json",
+        "australian_culture_doc": "docs/AUSTRALIAN-GOVERNANCE-CULTURE.md",
+        "australian_culture_validator": "tools/australian_culture.py",
+    }
+    entrypoints = manifest.get("entrypoints")
+    require(isinstance(entrypoints, dict), "ARK_AUS_MANIFEST_DISCOVERY_INVALID")
+    for key, path in expected.items():
+        require(entrypoints.get(key) == path, "ARK_AUS_MANIFEST_DISCOVERY_INVALID")
+        safe_path(path, "ARK_AUS_MANIFEST_DISCOVERY_INVALID")
+
+    load_order = bootstrap.get("load_order")
+    require(isinstance(load_order, list) and len(load_order) == len(set(load_order)),
+            "ARK_AUS_BOOTSTRAP_DISCOVERY_INVALID")
+    policy_path = expected["australian_governance_policy"]
+    index_path = expected["australian_culture_index"]
+    require(policy_path in load_order and index_path in load_order,
+            "ARK_AUS_BOOTSTRAP_DISCOVERY_INVALID")
+    require(load_order.index(policy_path) < load_order.index(index_path),
+            "ARK_AUS_BOOTSTRAP_DISCOVERY_INVALID")
+
+    entrypoint_schema = manifest_schema.get("properties", {}).get("entrypoints", {})
+    required = set(entrypoint_schema.get("required", []))
+    properties = entrypoint_schema.get("properties", {})
+    for key, path in expected.items():
+        require(key in required and properties.get(key, {}).get("const") == path,
+                "ARK_AUS_MANIFEST_SCHEMA_DISCOVERY_INVALID")
+
+
 def validate() -> None:
     policy = load(POLICY_PATH)
     sources_doc = load(SOURCES_PATH)
     records_doc = load(RECORDS_PATH)
     tasks_doc = load(TASKS_PATH)
     index = load(INDEX_PATH)
+    manifest = load(MANIFEST_PATH)
+    bootstrap = load(BOOTSTRAP_PATH)
+    manifest_schema = load(MANIFEST_SCHEMA_PATH)
+
     validate_policy(policy)
     sources = validate_sources(sources_doc, policy)
     known = validate_records(records_doc, sources, policy)
     validate_tasks(tasks_doc, known)
     validate_index(index, known)
+    validate_discovery(manifest, bootstrap, manifest_schema)
     print(f"ARK_AUSTRALIAN_GOVERNANCE_OK records={len(known)} tasks={len(tasks_doc['tasks'])} sources={len(sources)}")
 
 
