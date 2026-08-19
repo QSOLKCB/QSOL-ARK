@@ -1,0 +1,178 @@
+{
+  "type": "qsol-ark-australian-governance-source-catalog",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "sources": {
+    "src.antipodean_jester": {
+      "url": "https://doi.org/10.22541/au.176780580.02987307/v1",
+      "role": "author_preprint",
+      "visibility": "public",
+      "license_status": "CC-BY-4.0",
+      "canonical_status": "canonical_for_authored_preprint_metadata_and_declared_framework",
+      "byte_import_allowed": false,
+      "title": "The Antipodean Jester: Australian Humor as Informal Governance in a Comparative Sociological Framework",
+      "author": "Trent Slade",
+      "publication_platform": "Authorea Preprints",
+      "publication_date": "2026-01-07",
+      "publication_state": "preprint",
+      "peer_reviewed": false,
+      "version": "v1",
+      "doi": "10.22541/au.176780580.02987307/v1",
+      "verification_status": "public_preprint_metadata_verified_from_authored_copy",
+      "supports": [
+        "proposed_humour_as_informal_governance_framework",
+        "larrikinism",
+        "taking_the_piss",
+        "anti_pretension",
+        "egalitarian_correction",
+        "deadpan",
+        "self_deprecation",
+        "authority_mockery",
+        "irreverent_fatalism",
+        "humour_as_retained_agency"
+      ]
+    },
+    "src.abc.original_humour": {
+      "url": "https://www.abc.net.au/news/2009-04-24/original-humour-you-must-be-joking/1661610",
+      "role": "secondary_cultural_analysis",
+      "visibility": "public",
+      "license_status": "third_party_reference_only",
+      "canonical_status": "secondary_for_declared_supports",
+      "byte_import_allowed": false,
+      "retrieval_status": "retrieved_2026-08-19",
+      "supports": [
+        "sardonic_anti_authoritarian_humour",
+        "taking_the_piss",
+        "self_directed_teasing",
+        "egalitarian_social_function"
+      ]
+    },
+    "src.anu.larrikin_tracker_review": {
+      "url": "https://press-files.anu.edu.au/downloads/press/n5884/html/review_article01.xhtml?page=13&referer=",
+      "role": "scholarly_secondary_analysis",
+      "visibility": "public",
+      "license_status": "third_party_reference_only",
+      "canonical_status": "secondary_for_declared_supports",
+      "byte_import_allowed": false,
+      "retrieval_status": "retrieved_2026-08-19",
+      "supports": [
+        "larrikin_scepticism",
+        "irreverence",
+        "authority_mockery",
+        "mocking_pomposity",
+        "taking_the_piss"
+      ]
+    },
+    "src.legislation.constitution": {
+      "url": "https://www.legislation.gov.au/Details/C2013Q00005",
+      "role": "official_legal_authority",
+      "visibility": "public",
+      "license_status": "official_reference_only",
+      "canonical_status": "canonical_for_formal_constitutional_authority",
+      "byte_import_allowed": false,
+      "retrieval_status": "retrieved_2026-08-19",
+      "supports": ["formal_constitutional_authority"]
+    },
+    "src.awm.breaker_morant": {
+      "url": "https://www.awm.gov.au/collection/P10676773",
+      "role": "official_historical_metadata",
+      "visibility": "public",
+      "license_status": "official_reference_only",
+      "canonical_status": "canonical_for_declared_historical_supports",
+      "byte_import_allowed": false,
+      "retrieval_status": "retrieved_2026-08-19",
+      "supports": [
+        "morant_identity",
+        "military_service",
+        "court_martial",
+        "convictions",
+        "execution_1902_02_27",
+        "historical_last_words_reported_differently_from_film"
+      ]
+    },
+    "src.screen_australia.breaker_morant": {
+      "url": "https://www.screenaustralia.gov.au/screen-guide/breaker-morant-101/",
+      "role": "official_production_metadata",
+      "visibility": "public",
+      "license_status": "third_party_reference_only",
+      "canonical_status": "canonical_for_declared_production_supports",
+      "byte_import_allowed": false,
+      "retrieval_status": "retrieved_2026-08-19",
+      "supports": [
+        "breaker_morant_feature_film",
+        "completion_year_1979",
+        "director_bruce_beresford",
+        "writers_bruce_beresford_jonathan_hardy_david_stevens",
+        "edward_woodward_as_morant"
+      ]
+    },
+    "src.aso.breaker_morant_clip3": {
+      "url": "https://aso.gov.au/titles/features/breaker-morant/clip3/",
+      "role": "official_audiovisual_heritage_transcript",
+      "visibility": "public",
+      "license_status": "rights_managed_short_quotation_reference",
+      "canonical_status": "canonical_for_declared_film_dialogue_support",
+      "byte_import_allowed": false,
+      "retrieval_status": "retrieved_2026-08-19",
+      "supports": [
+        "film_execution_scene",
+        "film_dialogue_shoot_straight_you_bastards",
+        "film_cultural_representation_of_larrikin_irreverence"
+      ]
+    },
+    "src.nma.bob_hawke": {
+      "url": "https://www.nma.gov.au/explore/features/prime-ministers/bob-hawke",
+      "role": "official_museum_biography",
+      "visibility": "public",
+      "license_status": "third_party_reference_only",
+      "canonical_status": "canonical_for_declared_public_office_supports",
+      "byte_import_allowed": false,
+      "retrieval_status": "retrieved_2026-08-19",
+      "supports": [
+        "bob_hawke_23rd_prime_minister",
+        "prime_minister_1983_03_11_to_1991_12_20",
+        "government_by_consensus"
+      ]
+    },
+    "src.australian_museum.bob_hawke": {
+      "url": "https://australian.museum/publications/200-treasures-of-the-australian-museum/100-people/bob-hawke/",
+      "role": "official_museum_biography",
+      "visibility": "public",
+      "license_status": "third_party_reference_only",
+      "canonical_status": "secondary_for_public_persona_supports",
+      "byte_import_allowed": false,
+      "retrieval_status": "retrieved_2026-08-19",
+      "supports": [
+        "hawke_public_drinking_reputation",
+        "human_weaknesses_became_part_of_public_political_persona"
+      ]
+    },
+    "src.nma.hawke_larrikin_grief": {
+      "url": "https://www.nma.gov.au/exhibitions/tony-armstrong-extra-ordinary-things/episode-2",
+      "role": "official_museum_cultural_context",
+      "visibility": "public",
+      "license_status": "third_party_reference_only",
+      "canonical_status": "secondary_for_cultural_context_supports",
+      "byte_import_allowed": false,
+      "retrieval_status": "retrieved_2026-08-19",
+      "supports": [
+        "hawke_larrikin_leader_description",
+        "gentler_response_to_grief"
+      ]
+    },
+    "src.anu.hank_nelson_humour": {
+      "url": "https://press-files.anu.edu.au/downloads/press/p286291/html/Text/Ch19.xhtml?page=25&referer=",
+      "role": "scholarly_historical_analysis",
+      "visibility": "public",
+      "license_status": "third_party_reference_only",
+      "canonical_status": "secondary_for_declared_cultural_supports",
+      "byte_import_allowed": false,
+      "retrieval_status": "retrieved_2026-08-19",
+      "supports": [
+        "humour_under_defeat_or_humiliation",
+        "larrikin_indifference_to_authority_as_story_pattern",
+        "jokes_require_history_and_provenance"
+      ]
+    }
+  }
+}
