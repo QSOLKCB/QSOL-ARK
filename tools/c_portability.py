@@ -15,16 +15,34 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = ROOT / "ai" / "archaeology-portability.json"
-CANARY = ROOT / "capsules" / "minimal" / "ARK-CANARY.txt"
-RECEIPT = ROOT / "capsules" / "minimal" / "SHA256SUMS"
 
 
 def load_contract() -> dict:
     return json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
 
 
-def receipt_hash(name: str) -> str:
-    for line in RECEIPT.read_text(encoding="utf-8").splitlines():
+def repo_file(value: object) -> Path:
+    if not isinstance(value, str) or not value:
+        raise ValueError("ARK_PORTABILITY_PATH_INVALID")
+    path = Path(value)
+    if path.is_absolute() or ".." in path.parts:
+        raise ValueError("ARK_PORTABILITY_PATH_INVALID")
+    full = ROOT / path
+    if not full.is_file():
+        raise ValueError(f"ARK_PORTABILITY_PATH_MISSING:{value}")
+    return full
+
+
+def resolve_contract_paths(contract: dict) -> tuple[Path, Path, Path]:
+    return (
+        repo_file(contract.get("canonical_verifier")),
+        repo_file(contract.get("canonical_payload")),
+        repo_file(contract.get("canonical_receipt")),
+    )
+
+
+def receipt_hash(receipt: Path, name: str) -> str:
+    for line in receipt.read_text(encoding="utf-8").splitlines():
         parts = line.split()
         if len(parts) == 2 and parts[1] == name:
             return parts[0].lower()
@@ -73,9 +91,10 @@ def run_vector(prefix: list[str], path: Path, expected: str, *, timeout: int | N
         )
 
 
-def compile_target(target: dict, work: Path) -> Path:
+def compile_target(target: dict, work: Path, contract: dict) -> Path:
+    source, _, _ = resolve_contract_paths(contract)
     output = work / target["id"]
-    argv = expand(target["compile_argv"], ROOT / "retro" / "c" / "ark-verify.c", output)
+    argv = expand(target["compile_argv"], source, output)
     require_tools(argv)
     result = subprocess.run(
         argv,
@@ -95,32 +114,53 @@ def compile_target(target: dict, work: Path) -> Path:
     return output
 
 
-def verify_binary(prefix: list[str], work: Path, *, timeout: int | None = None,
+def materialize_vectors(contract: dict, work: Path) -> list[tuple[Path, str]]:
+    _, canonical_payload, canonical_receipt = resolve_contract_paths(contract)
+    materialized: list[tuple[Path, str]] = []
+    for index, vector in enumerate(contract["required_vectors"]):
+        if "path" in vector:
+            path = repo_file(vector["path"])
+            receipt = repo_file(vector["expected_from"])
+            expected = receipt_hash(receipt, path.name)
+        else:
+            raw = vector["generated_bytes_utf8"].encode("utf-8")
+            expected = vector["sha256"].lower()
+            actual = hashlib.sha256(raw).hexdigest()
+            if actual != expected:
+                raise ValueError(f"ARK_PORTABILITY_VECTOR_DECLARATION_MISMATCH:{vector['id']}")
+            path = work / f"vector-{index}"
+            path.write_bytes(raw)
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        if actual != expected:
+            raise ValueError(f"ARK_PORTABILITY_VECTOR_SOURCE_MISMATCH:{vector['id']}")
+        materialized.append((path, expected))
+
+    canary_expected = receipt_hash(canonical_receipt, canonical_payload.name)
+    if hashlib.sha256(canonical_payload.read_bytes()).hexdigest() != canary_expected:
+        raise ValueError("ARK_PORTABILITY_CANONICAL_HASH_MISMATCH")
+    return materialized
+
+
+def verify_binary(prefix: list[str], work: Path, contract: dict, *, timeout: int | None = None,
                   clean_env: bool = False, file_size_limit_blocks: int | None = None) -> None:
     require_tools(prefix)
-    expected = receipt_hash(CANARY.name)
-    actual = hashlib.sha256(CANARY.read_bytes()).hexdigest()
-    if actual != expected:
-        raise ValueError("ARK_PORTABILITY_CANONICAL_HASH_MISMATCH")
     env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin")} if clean_env else None
-    run_vector(prefix, CANARY, expected, timeout=timeout, env=env,
-               file_size_limit_blocks=file_size_limit_blocks)
-    abc = work / "abc"
-    abc.write_bytes(b"abc")
-    run_vector(
-        prefix,
-        abc,
-        "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
-        timeout=timeout,
-        env=env,
-        file_size_limit_blocks=file_size_limit_blocks,
-    )
+    for path, expected in materialize_vectors(contract, work):
+        run_vector(
+            prefix,
+            path,
+            expected,
+            timeout=timeout,
+            env=env,
+            file_size_limit_blocks=file_size_limit_blocks,
+        )
 
 
-def run_compiler_target(target: dict, work: Path) -> Path:
-    binary = compile_target(target, work)
-    prefix = expand(target["run_argv"], ROOT / "retro" / "c" / "ark-verify.c", binary)
-    verify_binary(prefix, work)
+def run_compiler_target(target: dict, work: Path, contract: dict) -> Path:
+    binary = compile_target(target, work, contract)
+    source, _, _ = resolve_contract_paths(contract)
+    prefix = expand(target["run_argv"], source, binary)
+    verify_binary(prefix, work, contract)
     print(
         f"ARK_PORTABILITY_OK target={target['id']} compiler={target['compiler']} "
         f"libc={target['libc']} arch={target['architecture']}"
@@ -133,12 +173,14 @@ def run_emulator(contract: dict, work: Path) -> None:
     targets = {target["id"]: target for target in contract["compiler_targets"]}
     if target_id not in targets:
         raise ValueError("ARK_PORTABILITY_EMULATOR_BINARY_TARGET_UNKNOWN")
-    binary = compile_target(targets[target_id], work)
+    binary = compile_target(targets[target_id], work, contract)
     emulator = contract["emulator_target"]
-    prefix = expand(emulator["run_argv"], ROOT / "retro" / "c" / "ark-verify.c", binary)
+    source, _, _ = resolve_contract_paths(contract)
+    prefix = expand(emulator["run_argv"], source, binary)
     verify_binary(
         prefix,
         work,
+        contract,
         timeout=int(emulator["timeout_seconds"]),
         clean_env=bool(emulator["clean_environment"]),
         file_size_limit_blocks=int(emulator["file_size_limit_blocks"]),
@@ -161,11 +203,11 @@ def main(argv: list[str] | None = None) -> int:
             if args.target == "all":
                 for target in contract["compiler_targets"]:
                     if target.get("ci_required"):
-                        run_compiler_target(target, work)
+                        run_compiler_target(target, work, contract)
             elif args.target == "emulator":
                 run_emulator(contract, work)
             elif args.target in targets:
-                run_compiler_target(targets[args.target], work)
+                run_compiler_target(targets[args.target], work, contract)
             else:
                 print(f"unknown target: {args.target}", file=sys.stderr)
                 return 2
