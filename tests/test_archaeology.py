@@ -27,6 +27,18 @@ class ArchaeologyTests(unittest.TestCase):
     def test_mrs_archaeology_validation_is_t4(self):
         self.assertEqual(archaeology.select_mrs(["validate_archaeology_contracts"])["id"], "T4")
 
+    def test_mrs_portability_validation_is_t4(self):
+        self.assertEqual(archaeology.select_mrs(["validate_portability_contracts"])["id"], "T4")
+
+    def test_mrs_recovery_media_is_t4(self):
+        self.assertEqual(
+            archaeology.select_mrs(["build_recovery_media", "verify_recovery_carrier"])["id"],
+            "T4",
+        )
+
+    def test_mrs_audio_decode_is_t4(self):
+        self.assertEqual(archaeology.select_mrs(["decode_audio_recovery_carrier"])["id"], "T4")
+
     def test_unimplemented_model_tier_fails_closed(self):
         with self.assertRaisesRegex(ValueError, "ARK_MRS_UNAVAILABLE"):
             archaeology.select_mrs(["model_reconstruction"])

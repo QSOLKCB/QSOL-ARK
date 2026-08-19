@@ -1,0 +1,45 @@
+{
+  "type": "qsol-ark-recovery-media-contract",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "status": "derived_recovery_carrier_experiment",
+  "canonical_payload": "capsules/minimal/ARK-CANARY.txt",
+  "canonical_receipt": "capsules/minimal/SHA256SUMS",
+  "envelope_protocol": "QSOL-ARK-CARRIER/1",
+  "tool": "tools/recovery_media.py",
+  "carriers": {
+    "printable": {
+      "mode": "plain_ascii_envelope",
+      "canonical_carrier_bytes": false,
+      "round_trip_required": true,
+      "committed_example": "recovery/printable/ARK-CANARY-CARD.txt"
+    },
+    "qr": {
+      "mode": "external_qr_render_of_exact_envelope",
+      "canonical_carrier_bytes": false,
+      "round_trip_required": true,
+      "renderer": "qrencode",
+      "decoder": "zbarimg",
+      "binary_artifact_committed": false
+    },
+    "audio": {
+      "mode": "deterministic_pcm_bfsk",
+      "canonical_carrier_bytes": false,
+      "round_trip_required": true,
+      "sample_rate": 8000,
+      "samples_per_bit": 40,
+      "zero_hz": 800,
+      "one_hz": 1600,
+      "sample_format": "mono_s16le_pcm_wav",
+      "binary_artifact_committed": false
+    }
+  },
+  "invariants": [
+    "CARRIER != CANONICAL_PAYLOAD",
+    "CARRIER_HASH != PAYLOAD_HASH",
+    "DECODED_PAYLOAD_MUST_MATCH_CANONICAL_BYTES",
+    "QR_RENDERER_VERSION_MUST_NOT_DEFINE_PAYLOAD_IDENTITY",
+    "AUDIO_WAV_BYTES_ARE_DERIVED_NOT_AUTHORITY",
+    "PRINTABLE_TRANSCRIPTION_REQUIRES_SHA256_VERIFICATION"
+  ]
+}

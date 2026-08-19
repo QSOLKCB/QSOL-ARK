@@ -37,9 +37,9 @@ Implemented early because it provides an independent portability test surface be
 - [x] Validate the T3 embedded canary and digest against the canonical T0 receipt.
 - [x] Pin the canonical canary working-tree bytes against line-ending normalization.
 - [x] Preserve operational hash-provider/input failures as typed errors rather than contradictions.
-- [ ] Test additional old/limited C compilers and libc implementations.
-- [ ] Add an actually constrained emulator/hardware target after the portable contracts stabilize.
-- [ ] Add printable/QR/audio recovery experiments without weakening canonical provenance.
+- [x] Test additional old/limited C compilers and libc implementations.
+- [x] Add an actually constrained emulator/hardware target after the portable contracts stabilize.
+- [x] Add printable/QR/audio recovery experiments without weakening canonical provenance.
 
 ## Planned preservation sequence — PR #3 to PR #5
 
@@ -61,21 +61,23 @@ PR numbers below describe the intended delivery sequence, not the numbered imple
 
 #### Broader computer-culture preservation
 
-- [ ] Generalize the seed record into a compact reusable `computer_cultural_artifact` profile where useful.
-- [ ] Separate **executable artifact**, **cultural artifact**, and **historical claim** as distinct evidence classes.
-- [ ] Record era, environment, canonical terms, aliases, social role, observable behaviour, contextual meaning, source evidence, and reconstruction target.
-- [ ] Add home-computer / bedroom-coding culture specimens.
-- [ ] Add hacker / BBS / handle / phreaking-era historical culture specimens without operational intrusion instructions.
-- [ ] Add demoscene specimens: compos, intros, coder/graphician/musician roles, tracker music, procedural generation, and size constraints.
-- [ ] Add IRC / mIRC culture specimens: channels, ops, services, scripting, ASCII art, BNCs, and period terminology.
-- [ ] Add Usenet / early-net culture specimens: threads, netiquette, kill files, flames, quoting conventions, and slang.
-- [ ] Add tracker / computer-music culture specimens: `.MOD`, `.XM`, pattern grids, sample economy, and scene roles.
-- [ ] Add LAN culture specimens: BYOC, CRT-era hardware, clans, low-ping culture, case modding, and period vocabulary.
-- [ ] Include period-authentic text specimens such as `.NFO`, BBS text, IRC logs, Usenet-style posts, tracker-pattern renderings, and LAN-party notes.
-- [ ] Add `culture/myths/` classification for documented fact, contemporary account, community recollection, oral history, folklore, legend, joke, satire, and later retelling.
-- [ ] Require stronger provenance for named-person, legal, security, quotation, and "first ever" historical claims than for general cultural-pattern records.
-- [ ] Add a derived Cultural Recovery Score with era identification, platform identification, slang reconstruction, social-role reconstruction, technical-context reconstruction, anachronism rate, and myth-to-fact promotion rate.
-- [ ] Score explicit uncertainty above confident historical invention when evidence is insufficient.
+Merged implementation: PR #10. Its draft deliberately left these boxes unchecked until review/merge; this roadmap now reconciles that merged repository state.
+
+- [x] Generalize the seed record into a compact reusable `computer_cultural_artifact` profile where useful.
+- [x] Separate **executable artifact**, **cultural artifact**, and **historical claim** as distinct evidence classes.
+- [x] Record era, environment, canonical terms, aliases, social role, observable behaviour, contextual meaning, source evidence, and reconstruction target.
+- [x] Add home-computer / bedroom-coding culture specimens.
+- [x] Add hacker / BBS / handle / phreaking-era historical culture specimens without operational intrusion instructions.
+- [x] Add demoscene specimens: compos, intros, coder/graphician/musician roles, tracker music, procedural generation, and size constraints.
+- [x] Add IRC / mIRC culture specimens: channels, ops, services, scripting, ASCII art, BNCs, and period terminology.
+- [x] Add Usenet / early-net culture specimens: threads, netiquette, kill files, flames, quoting conventions, and slang.
+- [x] Add tracker / computer-music culture specimens: `.MOD`, `.XM`, pattern grids, sample economy, and scene roles.
+- [x] Add LAN culture specimens: BYOC, CRT-era hardware, clans, low-ping culture, case modding, and period vocabulary.
+- [x] Include period-authentic text specimens such as `.NFO`, BBS text, IRC logs, Usenet-style posts, tracker-pattern renderings, and LAN-party notes.
+- [x] Add `culture/myths/` classification for documented fact, contemporary account, community recollection, oral history, folklore, legend, joke, satire, and later retelling.
+- [x] Require stronger provenance for named-person, legal, security, quotation, and "first ever" historical claims than for general cultural-pattern records.
+- [x] Add a derived Cultural Recovery Score with era identification, platform identification, slang reconstruction, social-role reconstruction, technical-context reconstruction, anachronism rate, and myth-to-fact promotion rate.
+- [x] Score explicit uncertainty above confident historical invention when evidence is insufficient.
 
 #### Australian governance styles and irreverent fatalism
 
@@ -316,8 +318,6 @@ The canonical machine report must remain sober, deterministic where possible, an
 
 ## Deferred / experimental
 
-- QR-sized / printable micro-capsules.
-- Audio-only recovery representation.
 - Error-correcting archival media.
 - Ada / Fortran / COBOL independent implementations.
 - Lean 4 formalisation of selected invariants.

@@ -13,7 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate ARK archaeology contracts
-        run: python3 tools/archaeology.py validate
+        run: |
+          python3 tools/archaeology.py validate
+          python3 tools/portability_contract.py
       - name: Unit tests
         run: python3 -m unittest discover -s tests -v
       - name: Verify canonical canary attributes
@@ -28,10 +30,51 @@ jobs:
           set -e
           test "$code" -eq 2
           grep -q '^ARK_INPUT_UNAVAILABLE ' /tmp/ark-posix.out
-      - name: Build and verify T2 C99 recovery
+      - name: Build and verify baseline T2 C99 recovery
         run: |
           cc -std=c99 -O2 -Wall -Wextra -pedantic retro/c/ark-verify.c -o /tmp/ark-verify
           expected=$(awk '$2 == "ARK-CANARY.txt" { print $1; exit }' capsules/minimal/SHA256SUMS)
           /tmp/ark-verify capsules/minimal/ARK-CANARY.txt "$expected"
           printf abc > /tmp/ark-abc
           /tmp/ark-verify /tmp/ark-abc ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+      - name: Install portability and carrier tools
+        env:
+          DEBIAN_FRONTEND: noninteractive
+          NEEDRESTART_MODE: a
+        run: |
+          sudo -E apt-get update
+          sudo -E apt-get install -y --no-install-recommends \
+            tcc musl-tools gcc-multilib libc6-dev-i386 qemu-user qrencode zbar-tools
+          command -v clang
+          command -v tcc
+          command -v musl-gcc
+          command -v qemu-i386
+          command -v qrencode
+          command -v zbarimg
+      - name: Test additional C compilers and libc targets
+        run: python3 tools/c_portability.py all
+      - name: Test constrained QEMU i386 target
+        run: python3 tools/c_portability.py emulator
+      - name: Build printable and audio recovery carriers
+        run: |
+          rm -rf /tmp/ark-media
+          python3 tools/recovery_media.py build /tmp/ark-media
+          cmp recovery/printable/ARK-CANARY-CARD.txt /tmp/ark-media/ARK-CANARY-CARRIER.txt
+          python3 tools/recovery_media.py verify-envelope /tmp/ark-media/ARK-CANARY-CARRIER.txt
+          python3 tools/recovery_media.py decode-audio /tmp/ark-media/ARK-CANARY-AUDIO.wav > /tmp/ark-media/audio-decoded.txt
+          cmp /tmp/ark-media/ARK-CANARY-CARRIER.txt /tmp/ark-media/audio-decoded.txt
+      - name: QR carrier round trip
+        run: |
+          qrencode -8 -o /tmp/ark-media/ARK-CANARY.png < /tmp/ark-media/ARK-CANARY-QR-PAYLOAD.txt
+          zbarimg --quiet --raw /tmp/ark-media/ARK-CANARY.png > /tmp/ark-media/qr-decoded-raw.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          expected = Path('/tmp/ark-media/ARK-CANARY-QR-PAYLOAD.txt').read_bytes()
+          decoded = Path('/tmp/ark-media/qr-decoded-raw.txt').read_bytes()
+          if decoded == expected + b'\n':
+              decoded = decoded[:-1]
+          if decoded != expected:
+              raise SystemExit('ARK_QR_ROUNDTRIP_MISMATCH')
+          Path('/tmp/ark-media/qr-decoded.txt').write_bytes(decoded)
+          PY
+          python3 tools/recovery_media.py verify-envelope /tmp/ark-media/qr-decoded.txt

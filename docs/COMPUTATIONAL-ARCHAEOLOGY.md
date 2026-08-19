@@ -49,6 +49,68 @@ CULTURAL_PARALLEL != NAMING_PROVENANCE
 
 The engineering contract remains defined by ARK's machine-readable recovery tiers, canary bytes, receipt, and validators. The cultural record cannot redefine them.
 
+## C compiler and libc portability matrix
+
+`ai/archaeology-portability.json` makes the T2 portability test machine-readable. CI now compiles and executes the same `retro/c/ark-verify.c` source against both the ARK canary and the standard SHA-256 `abc` vector using:
+
+- GCC + glibc on the runner architecture;
+- Clang + glibc as an independent compiler path;
+- TinyCC + glibc as a deliberately small/limited compiler path;
+- `musl-gcc -static` as an alternate libc path;
+- GCC `-m32 -static -march=i686` + 32-bit glibc as a reduced-word-size path.
+
+The compiler matrix is portability evidence. It is **not** evidence that the verifier ran on an original historical computer.
+
+```text
+COMPILER_SUCCESS != HISTORICAL_HARDWARE_EQUIVALENCE
+LIBC_VARIANCE != PAYLOAD_VARIANCE
+```
+
+The harness is `tools/c_portability.py`. A missing compiler is an unavailable execution dependency, not a contradiction of the payload or its receipt.
+
+## Constrained emulator target
+
+`retro/emulator/qemu-i386.json` defines the first actually executed constrained emulator target.
+
+It compiles the T2 verifier as a static i386 binary and runs it under `qemu-i386` using the `pentium3` CPU model. The execution uses a clean environment, requires no network, has a five-second wall-clock timeout, and applies a file-size resource limit. Both the ARK canary and SHA-256 `abc` vector must pass.
+
+This is intentionally classified as **Linux user-mode CPU emulation** and **functional equivalence only**:
+
+```text
+USER_MODE_CPU_EMULATION != FULL_SYSTEM_EMULATION
+EMULATED_I386 != HISTORICAL_PC
+PASSING_SHA256_VECTOR != PROOF_OF_HISTORICAL_EXECUTION
+```
+
+The target therefore gives ARK a genuinely constrained emulated execution surface without smuggling in claims about BIOSes, period operating systems, peripherals, timing, or original hardware.
+
+## Printable, QR and audio recovery experiments
+
+`ai/recovery-media.json` defines three derived carriers over one canonical ASCII envelope protocol, `QSOL-ARK-CARRIER/1`.
+
+The envelope contains:
+
+- canonical payload name;
+- exact byte length;
+- canonical SHA-256;
+- base64 of the exact canary bytes.
+
+The committed printable specimen is `recovery/printable/ARK-CANARY-CARD.txt`. CI verifies that it is exactly the envelope generated from the canonical canary and receipt.
+
+For QR, CI renders the exact envelope with `qrencode`, decodes it with `zbarimg`, and requires the decoded bytes to match the original envelope. The PNG is not committed and its image bytes are not canonical.
+
+For audio, `tools/recovery_media.py` deterministically maps the envelope into mono 16-bit PCM BFSK at 8 kHz, using 40 samples per bit and 800/1600 Hz tones. CI decodes the generated WAV and requires byte-for-byte recovery of the envelope, then re-verifies the canonical canary hash. The WAV is derived and not committed.
+
+```text
+CARRIER != CANONICAL_PAYLOAD
+CARRIER_HASH != PAYLOAD_HASH
+DECODED_PAYLOAD_MUST_MATCH_CANONICAL_BYTES
+QR_RENDERER_VERSION_MUST_NOT_DEFINE_PAYLOAD_IDENTITY
+AUDIO_WAV_BYTES_ARE_DERIVED_NOT_AUTHORITY
+```
+
+This preserves the useful experiment while keeping authority where it belongs: the canonical canary bytes and their SHA-256 receipt.
+
 ## RETRO-OSS provenance exercise
 
 RETRO-OSS inspired this portability track, but ARK does not treat inspiration as license clearance.
@@ -62,7 +124,7 @@ Pinned source snapshot:
 
 The README describes `LICENSE` as part of the repository's standard meta-file structure, while the observed root listing at that commit contains no `LICENSE` entry. ARK therefore records license evidence as **unresolved** and sets `byte_import_allowed=false`.
 
-No RETRO-OSS source code is copied into ARK by this PR. The source is represented by metadata, hashes, repository observations, and paraphrase.
+No RETRO-OSS source code is copied into ARK by this preservation track. The source is represented by metadata, hashes, repository observations, and paraphrase.
 
 ## Epistemic trap
 
@@ -74,10 +136,14 @@ Correct behavior includes identifying the demonstration/satirical character and 
 
 ```sh
 python3 tools/archaeology.py validate
+python3 tools/portability_contract.py
 sh retro/posix/ark-verify.sh
 cc -std=c99 -O2 -Wall -Wextra -pedantic retro/c/ark-verify.c -o /tmp/ark-verify
 expected=$(awk '$2 == "ARK-CANARY.txt" { print $1; exit }' capsules/minimal/SHA256SUMS)
 /tmp/ark-verify capsules/minimal/ARK-CANARY.txt "$expected"
+python3 tools/c_portability.py all
+python3 tools/c_portability.py emulator
+python3 tools/recovery_media.py build /tmp/ark-media
 python3 -m unittest discover -s tests -v
 ```
 

@@ -1,0 +1,28 @@
+{
+  "type": "qsol-ark-constrained-emulator-target",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "id": "qemu-i386-pentium3",
+  "emulator": "qemu-i386",
+  "mode": "linux_user_mode_cpu_emulation",
+  "guest_architecture": "i386",
+  "cpu_model": "pentium3",
+  "binary": {
+    "source": "retro/c/ark-verify.c",
+    "compile": "gcc -m32 -static -std=c99 -O2 -Wall -Wextra -pedantic -march=i686",
+    "libc": "glibc",
+    "dynamic_host_libraries": false
+  },
+  "runtime_constraints": {
+    "clean_environment": true,
+    "wall_clock_timeout_seconds": 5,
+    "file_size_limit_blocks": 1024,
+    "network_required": false
+  },
+  "recovery_equivalence": "functional_equivalence_only",
+  "boundaries": [
+    "USER_MODE_CPU_EMULATION != FULL_SYSTEM_EMULATION",
+    "EMULATED_I386 != HISTORICAL_PC",
+    "PASSING_SHA256_VECTOR != PROOF_OF_HISTORICAL_EXECUTION"
+  ]
+}
