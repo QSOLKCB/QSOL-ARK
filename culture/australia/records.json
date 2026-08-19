@@ -165,7 +165,12 @@
       "film_representation": {
         "title": "Breaker Morant",
         "completion_year": 1979,
-        "cultural_circulation_year": 1980,
+        "cultural_circulation": {
+          "year": 1980,
+          "status": "documented_festival_circulation",
+          "source_id": "src.screen_australia.breaker_morant",
+          "support": "cannes_film_festival_1980"
+        },
         "director": "Bruce Beresford",
         "production_source_id": "src.screen_australia.breaker_morant",
         "dialogue_source_id": "src.aso.breaker_morant_clip3",
@@ -184,12 +189,12 @@
         {
           "class": "official_historical_metadata",
           "source_ids": ["src.awm.breaker_morant"],
-          "supports": ["court_martial", "convictions", "execution_1902_02_27"]
+          "supports": ["morant_identity", "court_martial", "convictions", "execution_1902_02_27"]
         },
         {
           "class": "official_production_metadata",
           "source_ids": ["src.screen_australia.breaker_morant"],
-          "supports": ["breaker_morant_feature_film", "director_bruce_beresford"]
+          "supports": ["breaker_morant_feature_film", "completion_year_1979", "director_bruce_beresford", "cannes_film_festival_1980"]
         },
         {
           "class": "rights_aware_short_quotation",
@@ -206,7 +211,7 @@
       "reconstruction_target": {
         "identify": [
           "historical court-martial and execution record",
-          "1980-era film cultural representation",
+          "1980 documented festival circulation of the film representation",
           "rights-aware film quotation",
           "difference between cultural admiration and historical exoneration"
         ],
