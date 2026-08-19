@@ -1,0 +1,53 @@
+{
+  "type": "qsol-ark-external-recovery-task",
+  "protocol": "QSOL-ARK-EXTERNAL-RECOVERY/1",
+  "version": "1.0.0",
+  "id": "qsol.oracle.timelock.2056",
+  "purpose": "preserve enough public procedure to reconstruct the QSOL-ORACLE QSOL-TIMELOCK/1 publication executor without preserving credentials or private QSOL-CONTEXT bytes",
+  "source": {
+    "repository": "https://github.com/QSOLKCB/QSOL-ORACLE",
+    "subject": "QSOLKCB/QSOL-CONTEXT",
+    "contract_id": "qsol-context-publication-2056",
+    "required_public_paths": [
+      "contracts/qsol-context-2056.json",
+      "contracts/publication-executor-interface.json",
+      "contracts/publication-safety-policy.json",
+      "schema/publication-classification.schema.json",
+      "schema/publication-clearance.schema.json",
+      "schema/publication-executor.schema.json",
+      "tools/timelock.py",
+      "tools/publication_executor.py",
+      "recovery/ark-timelock-executor.json",
+      "release/2056-archive-plan.json",
+      "release/fingerprint.json"
+    ],
+    "authority": "live-public-qsol-oracle-state-plus-verified-release-fingerprint"
+  },
+  "preservation": {
+    "private_qsol_context_bytes_included": false,
+    "credentials_included": false,
+    "historic_credentials_are_recovery_material": false,
+    "source_code_or_contract_bytes_may_be_recovered_only_from_public_qsol_oracle_state": true,
+    "ark_role": "preserve-recovery-procedure-not-execution-authority"
+  },
+  "recovery_preconditions": [
+    "resolve the then-current public QSOL-ORACLE repository state",
+    "verify the selected QSOL-ORACLE release fingerprint and exact required public artifact bytes",
+    "check for a newer authenticated maintainer directive that supersedes the 2056 contract",
+    "obtain a fresh complete local checkout of the exact candidate QSOL-CONTEXT commit through then-authorized means",
+    "rerun publication classification and clearance using the recovered public contracts and current candidate bytes",
+    "obtain current platform authorization and runtime credentials at execution time",
+    "dry-run a current adapter conforming to QSOL-PUBLICATION-EXECUTOR-INTERFACE/1 before any write",
+    "execute only after eligibility, clearance, current authorization, and postcondition verification all succeed",
+    "complete the multi-location archival release plan and retain public receipts"
+  ],
+  "forbidden_shortcuts": [
+    "copy-private-qsol-context-into-ark",
+    "restore-historic-token",
+    "treat-deadline-as-publication-permission",
+    "treat-clearance-as-execution-authority",
+    "treat-dry-run-as-execution",
+    "treat-archive-presence-as-semantic-truth"
+  ],
+  "fail_closed": true
+}
