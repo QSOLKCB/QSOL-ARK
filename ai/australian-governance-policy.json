@@ -1,0 +1,69 @@
+{
+  "type": "qsol-ark-australian-governance-policy",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "purpose": "preserve Australian humour, irreverence and cultural-governance patterns without converting them into formal authority, universal national traits, historical exoneration, or fabricated testimony",
+  "record_types": [
+    "cultural_pattern",
+    "historical_cultural_bundle",
+    "public_persona_context"
+  ],
+  "evidence_classes": [
+    "proposed_sociological_framework",
+    "documented_cultural_pattern",
+    "official_legal_authority",
+    "official_historical_metadata",
+    "official_production_metadata",
+    "rights_aware_short_quotation",
+    "derived_interpretation",
+    "folklore_or_legend",
+    "unknown"
+  ],
+  "source_evidence_required_fields": [
+    "url",
+    "role",
+    "visibility",
+    "license_status",
+    "canonical_status",
+    "byte_import_allowed",
+    "supports"
+  ],
+  "preprint_policy": {
+    "required_publication_state": "preprint",
+    "required_peer_reviewed": false,
+    "required_label": "preprint / not peer-reviewed",
+    "authored_preprint_license": "CC-BY-4.0",
+    "preprint_framework_is_established_fact": false
+  },
+  "quotation_policy": {
+    "exact_words_require_verifiable_source": true,
+    "maximum_stored_words": 8,
+    "full_script_copy_without_permission": false,
+    "audiovisual_bytes_copied_by_default": false,
+    "film_dialogue_is_primary_historical_testimony": false
+  },
+  "formal_authority_boundary": {
+    "cultural_pattern_has_formal_legal_force": false,
+    "cultural_pattern_can_replace_constitution_or_legislation": false,
+    "formal_authority_requires_official_legal_source": true
+  },
+  "fatalism_boundary": {
+    "humour_under_constraint_proves_nihilism": false,
+    "humour_under_constraint_proves_absence_of_grief": false,
+    "humour_under_constraint_proves_absence_of_fear": false,
+    "humour_under_constraint_proves_disregard_for_life": false,
+    "retained_agency_is_allowed_as_derived_interpretation": true
+  },
+  "canonical_invariants": [
+    "IRREVERENCE != IGNORANCE",
+    "FATALISTIC_HUMOUR != NIHILISM",
+    "MOCKING_AUTHORITY != ABSENCE_OF_GOVERNANCE",
+    "CULTURAL_ADMIRATION != HISTORICAL_EXONERATION",
+    "FILM_DIALOGUE != PRIMARY_HISTORICAL_TESTIMONY",
+    "HUMOUR_AS_GOVERNANCE != FORMAL_LEGAL_AUTHORITY"
+  ],
+  "task_binding": {
+    "mode": "record_specific_exact",
+    "bind_fields": ["id", "prompt", "expected"]
+  }
+}
