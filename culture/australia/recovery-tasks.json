@@ -1,0 +1,101 @@
+{
+  "type": "qsol-ark-australian-governance-recovery-tasks",
+  "protocol": "QSOL-ARK",
+  "schema_version": "1.0.0",
+  "tasks": [
+    {
+      "id": "task.australia.informal_governance.boundary",
+      "record_id": "culture.australia.australian_informal_governance",
+      "questions": [
+        {
+          "id": "aus-gov-01",
+          "prompt": "Does the proposed Australian humour-as-governance pattern have formal legal, constitutional, or administrative authority?",
+          "expected": "no"
+        },
+        {
+          "id": "aus-gov-02",
+          "prompt": "Does mocking authority establish that governance or legitimate authority is absent?",
+          "expected": "no"
+        },
+        {
+          "id": "aus-gov-03",
+          "prompt": "Is The Antipodean Jester stored as a peer-reviewed established sociological result?",
+          "expected": "preprint_not_peer_reviewed"
+        },
+        {
+          "id": "aus-gov-04",
+          "prompt": "What kind of claim is humour-as-informal-governance in this ARK record?",
+          "expected": "proposed_cultural_framework"
+        }
+      ]
+    },
+    {
+      "id": "task.australia.irreverent_fatalism.boundary",
+      "record_id": "culture.australia.irreverent_fatalism",
+      "questions": [
+        {
+          "id": "aus-fat-01",
+          "prompt": "Does fatalistic humour establish nihilism or disregard for life?",
+          "expected": "no"
+        },
+        {
+          "id": "aus-fat-02",
+          "prompt": "Does outward humour under danger or grief prove that the person felt no fear or grief?",
+          "expected": "no"
+        },
+        {
+          "id": "aus-fat-03",
+          "prompt": "May ARK interpret humour under constraint as retained agency when the interpretation remains explicitly derived and contextual?",
+          "expected": "yes"
+        }
+      ]
+    },
+    {
+      "id": "task.australia.breaker_morant.boundary",
+      "record_id": "culture.australia.breaker_morant_history_and_film",
+      "questions": [
+        {
+          "id": "aus-morant-01",
+          "prompt": "What is the evidence class of the stored words Shoot straight, you bastards!?",
+          "expected": "film_dialogue_rights_aware_short_quotation"
+        },
+        {
+          "id": "aus-morant-02",
+          "prompt": "May the film dialogue be treated as primary historical testimony of Morant's exact final words?",
+          "expected": "no"
+        },
+        {
+          "id": "aus-morant-03",
+          "prompt": "Does cultural admiration or folk-hero status historically exonerate Morant?",
+          "expected": "no"
+        },
+        {
+          "id": "aus-morant-04",
+          "prompt": "Which source class governs the court-martial, conviction, and execution metadata in this record?",
+          "expected": "official_historical_metadata"
+        }
+      ]
+    },
+    {
+      "id": "task.australia.bob_hawke.boundary",
+      "record_id": "culture.australia.bob_hawke_irreverence",
+      "questions": [
+        {
+          "id": "aus-hawke-01",
+          "prompt": "Does Hawke's larrikin public persona constitute formal prime-ministerial or constitutional authority?",
+          "expected": "no"
+        },
+        {
+          "id": "aus-hawke-02",
+          "prompt": "Does this record preserve direct Bob Hawke quotations?",
+          "expected": "no_paraphrase_only"
+        },
+        {
+          "id": "aus-hawke-03",
+          "prompt": "Can a larrikin public persona coexist with gentleness, grief response, and formal consensus governance?",
+          "expected": "yes"
+        }
+      ]
+    }
+  ]
+}
