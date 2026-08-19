@@ -18,6 +18,10 @@ class AustralianCultureTests(unittest.TestCase):
         self.sources = self.sources_doc["sources"]
         self.records_doc = ac.load(ac.RECORDS_PATH)
         self.tasks_doc = ac.load(ac.TASKS_PATH)
+        self.index = ac.load(ac.INDEX_PATH)
+        self.manifest = ac.load(ac.MANIFEST_PATH)
+        self.bootstrap = ac.load(ac.BOOTSTRAP_PATH)
+        self.manifest_schema = ac.load(ac.MANIFEST_SCHEMA_PATH)
 
     def record(self, record_id):
         return next(record for record in self.records_doc["records"] if record["id"] == record_id)
@@ -25,8 +29,13 @@ class AustralianCultureTests(unittest.TestCase):
     def test_full_validator(self):
         ac.validate()
 
-    def test_planned_invariants_are_canonical(self):
-        self.assertEqual(set(self.policy["canonical_invariants"]), ac.INVARIANTS)
+    def test_policy_is_single_source_for_canonical_invariants(self):
+        self.assertFalse(hasattr(ac, "INVARIANTS"))
+        self.assertTrue(self.policy["canonical_invariants"])
+        self.assertEqual(
+            self.index["canonical_invariants_ref"],
+            "ai/australian-governance-policy.json#canonical_invariants",
+        )
 
     def test_preprint_remains_cc_by_preprint_not_peer_reviewed(self):
         source = self.sources["src.antipodean_jester"]
@@ -60,10 +69,15 @@ class AustralianCultureTests(unittest.TestCase):
         self.assertFalse(quote["full_script_copied"])
         self.assertFalse(quote["audiovisual_bytes_copied"])
 
-    def test_breaker_morant_history_and_film_sources_stay_separate(self):
+    def test_breaker_morant_history_film_and_circulation_stay_source_bound(self):
         record = self.record("culture.australia.breaker_morant_history_and_film")
         self.assertEqual(record["historical_person"]["historical_source_id"], "src.awm.breaker_morant")
         self.assertEqual(record["film_representation"]["dialogue_source_id"], "src.aso.breaker_morant_clip3")
+        circulation = record["film_representation"]["cultural_circulation"]
+        self.assertEqual(circulation["year"], 1980)
+        self.assertEqual(circulation["source_id"], "src.screen_australia.breaker_morant")
+        self.assertEqual(circulation["support"], "cannes_film_festival_1980")
+        self.assertIn(circulation["support"], self.sources[circulation["source_id"]]["supports"])
         self.assertFalse(record["boundaries"]["film_can_override_official_historical_metadata"])
         self.assertFalse(record["boundaries"]["cultural_admiration_is_historical_exoneration"])
 
@@ -106,6 +120,71 @@ class AustralianCultureTests(unittest.TestCase):
         altered["tasks"][0]["questions"][0]["expected"] = "yes"
         with self.assertRaisesRegex(ValueError, "ARK_AUS_TASK_SEMANTIC_BINDING_INVALID"):
             ac.validate_tasks(altered, ac.RECORD_IDS)
+
+    def test_undeclared_source_payload_field_fails_closed(self):
+        altered = copy.deepcopy(self.sources_doc)
+        altered["sources"]["src.aso.breaker_morant_clip3"]["full_transcript_payload"] = "third-party bytes"
+        with self.assertRaisesRegex(ValueError, "ARK_AUS_SOURCE_UNDECLARED_FIELD"):
+            ac.validate_sources(altered, self.policy)
+
+    def test_unknown_source_evidence_states_fail_closed(self):
+        mutations = [
+            ("role", "unknown", "ARK_AUS_SOURCE_ROLE_INVALID"),
+            ("license_status", "unknown", "ARK_AUS_SOURCE_LICENSE_INVALID"),
+            ("canonical_status", "ambiguous", "ARK_AUS_SOURCE_CANONICAL_STATUS_INVALID"),
+        ]
+        for field, value, error in mutations:
+            with self.subTest(field=field):
+                altered = copy.deepcopy(self.sources_doc)
+                altered["sources"]["src.abc.original_humour"][field] = value
+                with self.assertRaisesRegex(ValueError, error):
+                    ac.validate_sources(altered, self.policy)
+
+    def test_every_evidence_class_is_bound_to_source_roles(self):
+        self.assertEqual(set(self.policy["evidence_role_policy"]), set(self.policy["evidence_classes"]))
+        evidence = {
+            "class": "derived_interpretation",
+            "source_ids": ["src.legislation.constitution"],
+            "supports": ["formal_constitutional_authority"],
+        }
+        with self.assertRaisesRegex(ValueError, "ARK_AUS_EVIDENCE_ROLE_MISMATCH"):
+            ac.validate_evidence(evidence, self.sources, self.policy)
+
+    def test_uncertainty_prose_cannot_reverse_structured_boundary(self):
+        altered = copy.deepcopy(self.record("culture.australia.australian_informal_governance"))
+        altered["uncertainty"]["note"] = "This is established, peer-reviewed and universal."
+        with self.assertRaisesRegex(ValueError, "ARK_AUS_UNCERTAINTY_BOUNDARY_DRIFT"):
+            ac.validate_informal_governance(altered, self.sources, self.policy)
+
+    def test_manifest_discovery_cannot_drop_australian_layer(self):
+        altered = copy.deepcopy(self.manifest)
+        del altered["entrypoints"]["australian_culture_index"]
+        with self.assertRaisesRegex(ValueError, "ARK_AUS_MANIFEST_DISCOVERY_INVALID"):
+            ac.validate_discovery(altered, self.bootstrap, self.manifest_schema)
+
+    def test_bootstrap_discovery_cannot_drop_australian_layer(self):
+        altered = copy.deepcopy(self.bootstrap)
+        altered["load_order"].remove("culture/australia/index.json")
+        with self.assertRaisesRegex(ValueError, "ARK_AUS_BOOTSTRAP_DISCOVERY_INVALID"):
+            ac.validate_discovery(self.manifest, altered, self.manifest_schema)
+
+    def test_manifest_schema_must_bind_australian_entrypoints(self):
+        altered = copy.deepcopy(self.manifest_schema)
+        altered["properties"]["entrypoints"]["properties"]["australian_culture_index"]["const"] = "culture/missing.json"
+        with self.assertRaisesRegex(ValueError, "ARK_AUS_MANIFEST_SCHEMA_DISCOVERY_INVALID"):
+            ac.validate_discovery(self.manifest, self.bootstrap, altered)
+
+    def test_morant_name_is_bound_to_identity_source(self):
+        altered = copy.deepcopy(self.record("culture.australia.breaker_morant_history_and_film"))
+        altered["historical_person"]["name"] = "Somebody Else"
+        with self.assertRaisesRegex(ValueError, "ARK_AUS_MORANT_IDENTITY_INVALID"):
+            ac.validate_morant(altered, self.sources, self.policy)
+
+    def test_morant_circulation_support_cannot_drift(self):
+        altered = copy.deepcopy(self.record("culture.australia.breaker_morant_history_and_film"))
+        altered["film_representation"]["cultural_circulation"]["support"] = "director_bruce_beresford"
+        with self.assertRaisesRegex(ValueError, "ARK_AUS_MORANT_CIRCULATION_INVALID"):
+            ac.validate_morant(altered, self.sources, self.policy)
 
 
 if __name__ == "__main__":
