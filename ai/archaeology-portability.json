@@ -49,7 +49,7 @@
     },
     {
       "id": "gcc-i386-static",
-      "compiler": "gcc -m32",
+      "compiler": "gcc",
       "libc": "glibc",
       "architecture": "i386-static",
       "class": "reduced-word-size",
